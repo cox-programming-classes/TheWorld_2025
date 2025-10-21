@@ -3,7 +3,13 @@ using The_World.GameData.Creatures;
 
 namespace The_World.GameData.GameMechanics;
 
-public class WorldBuilder
+// Import factory methods for easier access!
+using static CreatureFactory;
+
+// TODO: Expand this to build the entire world with multiple areas, creatures, and items.
+// TODO: Create an ItemFactory for reusable item archetypes.
+
+public static class WorldBuilder
 {
     /// <summary>
     /// Initialize the WHOLE WORLD here.
@@ -27,27 +33,24 @@ public class WorldBuilder
                 new("Rusty Sword", "An old and worn sword, still sharp enough to be dangerous.", 3.5))
             .Build();
         
+        var clearingArea = AreaBuilder
+            .FromName("Sunny Clearing")
+            .WithDescription("A bright clearing bathed in sunlight, with soft grass and colorful flowers.")
+            .WithItem("healing_herb", 
+                new("Healing Herb", "A small herb known for its medicinal properties.", 0.2))
+            .Build();
+        
+        // Connect areas
+        startingArea = AreaBuilder.FromArea(startingArea)
+            .WithConnectedArea("sunny_clearing", clearingArea)
+            .Build();
+        
+        /*
+         * TODO: Expand the world by creating more areas and connecting them.
+         */
         
         return startingArea;
     }
     
-    /// <summary>
-    /// Helper method to build a Goblin creature archetype.
-    /// You might use this in multiple areas.
-    /// </summary>
-    /// <param name="name"></param>
-    /// <param name="description"></param>
-    /// <returns></returns>
-    private static Creature BuildGoblinArchetype(
-        string name = "Goblin", 
-        string description = "A small, green humanoid creature with sharp teeth and a mischievous grin.",
-        int level = 1)
-    {
-        return Creature.CreateNewCreature(
-            name,
-            description,
-            new(10+(2*level), 0), // TODO: Stats should probably scale with level better
-            level,
-            5+(double.Exp(level/100.0)*10)); // TODO: XP scales with level this math sucks
-    }
+    
 }
