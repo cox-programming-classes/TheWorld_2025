@@ -19,6 +19,7 @@ public static class CreatureFactory
     /// </summary>
     /// <param name="name"></param>
     /// <param name="description"></param>
+    /// <param name="level"></param>
     /// <returns></returns>
     public static Creature BuildGoblinArchetype(
         string name = "Goblin", 
