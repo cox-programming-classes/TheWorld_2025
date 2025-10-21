@@ -59,3 +59,15 @@ while (keepPlaying)
             break;
     }
 }
+
+// TODO: Implement game loop, movement between areas, interaction with items and creatures, etc.
+// This is just a starting point!
+// TODO: Consider implementing a Command Pattern for better command handling.
+// TODO: Consider implementing an Event System for game events (e.g., player leveling up, creature encounters, etc.).
+// TODO: Consider implementing a Save/Load system to persist game state.
+// TODO: Consider implementing Unit Tests for game mechanics and logic.
+// TODO: Consider implementing Logging for debugging and tracking game events.
+// TODO: Consider implementing Different Kinds of Creatures and Items with unique behaviors and properties.
+//       NPCs, Enemies, Quest Items, etc.
+// TODO: Consider implementing Combat Mechanics for player and creature interactions.
+//       Research - Turn-Based Combat, and State Machines for managing combat states.
