@@ -18,4 +18,7 @@ public record StatChart(int Health, int Mana)
         < 0 => 0,
         _ => Mana
     };
+    
+    // TODO: Use Dice rolls to determine starting stats based on Player Class or Creature Type?
+    // TODO: add Properties which are Dice for things like "Attack Power", "Defense", etc.
 }
