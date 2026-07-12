@@ -35,6 +35,8 @@ public class CombatState(string creatureKey, Creature enemy) : GameStateBase
                 new DelegateCommand("flee", "Try to escape (Dexterity contest - failing costs your turn).", Flee, aliases: ["run", "escape"]),
                 new DelegateCommand("look", "Size up your opponent.", (c, _) => c.IO.WriteLine(enemy.Look()), aliases: ["l", "examine"]),
                 new DelegateCommand("abilities", "List your abilities.", ShowAbilities, aliases: ["skills"]),
+                new DelegateCommand("inventory", "Glance into your pack (doesn't cost your turn).", (c, _) =>
+                    c.IO.WriteLine(c.Player.Inventory.Describe()), aliases: ["i", "inv"]),
                 new DelegateCommand("stats", "Your character sheet.", (c, _) => c.IO.WriteLine(c.Player.CharacterSheet()), aliases: ["status"]),
             ]);
         }

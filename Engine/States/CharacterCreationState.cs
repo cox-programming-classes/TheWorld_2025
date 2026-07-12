@@ -1,4 +1,4 @@
-using The_World.GameData;
+﻿using The_World.GameData;
 using The_World.GameData.GameMechanics;
 using The_World.GameData.Items;
 
@@ -67,7 +67,8 @@ public class CharacterCreationState : GameStateBase
 
     private void HandleName(GameContext ctx, string input)
     {
-        _name = input.Trim();
+        // Trim whitespace and any BOM/zero-width stowaways from piped input.
+        _name = input.Trim().Trim('\uFEFF', '\u200B');
         _step = Step.ClassChoice;
 
         ctx.IO.WriteLine();
