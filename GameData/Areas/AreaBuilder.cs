@@ -5,7 +5,7 @@ namespace The_World.GameData.Areas;
 
 public class AreaBuilder
 {
-    private Area _area;
+    private Area _area = null!; // always set by the From* factory methods
     
     #region From Methods
     /// <summary>
@@ -100,9 +100,67 @@ public class AreaBuilder
     }
 
     /// <summary>
-    /// Adds a Connected Area to the Area.
-    /// TODO: Add a reciprocal connection option? Like .WithConnectedArea("north", areaB, reciprocalKey: "south")
-    /// This would automatically add areaA to areaB's connected areas.  You need this to be able to navigate back and forth.
+    /// Marks the Area as a safe zone: no ambushes, restful rest.
+    /// </summary>
+    public AreaBuilder AsSafeZone()
+    {
+        _area = _area with { IsSafe = true };
+        return this;
+    }
+
+    /// <summary>
+    /// Adds a hidden Item - invisible to 'look', revealed by a successful
+    /// 'search' (Intelligence check).
+    /// </summary>
+    public AreaBuilder WithHiddenItem(string key, Item item)
+    {
+        if (string.IsNullOrWhiteSpace(key))
+            throw new ArgumentNullException(nameof(key), "Item key cannot be null or empty.");
+        if (item is null)
+            throw new ArgumentNullException(nameof(item), "Item cannot be null.");
+        if (!_area.HiddenItems.TryAdd(key, item))
+            throw new ArgumentException($"A hidden item with the key '{key}' already exists in the area.");
+        return this;
+    }
+
+    /// <summary>
+    /// Locks an exit behind a key item. The exit itself may be wired up later
+    /// (see Connect) - the lock is checked whenever the player tries to leave
+    /// through that exit key.
+    /// </summary>
+    /// <param name="exitKey">The ConnectedAreas key this lock guards.</param>
+    /// <param name="requiredItemName">Item (by Name) the player must carry.</param>
+    /// <param name="lockedMessage">Shown when the way is shut.</param>
+    public AreaBuilder WithLockedExit(string exitKey, string requiredItemName, string lockedMessage)
+    {
+        if (string.IsNullOrWhiteSpace(exitKey))
+            throw new ArgumentNullException(nameof(exitKey), "Exit key cannot be null or empty.");
+        if (string.IsNullOrWhiteSpace(requiredItemName))
+            throw new ArgumentNullException(nameof(requiredItemName), "Required item name cannot be null or empty.");
+        if (!_area.LockedExits.TryAdd(exitKey, new ExitLock(requiredItemName, lockedMessage ?? "The way is shut.")))
+            throw new ArgumentException($"Exit '{exitKey}' is already locked.");
+        return this;
+    }
+
+    /// <summary>
+    /// Connects two already-built areas in both directions - the reciprocal
+    /// connection the one-way WithConnectedArea always needed.
+    /// (Areas are records, but their dictionaries are mutable, so wiring the
+    /// world graph after building each node is straightforward.)
+    /// </summary>
+    public static void Connect(Area a, string exitFromA, Area b, string exitFromB)
+    {
+        if (a is null || b is null)
+            throw new ArgumentNullException(a is null ? nameof(a) : nameof(b));
+        if (!a.ConnectedAreas.TryAdd(exitFromA, b))
+            throw new ArgumentException($"'{a.Name}' already has an exit '{exitFromA}'.");
+        if (!b.ConnectedAreas.TryAdd(exitFromB, a))
+            throw new ArgumentException($"'{b.Name}' already has an exit '{exitFromB}'.");
+    }
+
+    /// <summary>
+    /// Adds a Connected Area to the Area (one direction only - prefer the
+    /// static Connect helper for two-way passages).
     /// </summary>
     /// <param name="key"></param>
     /// <param name="area"></param>

@@ -1,56 +1,192 @@
 using The_World.GameData.Areas;
-using The_World.GameData.Creatures;
 
 namespace The_World.GameData.GameMechanics;
 
 // Import factory methods for easier access!
 using static CreatureFactory;
 
-// TODO: Expand this to build the entire world with multiple areas, creatures, and items.
-// TODO: Create an ItemFactory for reusable item archetypes.
-
+/// <summary>
+/// Builds the entire world: every area, creature, NPC, and item,
+/// wired together into one map.
+///
+///                        [Lich's Sanctum]*
+///                              | (locked: Barrow Key)
+///   [Hermit's Hut]       [Crypt Depths]
+///        |                     |
+///   [Sunny Clearing]     [Barrow Crypt]
+///        |                     |
+///   [Dark Forest]------[Ancient Ruins]
+///     |   |   \                |
+///     |   |  [Old Mill]  [Mountain Foothills]
+///     |   |                    |
+///     | [Goblin Cave]          |
+///     |      |                 |
+///     |  [Chief's Den]         |
+///   [Willowbrook Village]------+
+///        |
+///   [Rusty Flagon Tavern]
+/// </summary>
 public static class WorldBuilder
 {
     /// <summary>
     /// Initialize the WHOLE WORLD here.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The starting area (Willowbrook Village).</returns>
     public static Area BuildWorld()
     {
-        var startingArea = AreaBuilder
-            .FromName("Dark Forest")
-            .WithDescription("A gloomy forest filled with towering trees and eerie sounds.")
-            .WithCreature(
-                "goblin_1",
-                BuildGoblinArchetype())
-            .WithCreature(
-                "goblin_2",
-                BuildGoblinArchetype("Goblin Scout", "A nimble goblin with keen eyes, always on the lookout for intruders."))
-            .WithCreature(
-                "boss_goblin",
-                BuildGoblinArchetype("Goblin Warrior", "A fierce goblin clad in makeshift armor, wielding a crude weapon.", 2))
-            .WithItem("rusty_sword", 
-                new("Rusty Sword", "An old and worn sword, still sharp enough to be dangerous.", 3.5))
+        // ── The safe places ────────────────────────────────────────────────
+
+        var village = AreaBuilder
+            .FromName("Willowbrook Village")
+            .WithDescription(
+                "A cluster of thatched roofs around a mossy well. Chickens patrol the lanes with an air of authority. " +
+                "The moot hall steps hold Elder Maera; Bram's Provisions leans companionably against the tavern.")
+            .AsSafeZone()
+            .WithCreature("elder_maera", NpcFactory.ElderMaera())
+            .WithCreature("merchant_bram", NpcFactory.MerchantBram())
             .Build();
-        
-        var clearingArea = AreaBuilder
+
+        var tavern = AreaBuilder
+            .FromName("Rusty Flagon Tavern")
+            .WithDescription(
+                "Low beams, a roaring hearth, and the competing smells of stew and spilled ale. " +
+                "A gambler runs dice at the corner table while the barkeep keeps order with a look.")
+            .AsSafeZone()
+            .WithCreature("barkeep_hulda", NpcFactory.BarkeepHulda())
+            .WithCreature("finn", NpcFactory.FinnTheGambler())
+            .Build();
+
+        var clearing = AreaBuilder
             .FromName("Sunny Clearing")
-            .WithDescription("A bright clearing bathed in sunlight, with soft grass and colorful flowers.")
-            .WithItem("healing_herb", 
-                new("Healing Herb", "A small herb known for its medicinal properties.", 0.2))
+            .WithDescription(
+                "A bright clearing bathed in sunlight, with soft grass and colorful flowers. " +
+                "After the gloom of the forest, it feels like surfacing for air.")
+            .AsSafeZone()
+            .WithItem("healing_herb", ItemFactory.HealingHerb())
+            .WithItem("healing_herb_2", ItemFactory.HealingHerb())
+            .WithCreature("deer", Deer())
+            .WithHiddenItem("moonpetal", ItemFactory.MoonpetalBlossom())
             .Build();
-        
-        // Connect areas
-        startingArea = AreaBuilder.FromArea(startingArea)
-            .WithConnectedArea("sunny_clearing", clearingArea)
+
+        var hut = AreaBuilder
+            .FromName("Hermit's Hut")
+            .WithDescription(
+                "A crooked little dwelling of driftwood and river stone, herbs drying under the eaves. " +
+                "It smells of woodsmoke, sage, and long silences.")
+            .AsSafeZone()
+            .WithCreature("hermit_odo", NpcFactory.HermitOdo())
             .Build();
-        
-        /*
-         * TODO: Expand the world by creating more areas and connecting them.
-         */
-        
-        return startingArea;
+
+        // ── The wilds ──────────────────────────────────────────────────────
+
+        var forest = AreaBuilder
+            .FromName("Dark Forest")
+            .WithDescription(
+                "A gloomy forest filled with towering trees and eerie sounds. The canopy swallows the sun; " +
+                "something small and green snickers in the undergrowth.")
+            .WithCreature("goblin_1", BuildGoblinArchetype())
+            .WithCreature("goblin_2", BuildGoblinArchetype(
+                "Goblin Scout", "A nimble goblin with keen eyes, always on the lookout for intruders."))
+            .WithCreature("wolf", Wolf())
+            .WithItem("rusty_sword", ItemFactory.RustySword())
+            .Build();
+
+        var mill = AreaBuilder
+            .FromName("Old Mill")
+            .WithDescription(
+                "A broken waterwheel groans in the current beside a sagging mill house. " +
+                "Someone has been living here - and judging by the bones by the fire pit, not politely.")
+            .WithCreature("bandit", Bandit())
+            .WithCreature("spider", GiantSpider())
+            .WithItem("silver_locket", ItemFactory.SilverLocket())
+            .WithHiddenItem("stashed_potion", ItemFactory.HealingPotion())
+            .Build();
+
+        var goblinCave = AreaBuilder
+            .FromName("Goblin Cave")
+            .WithDescription(
+                "A reeking cave mouth fringed with gnawed bones and crude fetishes. Guttural voices " +
+                "echo from deeper in, arguing over something. Probably dinner.")
+            .WithCreature("warrior_1", GoblinWarrior())
+            .WithCreature("warrior_2", GoblinWarrior("Goblin Guard"))
+            .Build();
+
+        var chiefsDen = AreaBuilder
+            .FromName("Chief's Den")
+            .WithDescription(
+                "The heart of the goblin warren, lit by a guttering fire. Trophies of a dozen raids hang " +
+                "from the walls - and there, atop a heap of plunder, sits a strongbox stamped 'BRAM'S PROVISIONS'.")
+            .WithCreature("goblin_chief", GoblinChief())
+            .WithItem("stolen_goods", ItemFactory.StolenGoods())
+            .WithItem("healing_potion", ItemFactory.HealingPotion())
+            .Build();
+
+        var foothills = AreaBuilder
+            .FromName("Mountain Foothills")
+            .WithDescription(
+                "Windswept slopes of heather and scree climbing toward grey peaks. A cairn-marked trail " +
+                "winds north; wolf tracks stitch back and forth across it.")
+            .WithCreature("dire_wolf", DireWolf())
+            .Build();
+
+        var ruins = AreaBuilder
+            .FromName("Ancient Ruins")
+            .WithDescription(
+                "Shattered columns and fallen archways of some elder civilization, half-swallowed by moss. " +
+                "In the courtyard's center, an enormous stone figure stands too still to be a statue.")
+            .WithCreature("stone_golem", StoneGolem())
+            .WithHiddenItem("runed_warstaff", ItemFactory.RunedWarstaff())
+            .WithHiddenItem("ancient_tome", ItemFactory.AncientTome())
+            .Build();
+
+        // ── The Barrow ─────────────────────────────────────────────────────
+
+        var crypt = AreaBuilder
+            .FromName("Barrow Crypt")
+            .WithDescription(
+                "Beneath the barrow mound, cold air breathes up a stairway of black stone. Niches line the " +
+                "walls, their occupants long-since risen and not at all happy about visitors.")
+            .WithCreature("skeleton_1", Skeleton())
+            .WithCreature("skeleton_2", Skeleton("Skeletal Guardian"))
+            .Build();
+
+        var depths = AreaBuilder
+            .FromName("Crypt Depths")
+            .WithDescription(
+                "The stair ends in a vaulted hall of tombs. Frost furs every surface despite the airless " +
+                "still. At the far end looms an iron gate wrought with warding sigils, and before it drifts a gaunt shape.")
+            .WithCreature("crypt_wight", CryptWight())
+            .WithItem("chain_mail", ItemFactory.ChainMail())
+            .WithLockedExit(
+                "gate",
+                "Barrow Key",
+                "The iron gate is sealed fast. A keyhole of antique design sits at its center - the old Barrow Key would fit it.")
+            .Build();
+
+        var sanctum = AreaBuilder
+            .FromName("Lich's Sanctum")
+            .WithDescription(
+                "A round chamber below the roots of the hill, lit by candles that burn green and cast no heat. " +
+                "Ranks of ancient books rot on the shelves. Upon a throne of grave-goods sits the crowned corpse of Malakhar, " +
+                "and his empty eyes are already on you.")
+            .WithCreature("lich", LichMalakhar())
+            .Build();
+
+        // ── Wire it all together (every passage goes both ways) ────────────
+
+        AreaBuilder.Connect(village, "tavern", tavern, "outside");
+        AreaBuilder.Connect(village, "east", forest, "west");
+        AreaBuilder.Connect(village, "north", foothills, "south");
+        AreaBuilder.Connect(forest, "east", clearing, "west");
+        AreaBuilder.Connect(forest, "north", goblinCave, "out");
+        AreaBuilder.Connect(forest, "south", mill, "north");
+        AreaBuilder.Connect(clearing, "east", hut, "west");
+        AreaBuilder.Connect(goblinCave, "deeper", chiefsDen, "out");
+        AreaBuilder.Connect(foothills, "north", ruins, "south");
+        AreaBuilder.Connect(ruins, "east", crypt, "west");
+        AreaBuilder.Connect(crypt, "down", depths, "up");
+        AreaBuilder.Connect(depths, "gate", sanctum, "gate");
+
+        return village;
     }
-    
-    
 }

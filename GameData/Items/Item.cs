@@ -1,38 +1,47 @@
 namespace The_World.GameData.Items;
 
 /// <summary>
-/// A Generic Item in the game world.
-/// This could be anything from a weapon, a piece of armor,
-/// a potion, or any other object that the player can interact with.
+/// A generic Item in the game world - the base of the item hierarchy.
 ///
-/// TODO: Expand this by creating derived item types
-/// such as Weapon, Armor, Consumable, etc.
-///
-/// TODO: Research - Polymorphism for Item Types.  In Particular, look for the key word "Discriminated Unions".
+/// Derived record types (Weapon, Armor, Consumable, QuestItem) act as a
+/// closed set of item shapes: pattern matching over them
+/// (e.g. `item switch { Weapon w => ..., Armor a => ... }`) gives us the
+/// "discriminated union" style the design notes asked about.
 /// </summary>
-/// <param name="name"></param>
-/// <param name="description"></param>
-/// <param name="weight"></param>
-public record Item(string name, string description, double weight)
+/// <param name="Name">Display name.</param>
+/// <param name="Description">Flavor text shown when looked at.</param>
+/// <param name="Weight">Weight in pounds - inventories have limits!</param>
+/// <param name="Value">Worth in gold, for buying and selling.</param>
+public record Item(string Name, string Description, double Weight, int Value = 0)
 {
-    public string Look()
-        => $"{Name} (Weight: {Weight} lbs){Environment.NewLine}{Description}";
-    
-    public string Name { get; private set; } = name?.Trim() switch
+    /// <summary>
+    /// When you look at the item, this is what you see.
+    /// Derived types add their own details (damage dice, defense, etc.).
+    /// </summary>
+    public virtual string Look()
+        => $"{Name}  ({Weight:0.#} lbs, {Value} gold){Environment.NewLine}{Description}";
+
+    public string Name { get; } = Name?.Trim() switch
     {
         null or "" => "Unknown Item",
-        _ => name.Trim()
+        _ => Name.Trim()
     };
 
-    public string Description { get; private set; } = description?.Trim() switch
+    public string Description { get; } = Description?.Trim() switch
     {
         null or "" => "No description available.",
-        _ => description.Trim()
+        _ => Description.Trim()
     };
 
-    public double Weight { get; private set; } = weight switch
+    public double Weight { get; } = Weight switch
     {
         < 0 => 0,
-        _ => weight
+        _ => Weight
+    };
+
+    public int Value { get; } = Value switch
+    {
+        < 0 => 0,
+        _ => Value
     };
 }

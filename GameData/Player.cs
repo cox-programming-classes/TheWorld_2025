@@ -1,3 +1,7 @@
+using The_World.GameData.Abilities;
+using The_World.GameData.GameMechanics;
+using The_World.GameData.Items;
+
 namespace The_World.GameData;
 
 /// <summary>
@@ -5,8 +9,8 @@ namespace The_World.GameData;
 /// </summary>
 public record Player(
     string Name,
-    string Class, // mmmm this one smells funny... TODO: Research - Player Classes and how to implement them
-    PlayerLevel Level,  // Player Level!
+    PlayerClass Class,
+    PlayerLevel Level,
     StatChart Stats)
 {
     /// <summary>
@@ -14,68 +18,136 @@ public record Player(
     /// But ONLY within this class.
     /// </summary>
     public PlayerLevel Level { get; private set; } = Level;
-    
+
+    /// <summary>Walking-around money.</summary>
+    public int Gold { get; private set; }
+
+    private Inventory? _inventory;
+
     /// <summary>
-    /// Encapsulate the ability to Add experience to the Player's level.
+    /// The player's pack. Capacity tracks current Strength,
+    /// so a Strength boost immediately lets you carry more loot.
+    /// </summary>
+    public Inventory Inventory =>
+        _inventory ??= new Inventory(() => GameMath.CarryCapacity(Stats.Strength));
+
+    /// <summary>Currently equipped weapon and armor.</summary>
+    public Equipment Equipment { get; } = new();
+
+    /// <summary>
+    /// Raised when the player gains a level: (player, oldLevel, newLevel).
+    /// The engine listens to this to print the fanfare.
+    /// </summary>
+    public event Action<Player, int, int>? LeveledUp;
+
+    // --- Derived combat numbers -------------------------------------------
+
+    /// <summary>
+    /// Attack bonus for weapon swings. Finesse weapons let a nimble
+    /// character use Dexterity instead of Strength.
+    /// </summary>
+    public int AttackBonus => MeleeModifier + Equipment.AttackBonus;
+
+    /// <summary>Flat bonus added to weapon damage rolls.</summary>
+    public int DamageBonus => MeleeModifier;
+
+    /// <summary>How hard this player is to hit: 10 + DEX modifier + armor.</summary>
+    public int DefenseValue => 10 + Stats.DexterityModifier + Equipment.DefenseBonus;
+
+    /// <summary>Damage dice of the equipped weapon (or bare fists).</summary>
+    public Dice DamageDice => Equipment.DamageDice;
+
+    private int MeleeModifier => Equipment.WeaponIsFinesse
+        ? Math.Max(Stats.StrengthModifier, Stats.DexterityModifier)
+        : Stats.StrengthModifier;
+
+    /// <summary>Experience still needed to reach the next level.</summary>
+    public double ExperienceToNextLevel =>
+        Math.Max(0, GameMath.ExperienceForLevel(Level.Value + 1) - Level.Experience);
+
+    // --- Behavior ----------------------------------------------------------
+
+    /// <summary>
+    /// Add experience to the Player's level. If that crosses one or more
+    /// level thresholds, stats improve per the player's class, health and
+    /// mana are fully restored, and the LeveledUp event fires.
     /// </summary>
     /// <param name="exp">Experience gained</param>
-    public void AddExperience(double exp) =>
+    public void AddExperience(double exp)
+    {
+        int before = Level.Value;
         Level += exp;
-    
-    /*
-     * TODO:  Stats management (level up increases stats?)
-     * the Stats property is currently immutable from outside,
-     * but we may want to add methods to modify stats as the player levels up.
-     * So, treat it in the same way as Level.
-     */
-    
-    
+        int after = Level.Value;
+        if (after <= before)
+            return;
+
+        for (var lvl = before; lvl < after; lvl++)
+        {
+            Stats.Improve(
+                health: Class.HealthPerLevel,
+                mana: Class.ManaPerLevel,
+                strength: Class.PrimaryStat == AbilityScaling.Strength ? 1 : 0,
+                dexterity: Class.PrimaryStat == AbilityScaling.Dexterity ? 1 : 0,
+                intelligence: Class.PrimaryStat == AbilityScaling.Intelligence ? 1 : 0);
+        }
+        Stats.FullRestore();
+        LeveledUp?.Invoke(this, before, after);
+    }
+
+    public void AddGold(int amount) => Gold += Math.Max(0, amount);
+
     /// <summary>
-    /// Factory method to create a new player with default starting values.
+    /// Try to pay for something. Returns false (spending nothing) if the
+    /// player can't afford it.
+    /// </summary>
+    public bool SpendGold(int amount)
+    {
+        if (amount < 0 || amount > Gold)
+            return false;
+        Gold -= amount;
+        return true;
+    }
+
+    /// <summary>
+    /// A full character sheet, for the 'stats' command.
+    /// </summary>
+    public string CharacterSheet() => $"""
+        ─── {Name}, Level {Level.Value} {Class.Name} ───
+        {Stats}
+        Attack: +{AttackBonus} to hit, {DamageDice}{(DamageBonus != 0 ? $"{(DamageBonus > 0 ? "+" : "")}{DamageBonus}" : "")} damage
+        Defense: {DefenseValue}
+        Gold: {Gold}
+        Experience: {Level.Experience:0} ({ExperienceToNextLevel:0} to next level)
+        {Equipment.Describe()}
+        """;
+
+    /// <summary>
+    /// Factory method to create a new player with rolled stats and a class.
     /// </summary>
     /// <param name="name">The Player's Name</param>
-    /// <param name="className">The Player's Class</param>
+    /// <param name="playerClass">The Player's Class</param>
+    /// <param name="stats">The (freshly dice-rolled) starting stats</param>
     /// <returns>a new Player instance</returns>
-    public static Player CreateNewPlayer(string name, string className)
-        => new Player(
-            name?.Trim() switch          // switch on the provided `name`
+    public static Player CreateNewPlayer(string? name, PlayerClass playerClass, StatChart stats)
+        => new(
+            name?.Trim() switch
             {
-                null or "" => "Unknown Hero", // if name is null or empty, use "Unknown Hero"
-                _ => name.Trim()              // otherwise, use the trimmed name
+                null or "" => "Unknown Hero",
+                _ => name.Trim()
             },
-            className?.Trim() switch     // switch on the provided `className`
-            {
-                null or "" => "Warrior",     // if className is null or empty, use "Warrior"
-                _ => className.Trim()        // otherwise, use the trimmed className
-            },
+            playerClass,
             1, // Start at Level 1 (experience gets calculated automagically)
-            new(100, 50)); // Starting mana
+            stats);
 }
 
 /// <summary>
 /// PlayerLevel represents the level and experience of a player.
+/// The leveling curve is exponential: Experience = 500 * e^(level/30).
 /// </summary>
 /// <param name="Value">What integer level is the player?</param>
 /// <param name="Experience">How much Experience have they accumulated</param>
 public record PlayerLevel(int Value = 1, double Experience = 0.0)
 {
-    /*
-     * TODO: Research - Leveling Curve Formula
-     * We need a formula to determine how much experience is needed for each level.
-     * A common approach is to use an exponential or polynomial curve.
-     * For example, we could use:
-     * ExperienceNeeded = BaseExperience * (Level ^ Exponent)
-     * Where BaseExperience is a constant (e.g., 500) and Exponent could be 2 or 3.
-     * This would mean that as the player levels up, the experience required increases significantly.
-     *
-     * TODO: Research - How do we alert the Player that they have leveled up?
-     * We need to consider how the game will notify the player when they reach a new level.
-     * This should be an EVENT that other parts of the game can listen to.
-     * For example, we could implement an event system where the PlayerLevel class
-     * raises a LevelUp event whenever the experience crosses the threshold for the next level.
-     */
-    
-    
     /// <summary>
     /// the Player's Level!
     /// </summary>
@@ -85,51 +157,41 @@ public record PlayerLevel(int Value = 1, double Experience = 0.0)
         > 100 => 100, // Cap the level at 100
         _ => Value // Otherwise, use the provided value
     };
+
     /// <summary>
-    /// 
+    /// Total experience accumulated.
     /// </summary>
     public double Experience { get; } = Experience switch
     {
         < 0 => 0, // Ensure experience is not negative
         _ => Experience // Otherwise, use the provided experience
     };
-    
+
     /// <summary>
     /// Implicitly get the Level Value when used as an integer
     /// </summary>
-    /// <param name="level"></param>
-    /// <returns></returns>
     public static implicit operator int(PlayerLevel level) => level.Value;
+
     /// <summary>
     /// Implicitly get the Experience when used as a Double
     /// </summary>
-    /// <param name="level"></param>
-    /// <returns></returns>
     public static implicit operator double(PlayerLevel level) => level.Experience;
+
     /// <summary>
     /// Create using only the integer Level - Calculates Experience
     /// </summary>
-    /// <param name="level"></param>
-    /// <returns></returns>
-    public static implicit operator PlayerLevel(int level) => 
+    public static implicit operator PlayerLevel(int level) =>
         new(level, 500 * Math.Exp(level / 30.0));
+
     /// <summary>
     /// Create using only Experience - Calculates Level
     /// </summary>
-    /// <param name="experience"></param>
-    /// <returns></returns>
-    public static implicit operator PlayerLevel(double experience) => 
-        new((int)(30*Math.Log(experience/500)), experience);
+    public static implicit operator PlayerLevel(double experience) =>
+        new((int)(30 * Math.Log(experience / 500)), experience);
 
     /// <summary>
     /// Add experience to a Player's level using the + operator!
     /// </summary>
-    /// <param name="level"></param>
-    /// <param name="experiencePoints"></param>
-    /// <returns></returns>
     public static PlayerLevel operator +(PlayerLevel level, double experiencePoints)
-        => level.Experience + experiencePoints; 
+        => level.Experience + experiencePoints;
 }
-
-
-
