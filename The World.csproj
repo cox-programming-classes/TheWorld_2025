@@ -8,4 +8,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <!-- The test project lives in a subfolder; keep it out of this project's compile glob. -->
+    <ItemGroup>
+        <Compile Remove="TheWorld.Tests/**" />
+    </ItemGroup>
+
 </Project>

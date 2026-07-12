@@ -184,10 +184,12 @@ public record PlayerLevel(int Value = 1, double Experience = 0.0)
         new(level, 500 * Math.Exp(level / 30.0));
 
     /// <summary>
-    /// Create using only Experience - Calculates Level
+    /// Create using only Experience - Calculates Level.
+    /// (The tiny epsilon keeps exact thresholds from truncating down:
+    /// 30*ln(e^(5/30)) can compute as 4.9999999..., which is level 5, not 4.)
     /// </summary>
     public static implicit operator PlayerLevel(double experience) =>
-        new((int)(30 * Math.Log(experience / 500)), experience);
+        new((int)Math.Floor(30 * Math.Log(experience / 500) + 1e-9), experience);
 
     /// <summary>
     /// Add experience to a Player's level using the + operator!
