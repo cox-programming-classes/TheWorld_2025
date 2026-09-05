@@ -1,0 +1,87 @@
+{
+  "_comment": "Course-level content for the Canvas front page.  Edit the title here and re-run build_canvas_html.ps1.",
+
+  "seriesName": "Building a Game in C#",
+
+  "kicker": "Course home",
+  "title": "Building a Game in C#",
+  "subtitle": "Object-oriented design, re-learned from the data up",
+  "factStrip": "One semester &nbsp;&middot;&nbsp; You already know how to program &nbsp;&middot;&nbsp; Homework capped at 15 minutes a night",
+
+  "overview": [
+    "You have written objects before, in at least two languages, so this course starts past the definition.  What it shows you instead is that most of what you believe about objects is a **decision** somebody made, in the language you happened to learn first, and that other languages decided differently.",
+    "C# has been moving for a decade toward a particular set of those decisions:  data that holds still, types that arrive valid or get refused, and behavior that lives beside the data.  That is where we are going, and it will look strange for a week or two.",
+    "You build the tools.  Everything the final game runs on -- dice, cards, collections, entities, a world, a command loop -- you write yourself, in order, each one arriving because the lesson before it made you feel the absence.  Every piece of it is yours, down to the bottom.",
+    "Around the middle of the semester you choose what you are actually building.  Everything after that point is scaffolding for **your** choice."
+  ],
+
+  "goals": [
+    "Decide, member by member, what about a type can change and who is allowed to change it -- and make the compiler enforce it",
+    "Build types that are impossible to construct in an invalid state",
+    "Decide whether a behavior belongs *on* a type or *beside* it, using a test you can apply to code you are seeing for the first time",
+    "Write collections, polymorphism, and interfaces at the moment your game needs them",
+    "Read a compiler error as information",
+    "Ship a game somebody else can pick up and play"
+  ],
+
+  "howItWorks": [
+    {
+      "h": "Every lesson has two parts",
+      "p": [
+        "A **Lesson Page** -- the new idea, the vocabulary, the starter project, and the steps.  Read it, run it, work through it.",
+        "An **Assignment** -- where you turn work in, check yourself against the four stages, and write a couple of sentences about the calls you made."
+      ]
+    },
+    {
+      "h": "Two tracks, every lesson",
+      "p": [
+        "**Dice** is the worked example.  We build it together, in class, on the projector, and everybody walks out holding it.",
+        "**Cards** is yours.  The same idea arrives a second time as a problem you solve alone.  It is where you find out whether the lesson actually landed -- and it is the one file in this course that belongs entirely to you."
+      ]
+    },
+    {
+      "h": "Every starter project already runs",
+      "p": [
+        "Open the folder, run it, and something happens before you have changed a line.  That is a promise I keep on purpose.",
+        "Usually the code already works.  Your job is to make it **honest** -- to find the thing that runs perfectly and is still wrong, and say why."
+      ]
+    },
+    {
+      "h": "Homework is capped, and the cap is real",
+      "p": [
+        "Fifteen minutes a night, or thirty every other meeting.  Treat that as a ceiling.",
+        "Homework consolidates syntax you have already met, and every lesson opens fresh.  Skip it entirely and you still walk in able to participate.  Class time is where the building happens."
+      ]
+    },
+    {
+      "h": "Stuck?  There is a helper",
+      "p": [
+        "Every lesson page and assignment has a button that opens an AI helper for that lesson.  It asks you questions and pushes you toward the answer, and it leaves the answer for you to reach.",
+        "Also:  ask the person next to you, and ask me.  Both are allowed and both work better than staring."
+      ]
+    }
+  ],
+
+  "stagesIntro": "Every assignment uses the same four stages.  They are a **map** -- where you are and what to try next.  **Made It Mine** is the target for everyone, every lesson.",
+  "stages": [
+    { "name": "Getting Started", "text": "The build is red, or the change is still ahead of you.  Every lesson names the likeliest cause and the exact next thing to try." },
+    { "name": "Got It Working", "text": "The thing the lesson was about is done, and the program runs." },
+    { "name": "Made It Mine", "text": "&hellip;and you did the same thing to **your** code, on your own, and can defend the calls you made.  **This is the goal for everyone.**" },
+    { "name": "Went Beyond", "text": "&hellip;and you took it somewhere the lesson left open.  The list here stays open on purpose -- that is the entire point of it." }
+  ],
+  "stagesOutro": "You can revise and resubmit anything.  Everything here is open to a second pass, and finding out you were wrong is most of the work.",
+
+  "needList": [
+    "**The .NET 10 SDK** -- free, from dotnet.microsoft.com",
+    "**An editor** -- Visual Studio, VS Code with the C# extension, or Rider.  Any of the three is fine.",
+    "That is genuinely it.  Everything you need is free and installs in one go."
+  ],
+
+  "bonusNote": "Optional lessons.  Take them any time after the lesson listed, and every one of them is safe to skip.",
+
+  "_assignmentNote": "Appears at the top of every Assignment.  The Processing course says 'not scored' because it carries no credit; this one carries credit, so it says what is actually true here.  Change the wording here, in course.json, and the generator picks it up.",
+  "assignmentNote": "The four stages below are the standard, and they are the same in every lesson.  They describe **the work** -- and you can revise and re-submit any time.",
+
+  "_submitHint": "Appears under 'What to turn in'. Set to \"\" to omit the line entirely.",
+  "submitHint": "Zipping a project:  delete the `bin/` and `obj/` folders first.  They are build output, they are large, and they are safe to throw away."
+}

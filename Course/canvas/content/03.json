@@ -1,0 +1,293 @@
+{
+  "id": "03",
+  "num": "3",
+  "kind": "core",
+  "slug": "lesson-03-extensions-and-concerns",
+  "title": "Extensions and Separating Concerns",
+  "tagline": "Some of what a thing can do belongs somewhere else.  Change code that works, and say what you bought.",
+  "whenToUse": null,
+  "timing": "Two meetings (~50 min each)",
+  "newIdea": "Behavior can live beside the data it describes",
+  "builtOn": "Lessons 1 and 2.  Your dice hold still and arrive valid -- which is precisely what makes today safe.",
+
+  "goals": [
+    "Write an extension method -- and an extension **property**, instance or static",
+    "Decide whether a behavior belongs *on* a type or *beside* it, using a test you can apply to code you are seeing for the first time",
+    "Apply that same test to a **constant**, and notice that a number can encode policy just as much as a method can",
+    "Use namespaces and `using` deliberately -- as a statement about what a file is allowed to depend on",
+    "Explain what extension methods do **in place of** polymorphism, and predict the two places that bites"
+  ],
+
+  "vocab": [
+    { "term": "extension method", "def": "a static method C# lets you call as though it were an instance method on another type" },
+    { "term": "extension member", "def": "the general form.  C# 14's `extension(Dice)` / `extension(Dice dice)` blocks add properties too, static or instance" },
+    { "term": "separation of concerns", "def": "keeping \"what a thing is,\" \"how it is shown,\" and \"what it means here\" in different places" },
+    { "term": "coupling", "def": "what a piece of code has to know about in order to work" },
+    { "term": "refactoring", "def": "changing structure while behavior stays identical.  The output is the proof" },
+    { "term": "compile-time binding", "def": "the compiler picks which method runs using the type the variable is **declared** as, leaving what it holds at runtime out of it" }
+  ],
+
+  "warmup": "Read `Dice.cs` all the way through before you touch anything.  It is about 220 lines.  Then answer one question:  **how many different jobs is this type doing?** Write the list down -- you will check against it at the end.  And note that every method in that file was a reasonable idea on the day it was written.",
+
+  "howItWorks": [
+    {
+      "h": "The three lessons are one argument",
+      "p": [
+        "It is worth saying the whole shape out loud now, because today is where it pays off:"
+      ],
+      "bullets": [
+        "**Lesson 1** -- the data holds still.",
+        "**Lesson 2** -- therefore there is exactly one moment it could be wrong, so close it.",
+        "**Lesson 3** -- therefore everything outside can be handed ordinary access, so behavior can move out."
+      ]
+    },
+    {
+      "h": "A type that knows what a screen is",
+      "p": [
+        "`Dice.cs` uses `Console.ForegroundColor`.  Ask what that type now **requires** in order to exist:  a terminal, a screen, a human looking at it.",
+        "And we want to unit-test this.  And put it on a web page.  And run it on a server where the console is absent entirely.",
+        "**A type that knows what a screen is can only ever live where screens are.**"
+      ]
+    },
+    {
+      "h": "The three ingredients",
+      "aside": {
+        "h": "If you're coming from Java",
+        "p": [
+          "**Java leaves this one to C#.** This is the biggest single gap between the two languages in this whole course.",
+          "When Java wants behavior that belongs beside a type, it writes a static utility class and you call it inside-out:  `Collections.sort(list)`, `Objects.equals(a, b)`, `Arrays.asList(...)`.  The helper's name comes first and the thing you care about is an argument.",
+          "C# lets that exact same static method be *called* as though it were on the type.  Same method, same compiled call -- it just reads in the order you think in."
+        ],
+        "code": "Java:  DiceDisplay.describe(dice)\nC#:    dice.Describe()\n       // identical after compiling",
+        "bullets": [
+          "This is why LINQ can exist.  `list.Where(...).OrderBy(...)` is a chain of extension methods on `IEnumerable<T>`, and Java's answer -- streams -- needed a `.stream()` call and interface changes to get something similar."
+        ]
+      },
+      "p": [
+        "An extension method is exactly three things.  Once they are true, `dice.Describe()` compiles as though `Describe` had always been part of `Dice`.  `Dice.cs` has yet to hear of it."
+      ],
+      "code": {
+        "label": "All of it",
+        "body": "public static class DiceDisplay                  // 1. static class\n{\n    public static string Describe(this Dice dice) // 2. static method\n    {                                             // 3. `this` on parameter one\n        ...\n    }\n}"
+      }
+    },
+    {
+      "h": "So why bother, if the call site is identical?",
+      "p": [
+        "The call site stays put either way, so the value lies elsewhere.  It is:"
+      ],
+      "bullets": [
+        "`Dice.cs` stops needing `Console`.  It stops knowing about colors, terminal widths, and box-drawing characters -- so it can be tested, served, embedded.",
+        "Everything about how dice **look** lands in one file, so the next person who wants to change that has one place to go.",
+        "Your game's rules stop being smuggled inside a type that claims to be about dice in general.",
+        "And the cost, which is real:  you now have to know `Describe` lives in a file you may have closed.  Namespaces are how you make that findable.  **It is a trade, and that is what you pay.**"
+      ]
+    },
+    {
+      "h": "The test for where something belongs",
+      "p": [
+        "This is the transferable part -- the thing that outlives the syntax.  Imagine two games using this exact `Dice` type:  your dungeon crawler, and somebody's board game about trains."
+      ],
+      "bullets": [
+        "The trains game needs it to behave identically &rarr; it is part of what dice **are**.  Leave it.",
+        "The trains game would want it to mean something else, or drop it entirely &rarr; it is a rule of **your game**.  Move it.",
+        "Apply that to `IsCritical`, `IsFumble`, `Beats`, and `ChanceOfBeating`.  They give different answers, and at least one is genuinely arguable."
+      ]
+    },
+    {
+      "h": "Extensions cover more than methods",
+      "p": [
+        "C# 14 lets you add **members** of any kind -- properties included -- to a type somebody else owns.  Two flavours, and you will want both today."
+      ],
+      "code": {
+        "label": "Static and instance extension members",
+        "body": "extension(Dice)                              // bare type name -> STATIC members\n{                                            // these hang off the TYPE\n    public static int MaxCount => 100;       //   Dice.MaxCount\n}\n\nextension(Dice dice)                         // with a name -> INSTANCE members\n{                                            // these hang off a VALUE\n    public bool IsLegalHere =>               //   myDice.IsLegalHere\n        dice.Count <= Dice.MaxCount;\n}"
+      },
+      "bullets": [
+        "Same three ingredients:  a static class, a static member, a receiver declared up front.",
+        "Same rule too -- **a real member on the type always beats an extension member with the same name.**",
+        "The consequence worth sitting with:  once `MaxCount` is an extension property, `Dice.MaxCount` reads *exactly* as it did when it was a real member.  Every call site in the program reads them the same way."
+      ]
+    },
+    {
+      "h": "Two surprises, one fact",
+      "aside": {
+        "h": "If you're coming from Java",
+        "p": [
+          "Both surprises come from the same place, and Java makes it easy to predict if you think about it the right way.",
+          "Java's **static** methods bind the same way -- they resolve on the declared type, leaving the runtime one out of it.  Extension methods are static methods wearing a friendlier syntax, so they inherit that limitation exactly.",
+          "The null one follows too:  `DiceDisplay.summarize(null)` is a perfectly ordinary call in Java.  The reference stays untouched, so the call comes back clean.  C# just lets you *write* it as `missing.Summarize()`, which is why it looks impossible."
+        ],
+        "bullets": [
+          "The habit to keep:  when a C# method call surprises you, ask whether it is really an instance method.  If it is an extension, you are looking at a static call and the rules you already know apply."
+        ]
+      },
+      "p": [
+        "**Scene 4.** There are two methods named `Describe` in scope -- an instance method on `Dice`, and an extension in `DiceDisplay`.  Only one ran, and it won cleanly.  The extension has been sitting there being ignored since you opened the project.",
+        "**Scene 5.** `missing.Summarize()` is called on `null` and comes back clean.",
+        "Both are the same fact:  `dice.Summarize()` is **a static call in disguise**.  The compiler rewrote it into `DiceDisplay.Summarize(dice)` before the program ever ran, using the type the variable is *declared* as."
+      ],
+      "bullets": [
+        "So an extension method binds at compile time and stays fixed there, with `virtual` out of its reach.",
+        "What you are buying is readability.  That is worth a lot.  Spend it on that alone."
+      ]
+    },
+    {
+      "h": "Namespaces are the fence",
+      "p": [
+        "`using Toolkit.Display;` earns its place.  It is this file admitting to a dependency.",
+        "Delete it and watch exactly which lines stop compiling -- that is a dependency graph, printed by the compiler, for free."
+      ]
+    }
+  ],
+
+  "steps": [
+    "Read `Dice.cs`, all of it, before touching anything.  Count the jobs and write the list down.",
+    "**The rule for the whole lesson:  `Program.cs` stays exactly as it is.** If a move requires editing a call site, you moved something wrong.",
+    "Move `PrintHistogram` into `Display/DiceDisplay.cs`.  Copy the body, make the first parameter `this Dice dice`, change bare `Roll(rng)` to `dice.Roll(rng)`, and delete it from `Dice.cs`.",
+    "Re-run.  **Output byte-for-byte identical, `Program.cs` untouched.** That is what refactoring means -- the behavior is the control group.  Output that changed means you edited.",
+    "Sort `IsCritical`, `IsFumble`, `Beats`, and `ChanceOfBeating` using the trains test.  Argue the contested one, place it, and write one sentence in the file saying why.  **Then** move `PrintRoll` -- it depends on two of them, so it moves last.",
+    "Move `ToBoxArt`.  `Dice.cs` should now be about half its old size.  Re-read what is left -- does it match your Step 1 list?",
+    "Scene 4 calls `dice.Describe()`.  Work out which of the two `Describe` methods ran, predict what the line prints once you delete the other, then delete `Dice.Describe()` and check.  **An instance method always wins, and it wins silently.**",
+    "Add one presentation the file has yet to carry -- `ToShortString()`, a table of dice in columns, `ToOdds(int dc)`.  It should leave `Dice.cs` untouched.",
+    "**Round two:  the numbers.** Run the trains test on the four limits at the top of `Dice.cs`.  Three of them fail it.  Move those three into an `extension(Dice)` block in `DiceRules` -- the lines copy across *unchanged* -- and delete them from `Dice.cs`.",
+    "Two things happen and both are the lesson.  `IsLegalHere` keeps working untouched, because it reads the member the same way either side of the move.  And `Dice.Of()` stops compiling -- **resist fixing that with a `using`**, which would make the dice depend on one game's rulebook.  Fix it by asking what those guards were doing in `Of()` in the first place.  One of the three disappears entirely; work out which and say why that is the right outcome.",
+    "Delete a `using` from `Program.cs`.  Read what breaks.  Put it back.  Did anything break that **caught you by surprise**?  Those are the good ones."
+  ],
+
+  "code": [
+    {
+      "label": "The worked example, already moved for you",
+      "body": "namespace Toolkit.Display;\n\npublic static class DiceDisplay\n{\n    /// <summary>One line a player could read.</summary>\n    public static string Describe(this Dice dice)\n    {\n        var spread = dice.Minimum == dice.Maximum\n            ? $\"always {dice.Minimum}\"\n            : $\"{dice.Minimum} to {dice.Maximum}, averaging {dice.Average:0.#}\";\n        return $\"{dice} ({spread})\";\n    }\n\n    /// <summary>Note the `?`.  This one survives being handed an empty variable.</summary>\n    public static string Summarize(this Dice? dice) =>\n        dice is null ? \"(the slot is empty)\" : $\"{dice}, {dice.Minimum}-{dice.Maximum}\";\n}"
+    },
+    {
+      "label": "Where the numbers end up in Step 9",
+      "body": "public static class DiceRules\n{\n    extension(Dice)\n    {\n        public static int MaxCount    => 100;    // moved from Dice.cs, unchanged\n        public static int MaxSides    => 1000;\n        public static int MaxModifier => 20;\n    }\n\n    extension(Dice dice)\n    {\n        // Untouched since Step 1.  It still says Dice.MaxCount, and it reads\n        // a real member and an extension member the same way.\n        public bool IsLegalHere =>\n            dice.Count <= Dice.MaxCount\n            && dice.Sides <= Dice.MaxSides\n            && Math.Abs(dice.Modifier) <= Dice.MaxModifier;\n    }\n}"
+    }
+  ],
+
+  "makeItYours": [
+    "**Split your `Card.cs` into three:** `Toolkit.Cards` (what it is), `Toolkit.Cards.Display` (what it looks like), `Toolkit.Cards.Rules` (what it is worth).",
+    "Display is mechanical:  a short form (`A&#9824;`), a long form (`Ace of Spades`), a drawn card.",
+    "The rules half is where this gets real, because **a card's value belongs to the game being played.** In blackjack an ace is 1 or 11 and a king is 10.  In war a king beats a jack and an ace beats everything.  In hearts the queen of spades is worth thirteen points of misery.",
+    "One `Card` type.  Three games.  **If `card.Value` is a property on `Card`, which of those three did you just pick a side in** -- and where does that leave the other two?",
+    "Write the rules for **two** of those games as separate extension classes.  Then look at the two files sitting side by side and say what that arrangement bought you.",
+    "**Prove the separation is real:** delete a `using` and show that exactly the code you expected stopped compiling."
+  ],
+  "challenge": "Get a third game's rules to drop in with `Card.cs` untouched.  If something stops you, find the line that stopped you -- that line is the thing this lesson is about.",
+
+  "flintHint": "Good things to ask:  \"how do I write an extension method in C#?\", \"what is an extension property and how is `extension(Type)` different from `extension(Type t)`?\", or \"why is my extension method being ignored?\" Tell it you are on Lesson 3 and using C# 14 / .NET 10, or it will tell you extension properties are still years away.",
+
+  "wrapup": "Name one thing you left on `Dice`, and one thing you moved off it.  For each, say who would disagree with you and what they would have wanted instead.",
+
+  "assignmentTask": "Take a 220-line type doing five jobs and split it into three that each do one -- leaving every line of `Program.cs` and every character ofingle character of output.",
+  "assignmentDo": [
+    "Move all display code out of `Dice.cs` into `DiceDisplay`, one method at a time, re-running after each.  Output must stay identical.",
+    "Sort the four rule-ish methods with the trains test, move the ones that fail it, and write one sentence saying why for the contested one.",
+    "Delete `Dice.Describe()` and explain what changed and why every tool you have stayed silent.",
+    "Move the three house limits into an `extension(Dice)` block, then repair `Of()` **with the `using` left out**.",
+    "In your own `Card.cs`: split it three ways and write two different games' rules as separate extension classes."
+  ],
+  "submit": [
+    "Your `Lesson03_ExtensionsAndConcerns` folder, zipped (delete `bin/` and `obj/` first).",
+    "Your `Card.cs` and its two rules files.",
+    "Your Step 1 list of jobs, and a note on which ones are still in `Dice.cs` at the end.",
+    "Your answer to **Show your thinking** below."
+  ],
+
+  "checklist": [
+    "Show `Program.cs` unchanged and the output identical to where I started.",
+    "Say where each of the four rule-ish methods went, and defend the contested one.",
+    "Explain why deleting `Dice.Describe()` changed the output, and why every tool I have stayed silent.",
+    "Show `Dice.cs` cleared of `Console` entirely.",
+    "Show two games' rules for my `Card`, in two files, with `Card.cs` a third one."
+  ],
+
+  "standard": "Move behavior off a type using extension members, decide what belongs where using a stated test, and prove the refactor changed structure while behavior held.",
+  "stages": [
+    { "name": "Getting Started", "text": "Everything is still in one file, or the build went red after a move.  **Next step:** the most common miss is forgetting `this` on the first parameter -- leave it off and you have written a plain static method, so `dice.PrintHistogram()` stays unresolved.  The second most common is moving `PrintRoll` before deciding where `IsCritical` goes; move the things it depends on first." },
+    { "name": "Got It Working", "text": "Display is in `DiceDisplay`, the game's rules are in `DiceRules`, `Dice.cs` has been cleared of `Console`, and `Program.cs` is untouched with identical output." },
+    { "name": "Made It Mine", "text": "&hellip;and I split my own `Card` three ways and wrote two different games' rules as separate extension classes -- and I can name one thing I left on `Card` and one I moved off, and say who would disagree." },
+    { "name": "Went Beyond", "text": "&hellip;and I went somewhere the lesson left open -- a third rule set that dropped in with `Card.cs` untouched, a genuine argument about `ChanceOfBeating` I can make from both sides, an extension property of my own, or the realization that blackjack's ace is a function of the **hand**." }
+  ],
+  "thinking": "In two or three sentences:  name one thing you left on `Dice` and one you moved off it, and say who would disagree with you about each.  Then say what you had to give up to get this -- there is a real cost and I want to know you can see it.",
+
+  "teacher": {
+    "warmupTime": "~8 min",
+    "directTime": "~12 min",
+    "guidedTime": "~22 min",
+    "wrapupTime": "~5 min",
+    "di": [
+      {
+        "h": "Hold off on running anything",
+        "p": [
+          "Open `Dice.cs` on the projector and scroll through it slowly, top to bottom, in silence.  Then:  \"How many different jobs is this type doing?\"",
+          "Take the list on the board.  They will get to roughly:  what dice ARE (Count, Sides, Modifier, the guards) / how dice ROLL / how dice are MADE / how dice LOOK / what dice MEAN here.",
+          "Then two questions that set up everything.  First:  \"Which of these did somebody do wrong?\" Every one of them was a reasonable idea on the day it was written.  Say that explicitly -- if they think this is a lesson about bad code they will learn the wrong lesson, namely *be clever up front*.",
+          "Second:  \"`Dice.cs` uses `Console.ForegroundColor`.  What does this type now require in order to exist?\" A terminal.  A screen.  A human.  Then:  \"We want to unit-test this.  And put it on a web page.  And run it on a server where the console is absent entirely.\"",
+          "Leave this on the board all lesson:  **A type that knows what a screen is can only ever live where screens are.**",
+          "Now run it.  Everything works, beautifully.  That is the point."
+        ]
+      },
+      {
+        "h": "The three ingredients, and the honest cost",
+        "p": [
+          "Open `Display/DiceDisplay.cs` and point at exactly three things:  static class, static method, `this` on parameter one.  That is the whole mechanism.",
+          "Then ask where the value is, since the call site stays put.  Steer to:  testable/serveable/embeddable, one place to change how dice look, rules stop hiding inside a general type.",
+          "Then the cost, in your words, before they find it themselves:  \"You now have to know `Describe` lives in a file you may have closed.  That is real.  Namespaces make it findable.  It is a trade, and here is what you pay.\""
+        ]
+      },
+      {
+        "h": "The trains test",
+        "p": [
+          "The transferable part.  \"Two games use this exact `Dice` type -- your dungeon crawler, and somebody's board game about trains.  Does the trains game need this to behave identically?  Then it is part of what dice ARE. Would the trains game want it different, or drop it entirely?  Then it is a rule of YOUR game.\"",
+          "Apply it live to the four candidates.  `IsCritical` and `Beats` go fast.  `ChanceOfBeating` is the argument -- pure math about the dice, phrased entirely in one game's difficulty vocabulary.  Let them fight.  Both placements are defensible; saying why is the assessment.",
+          "If Lesson 2 left \"is 1d20-50 valid?\" hanging -- and it should have -- this is where it lands.  That check belongs in Rules.  It always did.  There was nowhere to put it."
+        ]
+      },
+      {
+        "h": "The two surprises",
+        "p": [
+          "Have them PREDICT both before running.  Scene 4: two `Describe` methods in scope, the instance one wins, the extension has been sitting there ignored since they opened the project.  Scene 5: `missing.Summarize()` on `null` comes back clean.",
+          "Same fact twice:  `dice.Summarize()` is a static call in disguise.  The compiler rewrote it to `DiceDisplay.Summarize(dice)` before the program ran, using the DECLARED type.",
+          "\"So an extension binds at compile time and stays fixed there, with `virtual` out of its reach.  What you are buying is readability.  That is worth a lot.  Spend it on that alone.\"",
+          "Leave `virtual` alone.  Name it as Lesson 5's business and leave the hook."
+        ]
+      },
+      {
+        "h": "Round two -- the numbers (save this for Meeting B)",
+        "p": [
+          "Save this for Meeting B, on its own.  Open with it.",
+          "Show the `extension` block syntax and name the two flavours:  `extension(Dice)` for static members, `extension(Dice dice)` for instance members.  Then point at the four limits and ask the trains test one more time.",
+          "**The moment worth engineering:** have them predict what breaks when `MaxCount` leaves `Dice`.  They will say `IsLegalHere`, because it says `Dice.MaxCount`.  It keeps working, because it reads them the same way.  What breaks is `Dice.Of()`, which is the one place they expect to stay safe, and it breaks because `Of()` was quietly enforcing a house rule that belonged to the table.",
+          "Then let them find that `modifier`'s guard has nowhere to go at all.  That guard was 100% policy.  It leaves, and `Dice` is more correct for losing it.",
+          "Expect pushback:  \"so anyone can make 1d20-500 now?\" Yes.  And it is a perfectly good die that this table refuses.  The type's job is to guarantee a die, and the rulebook belongs elsewhere.  Sit in that discomfort with them for a minute and leave it there -- it is the same discomfort that makes people put every rule in the constructor in the first place."
+        ]
+      }
+    ],
+    "guided": [
+      "Step 3 on the projector WITH them, out loud, before they read it.  The moment to hit:  run before, run after, point out that `Program.cs` is untouched and the output is identical.",
+      "Name the technique explicitly:  \"Behavior is the control.  Output that changed means you edited.\" For most students this is the first refactor they have run with a control group -- they change structure and behavior at once, something breaks, and the cause is anyone's guess.  They will use this for the rest of their lives.",
+      "Step 5 individually, but take the `ChanceOfBeating` argument as a whole class.  Two minutes, left open.",
+      "Step 7 (deleting `Dice.Describe()`) as a class -- have them predict the new output before deleting.",
+      "Steps 9 and 10 are Meeting B and are the payoff.  Protect the time; do the prediction moment together.",
+      "Release to Cards for the back half of Meeting B. The blackjack/war split is the centre of it."
+    ],
+    "pitfalls": [
+      "**Moving `PrintRoll` before deciding where `IsCritical` lives,** hitting a compile error, and moving `IsCritical` into Display to make it stop.  Very common, entirely logical, exactly wrong.  Ask:  \"so a natural 20 is a display concern now?\"",
+      "**Losing the `this` keyword,** producing a confusing error.  One-line fix, but let them read the error first.",
+      "**Making EVERYTHING an extension, including `Roll`.** Ask what happens when they want a `WeightedDice` that rolls differently.  Leave it hanging -- that is Lesson 5, and this is the best possible way for the question to arrive.",
+      "**Fixing the Step 10 break by adding `using Toolkit.Rules;` to `Dice.cs`.** It compiles.  It is also backwards, and it is worth stopping the room over:  the dice would now depend on one game's rulebook.",
+      "**Over-application.** Some students will come out of this wanting six files per type.  Say the quiet part:  \"Three similar lines beat a premature helper.  Split when the mixing has cost you something you can name.\" `Dice.cs` earned its split by growing for four fictional weeks.  A forty-line type has earned the right to stay one file."
+    ],
+    "wrapupAnswer": "Anything specific with a named opponent.  The second half of the question is the assessment.  Also listen for whether they can state the COST -- three files where one used to do, and having to know `Describe` lives somewhere out of sight.  A student who thinks every refactor is a free win will refactor everything, forever.",
+    "notes": [
+      "**Pacing.** Meeting A: 8 warm-up / 12 instruction / 22 guided (steps 1&ndash;7) / 5 wrap.  Meeting B: 5 recap on the trains test / 15 guided (steps 8&ndash;11) / 25 Cards / 5 wrap.",
+      "**The Cards argument is the real assessment of this lesson.** The strongest students go somewhere genuinely interesting:  an ace is 1 OR 11 depending on the rest of the hand, which makes blackjack's value a function of the HAND -- it is a function of the HAND. That is a real insight about where a rule lives and it should be praised loudly.  It is also Lesson 4 arriving early.",
+      "Weaker responses put `Value` on `Card` with a comment saying \"blackjack rules.\" Fine for today.  Ask one question -- \"what does the war game do now?\" -- and move on.  They will hit it again when hands become real.",
+      "**Forward hooks planted today.** \"Extensions resolve at compile time\" &rarr; Lesson 5, `virtual` and `WeightedDice`. \"Value depends on the hand\" &rarr; Lesson 4, collections.  And \"where does 1d20-50 get rejected?\" &rarr; answered today, finally.",
+      "**If they finish early:** `GameData/GameMechanics/` versus `Engine/States/` in the finished game.  Same split, thirty files, and every console call in the domain model still goes through `IGameIO` -- that interface is the seam.  Ask them to find the one place a game state actually writes output.",
+      "Extension properties are C# 14 / .NET 10.  If a student's editor flags `extension(Dice)` as invalid syntax, check the SDK version before debugging anything else."
+    ]
+  }
+}

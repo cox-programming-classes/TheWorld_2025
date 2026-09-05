@@ -1,0 +1,295 @@
+{
+  "id": "01",
+  "num": "1",
+  "kind": "core",
+  "slug": "lesson-01-first-objects",
+  "title": "First Objects",
+  "tagline": "Complexity, and managing mutability.  Find the bug hiding inside working code.",
+  "whenToUse": null,
+  "timing": "Two meetings (~50 min each)",
+  "newIdea": "Immutability is declared member by member -- and `record` governs something else",
+  "builtOn": "Any language you already know.  It does assume you have written objects somewhere before.",
+
+  "goals": [
+    "Build a complex type out of primitives, and defend each primitive you picked",
+    "Predict when assigning one variable to another makes a **copy** and when it makes a **second name** for the same thing",
+    "Turn a mutable type into an immutable one, and repair every call site the compiler flags",
+    "Say what immutability actually bought you, which goes well past \"the bug went away\""
+  ],
+
+  "vocab": [
+    { "term": "value type", "def": "the variable holds the thing itself.  `int`, `double`, `bool`, `char`.  Copying the variable copies the thing" },
+    { "term": "reference type", "def": "the variable holds *where the thing is*.  Every `class` and every `record`.  Copying the variable copies the address" },
+    { "term": "immutable", "def": "fixed once it exists.  `string` already is.  `Dice` will be by the end of today" },
+    { "term": "record", "def": "a type C# compares by the values it holds" },
+    { "term": "init-only", "def": "settable while the object is being built, and sealed from then on.  Spelled `{ get; init; }`" },
+    { "term": "aliasing", "def": "two names for one object.  Fine, right up until the day it bites" }
+  ],
+
+  "warmup": "You have shipped this bug before, in another language.  Somewhere, you changed a thing in one place and watched it change somewhere across the room.  What language were you in, and what was the thing -- a list, a dictionary, an object?  And whose job was it to stop that from happening?",
+
+  "howItWorks": [
+    {
+      "h": "The object you already know how to write",
+      "p": [
+        "You have built `Dice` before.  Some fields, a getter and a setter on each, methods underneath.  That shape gets taught first almost everywhere:  *an object is a box of state, and methods are how you reach in and change it.*",
+        "This course leans the other way, because modern C# does:"
+      ],
+      "bullets": [
+        "an object **has** state you change &nbsp;&rarr;&nbsp; a value **is** its data, and holds still",
+        "`setSides(4)` -- reach in and modify &nbsp;&rarr;&nbsp; build a different one and use that",
+        "two objects are equal if they are the **same object** &nbsp;&rarr;&nbsp; two values are equal if they **say the same thing**",
+        "behavior lives on the object &nbsp;&rarr;&nbsp; behavior can live beside the data (that is Lesson 3)"
+      ]
+    },
+    {
+      "h": "Both columns are defensible",
+      "p": [
+        "They are different bets about what goes wrong in a large program, and each one buys something the other gives up.",
+        "The right-hand column is the one you have yet to meet, and it is where C# has been heading for ten years.  Both are defensible."
+      ]
+    },
+    {
+      "h": "What `record` governs, and what it leaves to you",
+      "aside": {
+        "h": "If you're coming from Java",
+        "p": [
+          "This one is a real departure, and it is easy to miss because the syntax looks familiar.",
+          "In Java, `==` on two objects asks *are these the same object in memory* -- and it says `false` for two identical-looking things.  To compare contents you override `equals()` (and then `hashCode()`, and then you keep them in sync forever).",
+          "A C# `record` writes both of those for you, and wires `==` to use them.  Two separately-built `2d6+3`s are equal because they **say the same thing**."
+        ],
+        "code": "Java:  a.equals(b)   // you write equals()\nC#:    a == b        // the record wrote it",
+        "bullets": [
+          "This is a property of `record`.  A plain C# `class` behaves exactly like Java, where `==` compares identity and `Equals` is yours to override.",
+          "So `record` vs `class` is a real decision about what your type *means*, well past a matter of style."
+        ]
+      },
+      "p": [
+        "`Dice` is already a `record` on the first line of the starter.  That gets you value equality for free:"
+      ],
+      "code": {
+        "label": "What a record hands you",
+        "body": "var a = new Dice { Count = 2, Sides = 6, Modifier = 3 };\nvar b = new Dice { Count = 2, Sides = 6, Modifier = 3 };\n\na == b        // True - two objects, same three numbers, a record calls that equal"
+      },
+      "bullets": [
+        "Immutability stays a separate decision, made per member.",
+        "Scene 2 is a record misbehaving exactly the way any mutable object would.",
+        "The protection lives one keyword away, and you are about to write it."
+      ]
+    },
+    {
+      "h": "What a variable actually holds",
+      "aside": {
+        "h": "If you're coming from Java",
+        "p": [
+          "This part is familiar territory, and that is worth saying out loud.",
+          "Java works exactly this way.  Primitives copy their value; objects copy a reference.  `String` is immutable there too, for the same reason and with the same consequences.",
+          "So Scene 2's bug is one you could have written in Java this morning, with Java looking on just as calmly.  **That is the point of the lesson.**"
+        ]
+      },
+      "p": [
+        "This is why Scene 2 happens, and it is the whole mechanism:"
+      ],
+      "code": {
+        "label": "Three pictures",
+        "body": "int a = 5;\nint b = a;              // a VALUE - copying copies the number itself\nb = 9;                  // a is still 5.  Two boxes, two numbers.\n\nvar first  = new Dice { Sides = 20 };\nvar second = first;     // a REFERENCE - copying copies the address\nsecond.Sides = 4;       // first.Sides is now 4 too.  Two boxes, ONE die.\n\nstring name = \"goblin\";\nstring loud = name.ToUpper();   // name is unchanged - a string is fixed at birth"
+      },
+      "bullets": [
+        "A `string` is a reference type that **behaves** like a value, because it is fixed at creation.",
+        "`ToUpper()` leaves the original alone and builds a second string to hand back.",
+        "That third picture is the target.  By the end of today, `Dice` behaves the way `string` already does."
+      ]
+    },
+    {
+      "h": "The one keyword",
+      "aside": {
+        "h": "If you're coming from Java",
+        "p": [
+          "You have done this before, with `final` fields set in the constructor.  Same intent, and it works.",
+          "The difference is cost.  In Java that means a field, a constructor parameter, a getter, and a setter left off -- four things to keep straight.  In C# it is one keyword on one line, which means you will actually bother to do it on the members that deserve it."
+        ],
+        "bullets": [
+          "Java's `final` also stops at the reference, exactly like `init` does.  A `final List` can still have things added to it.",
+          "**Java's `record` sits elsewhere.** It is much closer to C#'s positional records -- genuinely immutable and terse.  C#'s `record` keyword is the looser of the two, which is why `Dice` can misbehave in Scene 2 at all."
+        ]
+      },
+      "p": [
+        "Every member you write is a decision about who may change it and when.  C# makes you say which one you mean."
+      ],
+      "code": {
+        "label": "The two dials that matter today",
+        "body": "public int Sides { get; set;  }   // set any time, by anybody, from anywhere\npublic int Sides { get; init; }   // set while the object is being built, then sealed"
+      },
+      "bullets": [
+        "Every option here is a choice.  `{ get; set; }` is the one you make by staying quiet.",
+        "There is a third, `private set`, for things that genuinely **should** change.  It waits for Lesson 4."
+      ]
+    },
+    {
+      "h": "Picking a primitive",
+      "p": [
+        "`Dice` is three `int`s.  That was a decision, and here is some of what it cost and bought."
+      ],
+      "code": {
+        "label": "Run these and read them carefully",
+        "body": "7 / 2                 // 3      - both sides are int, so the answer is int\n7 / 2.0               // 3.5\n0.1 + 0.2 == 0.3      // False  - double is fast and APPROXIMATE\n0.1m + 0.2m == 0.3m   // True   - decimal is exact and slow"
+      },
+      "bullets": [
+        "`int` -- whole numbers.  Counting anything:  dice, gold, hit points.",
+        "`double` -- fast decimals, approximate.  Measurements, averages, physics.",
+        "`decimal` -- slow decimals, exact.  Money, or anywhere `0.1 + 0.2` has to equal `0.3`.",
+        "That second line is the dangerous one.  `7 / 2` giving `3` runs clean, stays quiet, and sails through every test.",
+        "A die comes in whole numbers, so `int` is right here.  It is right sometimes, and \"the default\" is a poor reason to pick anything."
+      ]
+    }
+  ],
+
+  "steps": [
+    "Open `Course/starters/Lesson01_FirstObjects` and run it:  `dotnet run`.  All three scenes already work.",
+    "Read **Scene 2**.  Find the line that caused the problem, looking past the one that looks guilty.  Explain to the person next to you why `partyDie` changed when the only name you touched was `yourDie`.",
+    "Read **Scene 3**.  Three pictures.  Say out loud which one Scene 2 is.",
+    "In `Dice.cs`, change all three `{ get; set; }` to `{ get; init; }`.  Build it.  **Read both errors before you touch anything.**",
+    "Fix Scene 2, leaving `set` where it lies.  The die is sealed now, so build a **different** one -- your own `1d20+5`, leaving the table's `1d20` alone.",
+    "Fix Scene 3.  Harder:  you were proving \"one die, two names\" *by mutating it*, and the compiler has closed that route.  `ReferenceEquals(first, second)` will tell you the truth instead.",
+    "Re-run everything.  `ReferenceEquals` still prints `True`.  Work out what that means before you read the next step.",
+    "The sharing is still there -- `first` and `second` are still one object with two names.  It stopped **mattering**.  Write one sentence at the top of `Program.cs` saying that back in your own words.",
+    "Fix the now-outdated narration in Scene 2 (there is a TODO marking it).  A comment that used to be true is worse than silence.",
+    "Scene 1's `a == b` line printed `True` before your change and `True` after.  Say why it was settled all along."
+  ],
+
+  "code": [
+    {
+      "label": "Dice.cs - as it ships",
+      "body": "public record Dice\n{\n    public int Count { get; set; } = 1;\n    public int Sides { get; set; } = 6;\n    public int Modifier { get; set; } = 0;\n\n    public int Roll(Random rng)\n    {\n        var sum = Modifier;\n        for (var i = 0; i < Count; i++)\n            sum += rng.Next(1, Sides + 1);   // Next(1, 7) gives 1..6 - the top is exclusive\n        return sum;\n    }\n\n    public int Minimum => Count + Modifier;\n    public int Maximum => Count * Sides + Modifier;\n}"
+    },
+    {
+      "label": "Scene 2 - the cursed d20",
+      "body": "var partyDie = new Dice { Count = 1, Sides = 20 };\nConsole.WriteLine($\"The die on the table:  {partyDie}\");   // 1d20\n\n// Your character has a +5 attack bonus, so you pick up the die and...\nvar yourDie = partyDie;\nyourDie.Modifier = 5;\n\nConsole.WriteLine($\"Your die:              {yourDie}\");     // 1d20+5\nConsole.WriteLine($\"The die on the table:  {partyDie}\");   // 1d20+5   <-- ???\n\n// The goblin is now attacking you with your own +5 bonus.\n// Every line here did exactly what it says."
+    }
+  ],
+
+  "makeItYours": [
+    "**Start your own `Card.cs`.** A file you create yourself, in the same folder.  It follows you to Lesson 2 and Lesson 3, and it is the one file in this course that is unambiguously yours.",
+    "Build a `Card` -- the card alone, with the game left for later.  Then answer, in the design of the type itself:  **what about a card is fixed for good, and what about it can change?**",
+    "**Rank and suit.** Does the Ace of Spades ever become something else?  What does your answer mean for how you declare them?",
+    "**Face up or face down.** Is that a fact about the *card*, or about *where the card currently is*?  Those have different answers, and the second one may belong to the table.",
+    "**How do you say \"Queen\"?** A string `\"Q\"`?  A number `12`?  C# has a type built for \"one of a fixed set of named options.\" Go find out what it is called.",
+    "**Should two separately-created Aces of Spades be equal?** Try it before you decide.  C# has an opinion and it depends on what you declared."
+  ],
+  "challenge": "Make one member of your `Card` that you are genuinely torn about, write both versions, and keep the one you can defend better.  Bring the one you threw away -- that is the more interesting half of the conversation.",
+
+  "flintHint": "Good things to ask:  \"what is the difference between a record and a class in C#?\", \"why does my code say CS8852 init-only property\", or \"I changed one object and another one changed too -- why?\" Tell it you are on Lesson 1 and that you already program in another language, so it starts where you are.",
+
+  "wrapup": "Name one thing about a set of dice you made impossible to change, and one thing you left changeable -- and say who would disagree with you.",
+
+  "assignmentTask": "Make `Dice` immutable, repair everything that breaks, and then build a `Card` of your own that answers the same question about itself.",
+  "assignmentDo": [
+    "Change all three `Dice` properties to `{ get; init; }` and fix both call sites the compiler flags, **leaving `set` where it lies**.",
+    "Confirm `ReferenceEquals(first, second)` still prints `True`, and be able to say why that is the point of the whole lesson.",
+    "Create your own `Card.cs` and build a `Card` that makes a deliberate call about what is fixed and what can change.",
+    "Be ready to name **one person who would have designed it differently** and say what they would have wanted instead.  \"This is just correct\" leaves the question unanswered."
+  ],
+  "submit": [
+    "Your `Lesson01_FirstObjects` folder, zipped (delete `bin/` and `obj/` first -- they are build output).",
+    "A screenshot or paste of your program's output after the fix.",
+    "Your answer to **Show your thinking** below, in the comment box."
+  ],
+
+  "checklist": [
+    "Explain why the table's die changed in Scene 2, pointing at the line that actually caused it.",
+    "Say which of Scene 3's three pictures Scene 2 was.",
+    "Show three properties that are `{ get; init; }` and a program that still runs.",
+    "Say what `ReferenceEquals` still printing `True` tells me.",
+    "Point at one decision in **my** `Card` and defend it."
+  ],
+
+  "standard": "Declare immutability member by member on a `record`, repair the call sites that depended on mutation, and explain what that bought.",
+  "stages": [
+    { "name": "Getting Started", "text": "The build is red, or the properties still say `{ get; set; }`.  **Next step:** change all three to `{ get; init; }` and read the two errors carefully -- they are pointing at the two places that were relying on reaching into an object somebody else was also holding.  Fix those two lines and you are through." },
+    { "name": "Got It Working", "text": "All three properties are init-only, both scenes are repaired with `set` left where it lies, and the program runs." },
+    { "name": "Made It Mine", "text": "&hellip;and I built my own `Card` with a deliberate call about what is fixed and what can change -- and I can name somebody who would have decided differently and say what they would have wanted." },
+    { "name": "Went Beyond", "text": "&hellip;and I went after something the lesson left open -- an enum for rank or suit, a `Card` that refuses to exist in a nonsense state, a second version of a member I was torn about, or a question about `Random` and mutable state I chased down on my own." }
+  ],
+  "thinking": "In two or three sentences:  name one thing about your `Card` you made impossible to change and one you left changeable.  Then say what `ReferenceEquals` still printing `True` told you about what immutability actually did.",
+
+  "teacher": {
+    "warmupTime": "~7 min",
+    "directTime": "~13 min",
+    "guidedTime": "~22 min",
+    "wrapupTime": "~5 min",
+    "di": [
+      {
+        "h": "The shape they were taught, and the shape we are building",
+        "p": [
+          "Name it directly.  These students learned OO somewhere Java-shaped, and that is the frame they will read every line of C# through unless you move it.",
+          "Two columns on the board.  Then, and this matters, hold them as equals:  \"Both of these are defensible.  They are different bets about what goes wrong in a big program.  The second one is where C# has been going for ten years, and it is the one you have yet to meet.\"",
+          "Scene 1 shows the right-hand column already paying out:  two separately built 2d6+3s are `==`, and rolling dice leaves the dice alone."
+        ],
+        "bullets": [
+          "an object HAS state you change &nbsp;|&nbsp; a value IS its data",
+          "setSides(4) &nbsp;|&nbsp; build a different one and use it",
+          "equal if it is the SAME object &nbsp;|&nbsp; equal if it SAYS the same thing",
+          "behavior lives on the object &nbsp;|&nbsp; behavior can live beside it (L3)"
+        ]
+      },
+      {
+        "h": "What a variable holds",
+        "p": [
+          "Scene 3, drawn on the board as boxes.  Then:  \"Scene 2 is the second picture.  That is all it ever was.\"",
+          "Then `string`, immediately, because it is the bridge:  a string is a reference type that BEHAVES like a value, because it is fixed at creation.  Every one of them knows this, and today is the first time anyone has told them why it matters.  That is the whole design move, previewed."
+        ],
+        "code": {
+          "label": "Board diagram",
+          "body": "int a = 5; int b = a;        [a|5]  [b|5]        two boxes, two fives\n\nvar first  = new Dice(...);  [first |*]--> (dice)\nvar second = first;          [second|*]--> (dice)  two boxes, one die"
+        }
+      },
+      {
+        "h": "Picking a primitive",
+        "p": [
+          "Still Scene 1.  Most have met the float thing.  Few have met integer division producing a silently wrong number that sails through every test.",
+          "Flag it hard -- it is the single most likely source of a wrong-but-running number in everything they write this semester.",
+          "Close with:  \"A die comes in whole numbers, so `int` is right here.  It is right sometimes, and 'the default' is a poor reason to pick anything.\""
+        ]
+      },
+      {
+        "h": "The one keyword",
+        "p": [
+          "Only now, with the failure on the board behind you, put up `{ get; set; }` vs `{ get; init; }`.",
+          "The sentence to say out loud:  \"Every option here is a choice.  `{ get; set; }` is the one you make by staying quiet.\"",
+          "Then send them to step 4 and let the compiler do the teaching."
+        ]
+      },
+      {
+        "h": "The one misconception to preempt -- and only this one",
+        "p": [
+          "\"`record` means immutable.\" Correct them:  Scene 2 is a record misbehaving exactly like any mutable object.  A record gives you value equality.  Immutability is a separate decision you make per member.",
+          "Several students will arrive believing records are immutable.  Good.  That belief is the thing this lesson exists to break, which is why `Dice` ships as a record with public setters."
+        ]
+      }
+    ],
+    "guided": [
+      "Everyone runs the starter before touching anything.  Three scenes, all working.",
+      "Steps 2 and 3 as a class:  find the guilty line in Scene 2, then match it to a picture in Scene 3.",
+      "Step 4 individually:  change all three to `init`, build, and READ the errors before fixing.  Circulate -- the instinct to immediately undo the change is strong.",
+      "Step 5 as a class if the room is struggling.  The fix is to construct a second die, and some students will feel they cheated because it is more typing than the line it replaced.  Say plainly that it is more typing and it is the entire idea.",
+      "Steps 6 through 8 are Meeting B and should be protected.  Do step 8 as a whole class, out loud, before they read it -- ask \"did the aliasing go away?\" and wait until somebody works out that it stayed.",
+      "Release them to Cards for the back half of Meeting B. Circulate; resist answering."
+    ],
+    "pitfalls": [
+      "**Step 5 \"fixed\" by putting `set` back.** Watch for it.  The instruction is explicit and they will still do it once.",
+      "**Step 6 attempted with `==` where `ReferenceEquals` belongs,** which prints `True` and looks like it worked.  Excellent mistake and worth catching publicly:  `==` is `True` because the VALUES match, and it would be `True` for two entirely separate dice.  It says only that the values match.  This is step 10 arriving early, from a student, which is the best way for it to arrive.",
+      "Somebody will ask whether a shortcut exists for building a modified copy.  One does -- it is called `with` -- and it waits for a later lesson by design.  Write that student's name down and tell them they have found a later lesson.",
+      "Somebody will change `set` to `init` and then try to make `Random` immutable, or wonder why it stays mutable.  Take it seriously:  a `Random` with fixed internal state hands back the same number forever.  State earns its keep, and unmanaged state is the enemy.  Say it in those words.",
+      "Students who finish the Dice half in ten minutes and then stall on Cards.  That is the lesson working.  The Dice half is supposed to be quick."
+    ],
+    "wrapupAnswer": "Anything specific and defended.  The tell is the second half of the question -- a student who can name a reasonable person who would have built it differently has judgment; a student who answers \"this is just correct\" has a rule they are following.  Both are fine on day one, but note which is which.",
+    "notes": [
+      "**Pacing.** Meeting A: 7 warm-up / 13 instruction / 22 guided (steps 1&ndash;5) / 5 wrap.  Meeting B: 5 recap / 20 guided (steps 6&ndash;10) / 20 Cards / 5 wrap.",
+      "If Meeting A runs long, cut the primitives section and fold it into the Meeting B recap.  Protect the warm-up, and protect step 8 -- those are the two things this lesson is actually for.",
+      "**The thing to protect is step 8.** Everything else here is syntax they would have picked up from a reference page.  The reframe -- the sharing stayed and you made it stop mattering -- is what makes the whole functional-leaning style read as a trade with something on both sides.  Students who miss it spend the semester thinking immutability is a rule they are being asked to follow.",
+      "**Held back on purpose:** `struct`, `private set`, deep immutability, records holding collections, the heap and the stack, boxing, and `with`.  Every one of those is a good lesson, and every one belongs to a later day.  `private set` and deep immutability land in Lesson 4, where a `Deck`'s contents genuinely change and the need is felt first.",
+      "**If they finish early:** point them at `GameData/GameMechanics/Dice.cs` in the finished game -- the same record, grown up, with a `Parse` and a `WeightedDice` that overrides `Roll` to cheat.  Leave `virtual` alone.  Let them ask, and write down who asked; that is Lesson 5's warm-up.",
+      "Expect and welcome the face-up/face-down argument in Cards.  Two answers are defensible and the disagreement IS the lesson.  Leave it open.  If you need a thumb on the scale, ask \"who is holding the card, and do they know what it is?\" and then get out of the way."
+    ]
+  }
+}
