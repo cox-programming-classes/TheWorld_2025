@@ -286,7 +286,7 @@ Do to `Card` what we did to `Dice`:
 
 1. **Break it on purpose first.**  Before writing a single guard, construct the
    five worst Cards your design allows.  A card missing its suit.  A rank of 47.  A
-   rank of -3.  Print them.  Sit with it.
+   rank of -3.  Print them.  Look at what your type was willing to build.
 2. Sort each failure into **noise** (fix it quietly -- `"ace of spades"`,
    `"ACE OF SPADES"`, `" AS "`) or **a claim** (refuse it -- rank 47).  Say where
    you put the line.

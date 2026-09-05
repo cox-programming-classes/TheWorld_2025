@@ -163,7 +163,7 @@
 
   "makeItYours": [
     "**Open your `Card.cs` from Lesson 1** and do to it what we did to `Dice`.",
-    "**Break it on purpose first.**  Before writing a single guard, construct the five worst Cards your design allows.  A card missing its suit.  A rank of 47.  A rank of -3.  Print them.  Sit with it.",
+    "**Break it on purpose first.**  Before writing a single guard, construct the five worst Cards your design allows.  A card missing its suit.  A rank of 47.  A rank of -3.  Print them.  Look at what your type was willing to build.",
     "Sort each failure into **noise** (fix it quietly -- `\"ace of spades\"`, `\"ACE OF SPADES\"`, `\" AS \"`) or **a claim** (refuse it -- rank 47).  Say where you put the line.",
     "**Make the constructor private.**  Then work out what factory methods your game actually wants.  `Card.Of(rank, suit)`?  `Card.AceOf(suit)`?",
     "Give `Card` a `TryParse`.  `\"AS\"` is the ace of spades, `\"10H\"` the ten of hearts.  Then survive these:  `\"2c\"`, `\" KS \"`, `\"1S\"`, `\"11H\"`, `\"ZZ\"`, `\"\"`, `\"10\"`.",

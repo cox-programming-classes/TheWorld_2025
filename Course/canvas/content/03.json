@@ -106,7 +106,7 @@
       "bullets": [
         "Same three ingredients:  a static class, a static member, a receiver declared up front.",
         "Same rule too -- **a real member on the type always beats an extension member with the same name.**",
-        "The consequence worth sitting with:  once `MaxCount` is an extension property, `Dice.MaxCount` reads *exactly* as it did when it was a real member.  Every call site in the program reads them the same way."
+        "The consequence worth noticing:  once `MaxCount` is an extension property, `Dice.MaxCount` reads *exactly* as it did when it was a real member.  Every call site in the program reads them the same way."
       ]
     },
     {

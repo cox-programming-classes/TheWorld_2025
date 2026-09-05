@@ -123,6 +123,28 @@ cadence.
 The harder line:  writing in his voice stops short of inventing personal
 relationships, experiences, regional memories, or claims of shared identity.
 
+**A subtler form:  borrowing a phrase and softening what it weighs.**  I wrote
+"Print them.  Sit with it." about five deliberately broken `Card` objects, and
+"the consequence worth sitting with" about a property that reads the same as a
+field.  *Sitting with* something carries moral weight.  It is what a person does
+with grief, or guilt, or a decision that cost somebody else.  Ordinary academic
+confusion asks far less than that, and spending the phrase there wears the
+register down for everybody who needs it later.
+
+Jason uses it once, in `teaching_philosophy.md`:  "tolerance for sitting with
+unresolved problems", meaning genuine ambiguity a person has to endure.  That is
+the real sense, and it is the only one in his writing.
+
+**The test:**  ask what the phrase costs the person doing it.  Where the honest
+answer is "some attention", write `look at`, `read it back`, or `notice`.  This
+is the same failure as entry 8 seen from the other side:  there a word was
+stretched to cover four jobs, here a phrase was borrowed at full weight and
+spent on a small one.
+
+```bash
+grep -rniE '\b(sit|sitting|sat) with\b' .
+```
+
 ### 6.  The writer goes missing
 
 Drafts drift into an impersonal register, especially in documents that feel
@@ -296,27 +318,18 @@ Building the backslash with `chr(92)` sidesteps the whole question.  When a
 generated file shows the right characters and the wrong escapes, suspect
 transit before suspecting the regex.
 
-### 15.  Counting capture groups
+Perl's own escapes bite the same way.  Writing a documented `grep` pattern
+into a file through a double-quoted string turned `\b` into an actual
+**backspace**, 0x08.  It is invisible in every editor, it survived two readings
+of the file, and `cat -A` was what finally showed it, as `^H`.
 
-`my $c = () = $t =~ /(a)(b)/g;` in list context returns one element per capture
-group per match, so a pattern with two groups reports double.  Divide by the
-group count, or count with a group-free pattern.
-
-### 16.  grep in a byte locale
-
-With `LANG` unset, GNU grep reads a **bracket expression** one byte at a time.
-A class holding the two typographic dashes becomes the four bytes they are
-built from, and it then matches any UTF-8 character sharing one of those bytes.
-An audit written that way reported hits in eight files, and the matches were a
-right arrow, a filled bullet, and a less-than-or-equal sign.
-
-Alternation is byte-safe, because each branch matches as a literal byte
-sequence.  The distinction is the whole entry:
+I then made the same mistake a second time while writing this very entry, which
+is the argument for the rule:  anything that writes a regex into prose should
+build the backslash with `chr(92)` rather than type it.  A sweep for control
+characters is cheap and worth running after any such edit:
 
 ```bash
-grep -rnE '[—–]' .                            # a class:  byte-matched, silently wrong
-grep -rn  '—\|–' .                            # alternation:  correct
-perl -ne 'print if /[\x{2014}\x{2013}]/' f    # what I reach for now
+grep -rnP '[\x00-\x08\x0b\x0c\x0e-\x1f]' .
 ```
 
 Run the audit through the same engine that ran the fix.  A pass applied with
