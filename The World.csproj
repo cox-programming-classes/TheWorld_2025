@@ -8,9 +8,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <!-- The test project lives in a subfolder; keep it out of this project's compile glob. -->
+    <!-- The test project and the course starters live in subfolders; keep them out
+         of this project's compile glob. Each Course/starters/LessonNN_* folder is
+         its own standalone project. -->
     <ItemGroup>
         <Compile Remove="TheWorld.Tests/**" />
+        <Compile Remove="Course/**" />
     </ItemGroup>
 
 </Project>
