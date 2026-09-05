@@ -142,7 +142,7 @@ to write than a paragraph that has to hold an argument together.  A guiding
 principles document, a rationale, or anything making a case wants connected
 prose.  A step list, a reference table, or a lookup wants a list.
 
-### 8.  "Holds" doing work it was never asked to do
+### 8.  "Holds" doing four jobs at once
 
 Jason uses `hold` in one sense, the ordinary one:  to hold a position.  "I hold
 authority in my classroom."  "I hold my own view firmly."  "Constructionism
@@ -162,22 +162,31 @@ fixed for good and what can change* -- so the words were sitting right there.
 
 **A second sense went the same way:  possession.**  Where `hold` would mean
 *has*, he writes `has`.  A record that **has** a `List`, the values it **has**,
-you **have** a key from a save file.  The exception is a deliberate physical
-image -- "who is holding the card" stays, and so does the Lesson 1 board
-diagram that draws variables as boxes, because there the physical picture is the
-teaching.
+you **have** a key from a save file.
+
+**The exception is the bucket.**  `holds` earns its place while the container
+analogy is switched on and doing the teaching -- Lesson 1 draws variables as
+boxes on the board, and "what a variable holds" is the whole point of that
+picture.  "Who is holding the card" is the same thing:  the Cards argument turns
+on whether the person physically holding it knows what it is.
+
+The test is the analogy rather than the word.  **The same variable takes either
+verb depending on whether the bucket is in play**, so later lessons say a
+variable *has* a particular value once the container picture has done its job
+and been put away.  Ask which one the sentence is thinking with.
 
 So the word splits three ways:  staying constant becomes `fixed`, possession
-becomes `has`, and holding a position is his and stays.
+becomes `has` unless the bucket is on the board, and holding a position is his
+and stays.
 
 These senses stay, and they are why a bare grep for the word is useless:
 
 | Keep | Because |
 |---|---|
-| `a variable holds a value` | standard CS English, and the whole Lesson 1 board diagram |
+| `what a variable holds` | the bucket is switched on;  Lesson 1 draws it as a box |
+| `who is holding the card` | the physical act is the argument |
 | `hold back`, `hold the line` | ordinary idiom |
-| `hold both columns as equals` | Jason's own sense |
-| `a record holding a List` | it contains one |
+| `hold both columns as equals` | his own sense |
 
 ```bash
 grep -rniE '\b(holds?|holding|held) +(still|steady|together|for good)' .
