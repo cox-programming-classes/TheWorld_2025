@@ -185,6 +185,60 @@ becoming the default they reach for.
 
 ---
 
+## Parked mini-lesson - the text you send is not the text they see
+
+This belongs wherever a post-fork project first makes text cross a boundary:
+`IGameIO`, a terminal renderer, a transcript or save file, a network message, or
+a simple protocol.  It should stay a ten-minute piece of mischief, not become an
+encoding survey.
+
+Build a string containing explicit ASCII backspace characters (`\x08`).  Put an
+extra character on the wire, back over it, and print the character the human is
+supposed to see.  A terminal that honors non-destructive backspace displays one
+message; a byte dump, redirected file, logger, or deliberately written decoder
+can recover the other.  Then ask which one is the "real" message.
+
+That silliness has honest history behind it.  ASCII `BS` meant move the printing
+position left, not "delete a character from a string."  Teleprinters and early
+document formats used it for overstriking; RFC 678 specified
+`character + BS + overstrike character` in 1974, RFC 822 still explicitly
+allowed backspaces for overstriking in Internet mail in 1982, and Unix `nroff`
+output carried the same idea into the terminal era.  It is exactly the sort of
+old control-character trick that was still lying around for BBS and terminal
+kids to abuse in the 1990s.
+
+Keep the nastier librarian story too.  It may be older than Windows 95: the
+mechanism matches Apple II DOS 3.3 exactly.  Applesoft BASIC sent DOS commands by
+printing `CHR$(4)` followed by the command text, and DOS 3.3 filenames could
+contain control characters.  Put `CHR$(8)` in a name and `CATALOG` obeyed the
+backspaces while drawing it; the characters stored on disk were not the name a
+human saw, and the real name could not be typed back through the ordinary input
+line.  The apparently undeletable files drove librarians bananas.  ProDOS later
+closed the particular door by restricting pathname syntax.
+
+There was a separate Windows 95 version of the prank.  From its MS-DOS prompt,
+we could put a file or directory on the desktop whose name contained an OEM
+Alt-code character that DOS accepted but Explorer could not reliably translate
+back into a path.  `Alt+255`, which looked like a blank, was a common version;
+period lists also identify characters such as `Alt+194` as troublesome to
+Explorer.  The result again looked undeletable in the GUI but could be renamed
+or removed through the DOS spelling that created it.  We may have used literal
+backspace there too, or memory may have joined this stunt to the Apple one.  Do
+not collapse the two into a certainty the evidence does not support.
+
+Recreate that one with a fake in-memory catalog, never by manufacturing a
+hostile filename on a student's actual machine.  It makes the same point at a
+second boundary: the directory entry, the path string an API accepts, and the
+label a catalog draws are not necessarily interchangeable.
+
+The lesson hiding inside the prank: rendered text, transmitted bytes, and stored
+text are three different representations.  Control characters are protocol,
+not decoration.  Never put the trick in a real save format or message protocol
+without framing and escaping it deliberately, and expect modern terminals,
+logs, browsers, and editors to disagree about what `\x08` means.
+
+---
+
 ## What the finished game is for
 
 [`The World`](../../README.md) in this repository is a complete text adventure
