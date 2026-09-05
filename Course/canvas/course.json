@@ -71,11 +71,17 @@
   ],
   "stagesOutro": "You can revise and resubmit anything.  Everything here is open to a second pass, and finding out you were wrong is most of the work.",
 
+  "_heroHtmlFile": "Hand-authored HTML from the live Canvas page, injected right below the banner and passed through untouched.  Holds the course image and the Course Links sidebar.",
+  "heroHtmlFile": "partials/hero.html",
+
   "needList": [
-    "**The .NET 10 SDK** -- free, from dotnet.microsoft.com",
-    "**An editor** -- Visual Studio, VS Code with the C# extension, or Rider.  Any of the three is fine.",
-    "That is genuinely it.  Everything you need is free and installs in one go."
+    "**A GitHub account**, and **GitHub Desktop** installed",
+    "**JetBrains Rider**, licensed free with a JetBrains student account",
+    "**The .NET 10 SDK**.  Rider can install it for you when you first open a project, so check the version it offers before downloading separately."
   ],
+
+  "_setupHtmlFile": "Hand-authored HTML from the live Canvas page, injected under 'What you need'.  The walkthrough for GitHub, Rider, and the free student licence, screenshots and all.",
+  "setupHtmlFile": "partials/setup.html",
 
   "bonusNote": "Optional lessons.  Take them any time after the lesson listed, and every one of them is safe to skip.",
 

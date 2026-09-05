@@ -65,6 +65,18 @@ function Inline([string]$s) {
   # cross a tag boundary, so `a * b` in prose and the style="" attributes of
   # already-generated <code> spans are both left alone.
   $t = [regex]::Replace($t, '\*([^*<>\s][^*<>]*)\*', '<em>$1</em>')
+
+  # Sentence spacing has to survive the trip into HTML.
+  #
+  # Two spaces after terminal punctuation is an accessibility habit here, and
+  # HTML collapses runs of whitespace down to one.  Canvas's editor and macOS
+  # text substitution both fight a hand-typed double space as well, which is
+  # why the live front page is already written with &nbsp;.  Emitting it here
+  # keeps the source JSON as plain prose while the rendered page keeps the break.
+  #
+  # Runs last, after Esc, so the entity survives escaping.  Code blocks go
+  # through FormatCode into a <pre>, which preserves whitespace on its own.
+  $t = [regex]::Replace($t, '([.?!:])  ', '$1&nbsp; ')
   return $t
 }
 
@@ -188,6 +200,19 @@ function Aside($aside) {
 
 # Floats have to be closed off or they bleed past the section that owns them.
 function ClearFloat() { return '<div style="clear:both;"></div>' }
+
+# Reads a hand-authored HTML fragment and returns it verbatim, with no escaping
+# and no markdown pass.  Use it for content lifted out of a live Canvas page:
+# Canvas file URLs, data-api-endpoint attributes, and existing tables all have
+# to survive exactly as written or the links break.
+#
+# A missing or unset file returns empty, so course.json can leave the field out.
+function Partial([string]$relPath) {
+  if ([string]::IsNullOrWhiteSpace($relPath)) { return '' }
+  $full = Join-Path $script:root $relPath
+  if (-not (Test-Path $full)) { throw "Partial not found:  $relPath" }
+  return (Get-Content -Raw -Encoding UTF8 $full).TrimEnd() + "`n"
+}
 
 function FlintBox([string]$numLabel, [string]$hint) {
   return '<!-- FLINT-LINK: swap the placeholder href below for the Flint AI chat URL for this lesson -->' +
@@ -481,6 +506,11 @@ function Build-FrontPage($course, $lessons) {
   [void]$sb.Append('<div style="background:' + $th.soft + ';border:1px solid ' + $th.edge + ';border-radius:0 0 8px 8px;border-top:none;padding:13px 20px;margin:0 0 8px;font-size:14px;color:' + $MUTED + ';text-align:center;">' +
     (Inline $course.factStrip) + '</div>')
 
+  # Hand-authored HTML lifted straight from the live Canvas page, passed through
+  # untouched.  This is how the existing hero image and the Course Links sidebar
+  # survive a rebuild.  See Partial().
+  [void]$sb.Append((Partial $course.heroHtmlFile))
+
   [void]$sb.Append((H2 'What this is' $a))
   foreach ($p in $course.overview) { [void]$sb.Append((P $p)) }
 
@@ -509,6 +539,7 @@ function Build-FrontPage($course, $lessons) {
 
   [void]$sb.Append((H2 'What you need' $a))
   [void]$sb.Append((Bullets $course.needList))
+  [void]$sb.Append((Partial $course.setupHtmlFile))
 
   $comment = '<!-- ==========================================================' + "`n" +
   '     ' + $course.title + '  |  CANVAS FRONT PAGE (student-facing)' + "`n" +

@@ -55,6 +55,17 @@ normalizes it away has broken something real.
 grep -rnE '[a-z)][.?!:] ["A-Z]' --include='*.md' .
 ```
 
+**In HTML output, emit `&nbsp;` for the second space.**  HTML collapses runs of
+whitespace, so a double space typed into the source renders as one.  Canvas's
+rich text editor and macOS text substitution both fight a hand-typed double
+space as well.  Any generator producing HTML should convert `([.?!:])  ` into
+`$1&nbsp; ` on the way out, which keeps the source as plain prose and the page
+readable.
+
+I got this wrong once by advising against it as over-engineering.  For an
+accessibility habit the entity is the correct tool, and the live Canvas page was
+already using it by hand.
+
 ### 3.  Definition by negation
 
 The single most persistent tic, and the one that reads most obviously as
