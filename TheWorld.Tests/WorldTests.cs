@@ -103,6 +103,35 @@ public class WorldTests
             Assert.DoesNotContain(area.Creatures.Values, c => c.IsHostile);
     }
 
+    [Fact]
+    public void EveryArea_HasAsciiArt_AndRendersItWhenInspected()
+    {
+        foreach (var area in AllAreas())
+        {
+            Assert.False(string.IsNullOrWhiteSpace(area.Art), $"{area.Name} has no ASCII art");
+            Assert.Contains(area.Art.TrimEnd(), area.Look());
+        }
+    }
+
+    [Fact]
+    public void EveryWorldCreature_HasAsciiArt_AndRendersItWhenInspected()
+    {
+        foreach (var creature in AllAreas().SelectMany(a => a.Creatures.Values))
+        {
+            Assert.False(string.IsNullOrWhiteSpace(creature.Art), $"{creature.Name} has no ASCII art");
+            Assert.Contains(creature.Art.TrimEnd(), creature.Look());
+        }
+    }
+
+    [Fact]
+    public void NpcInspection_UsesConversationWording_NotMonsterHealthText()
+    {
+        var elder = NpcFactory.ElderMaera();
+
+        Assert.Contains("willing to talk", elder.Look());
+        Assert.DoesNotContain("It looks unharmed", elder.Look());
+    }
+
     public static TheoryData<string> NpcNames() => new(
         "ElderMaera", "MerchantBram", "BarkeepHulda", "FinnTheGambler", "HermitOdo");
 

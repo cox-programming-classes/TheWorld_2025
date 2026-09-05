@@ -35,12 +35,21 @@ public record Area(
     public Dictionary<string, ExitLock> LockedExits { get; init; } = [];
 
     /// <summary>
+    /// Optional ASCII depiction shown when the area is inspected or entered.
+    /// </summary>
+    public string Art { get; init; } = "";
+
+    /// <summary>
     /// Look around the Area.
     /// </summary>
     public string Look() => $"""
+                             {ArtBlock}
                              ── {Name} ──
                              {Description}
                              """;
+
+    private string ArtBlock =>
+        string.IsNullOrWhiteSpace(Art) ? "" : Art.TrimEnd() + Environment.NewLine;
 
     public string LookAround() => $"""
                                     You look around the {Name}.{(IsSafe ? " It feels safe here." : "")}

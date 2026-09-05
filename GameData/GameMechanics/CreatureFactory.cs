@@ -25,7 +25,8 @@ public static class CreatureFactory
         {
             DamageDice = new Dice(1, 4),
             Gold = level * 3,
-            AttackVerb = "jabs a crude spear at"
+            AttackVerb = "jabs a crude spear at",
+            Art = AsciiArt.Creatures.Goblin
         };
 
     public static Creature Wolf(string name = "Grey Wolf") => new(
@@ -35,7 +36,8 @@ public static class CreatureFactory
     {
         DamageDice = new Dice(1, 6),
         AttackVerb = "snaps its jaws at",
-        Loot = [ItemFactory.WolfPelt()]
+        Loot = [ItemFactory.WolfPelt()],
+        Art = AsciiArt.Creatures.Wolf
     };
 
     public static Creature DireWolf() => new(
@@ -45,7 +47,8 @@ public static class CreatureFactory
     {
         DamageDice = new Dice(1, 8, 1),
         AttackVerb = "lunges, jaws wide, at",
-        Loot = [ItemFactory.WolfPelt()]
+        Loot = [ItemFactory.WolfPelt()],
+        Art = AsciiArt.Creatures.Wolf
     };
 
     public static Creature GoblinWarrior(string name = "Goblin Warrior") => new(
@@ -56,7 +59,8 @@ public static class CreatureFactory
         DamageDice = new Dice(1, 6),
         NaturalArmor = 1,
         Gold = 8,
-        AttackVerb = "slashes at"
+        AttackVerb = "slashes at",
+        Art = AsciiArt.Creatures.Goblin
     };
 
     public static Creature GoblinChief() => new(
@@ -69,6 +73,7 @@ public static class CreatureFactory
         Gold = 30,
         AttackVerb = "swings a spiked club at",
         Loot = [ItemFactory.BarrowKey(), ItemFactory.SilverLocket()],
+        Art = AsciiArt.Creatures.GoblinChief,
         Special = new Ability("Savage Howl", "A frenzied flurry of blows.",
             5, new Dice(2, 6, 2), AbilityKind.Damage, AbilityScaling.Strength,
             "Grubnash howls with rage and rains blows down on {0}!")
@@ -81,7 +86,8 @@ public static class CreatureFactory
     {
         DamageDice = new Dice(1, 6, 1),
         Gold = 15,
-        AttackVerb = "slashes wildly at"
+        AttackVerb = "slashes wildly at",
+        Art = AsciiArt.Creatures.Bandit
     };
 
     public static Creature GiantSpider() => new(
@@ -90,7 +96,8 @@ public static class CreatureFactory
         Level: 3, XP: 10)
     {
         DamageDice = new Dice(1, 8),
-        AttackVerb = "sinks venomous fangs toward"
+        AttackVerb = "sinks venomous fangs toward",
+        Art = AsciiArt.Creatures.Spider
     };
 
     public static Creature Skeleton(string name = "Skeleton") => new(
@@ -100,7 +107,8 @@ public static class CreatureFactory
     {
         DamageDice = new Dice(1, 6),
         NaturalArmor = 2,
-        AttackVerb = "swings a notched blade at"
+        AttackVerb = "swings a notched blade at",
+        Art = AsciiArt.Creatures.Skeleton
     };
 
     public static Creature StoneGolem() => new(
@@ -111,7 +119,8 @@ public static class CreatureFactory
         DamageDice = new Dice(2, 6),
         NaturalArmor = 4,
         AttackVerb = "brings a granite fist down on",
-        Loot = [ItemFactory.AmberRing()]
+        Loot = [ItemFactory.AmberRing()],
+        Art = AsciiArt.Creatures.Golem
     };
 
     public static Creature CryptWight() => new(
@@ -124,6 +133,7 @@ public static class CreatureFactory
         Gold = 25,
         AttackVerb = "rakes grave-cold claws at",
         Loot = [ItemFactory.GreaterHealingPotion()],
+        Art = AsciiArt.Creatures.Wight,
         Special = new Ability("Chilling Touch", "A grasp that drinks warmth and life.",
             6, new Dice(2, 6), AbilityKind.Damage, AbilityScaling.Intelligence,
             "The wight seizes {0} with fingers of ice - your very warmth drains away!")
@@ -143,9 +153,10 @@ public static class CreatureFactory
         AttackVerb = "rakes skeletal claws at",
         IsFinalBoss = true,
         Loot = [ItemFactory.Phylactery()],
+        Art = AsciiArt.Creatures.Lich,
         Special = new Ability("Soul Drain", "Tears at the seam between body and spirit.",
             8, new Dice(3, 8), AbilityKind.Damage, AbilityScaling.Intelligence,
-            "Malakhar speaks a word that predates mercy - {0}'s soul is wrenched toward his outstretched hand!")
+            "Malakhar speaks a word that predates mercy - your soul is wrenched toward his outstretched hand!")
     };
 
     /// <summary>
@@ -157,6 +168,7 @@ public static class CreatureFactory
         Level: 1, XP: 0)
     {
         IsHostile = false,
-        AttackVerb = "stares reproachfully at"
+        AttackVerb = "stares reproachfully at",
+        Art = AsciiArt.Creatures.Deer
     };
 }

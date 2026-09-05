@@ -11,5 +11,5 @@ public record QuestItem(
     : Item(Name, Description, Weight, 0)
 {
     public override string Look()
-        => $"{Name}  [Quest Item]{Environment.NewLine}{Description}";
+        => $"{ArtBlock}{Name}  [Quest Item]{Environment.NewLine}{Description}";
 }

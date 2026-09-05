@@ -22,5 +22,5 @@ public record Weapon(
     : Item(Name, Description, Weight, Value)
 {
     public override string Look()
-        => $"{Name}  [Weapon: {DamageDice}{(AttackBonus > 0 ? $", +{AttackBonus} to hit" : "")}{(Finesse ? ", finesse" : "")}]  ({Weight:0.#} lbs, {Value} gold){Environment.NewLine}{Description}";
+        => $"{ArtBlock}{Name}  [Weapon: {DamageDice}{(AttackBonus > 0 ? $", +{AttackBonus} to hit" : "")}{(Finesse ? ", finesse" : "")}]  ({Weight:0.#} lbs, {Value} gold){Environment.NewLine}{Description}";
 }

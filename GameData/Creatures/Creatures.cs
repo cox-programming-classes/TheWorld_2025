@@ -48,6 +48,9 @@ public record Creature(
     /// <summary>Flavor verb for attack messages: "The wolf {snaps} at you".</summary>
     public string AttackVerb { get; init; } = "attacks";
 
+    /// <summary>Optional ASCII depiction shown when the creature is inspected.</summary>
+    public string Art { get; init; } = "";
+
     /// <summary>Total attack bonus: muscle plus training.</summary>
     public int TotalAttackBonus => Stats.StrengthModifier + AttackBonus;
 
@@ -58,8 +61,11 @@ public record Creature(
     /// When you look at the creature, this is what you see:
     /// name, level, description, and how beaten-up it currently looks.
     /// </summary>
-    public string Look()
-        => $"{Name} [Level {Level}]{Environment.NewLine}{Description}{Environment.NewLine}{HealthDescription()}";
+    public virtual string Look()
+        => $"{ArtBlock}{Name} [Level {Level}]{Environment.NewLine}{Description}{Environment.NewLine}{HealthDescription()}";
+
+    protected string ArtBlock =>
+        string.IsNullOrWhiteSpace(Art) ? "" : Art.TrimEnd() + Environment.NewLine;
 
     /// <summary>
     /// A rough read on the creature's condition - no floating health bars

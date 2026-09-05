@@ -130,6 +130,18 @@ public class ItemFactoryTests
     }
 
     [Fact]
+    public void EveryRegisteredItem_HasAsciiArt_AndRendersItWhenInspected()
+    {
+        foreach (var key in ItemFactory.Keys)
+        {
+            var item = ItemFactory.CreateByKey(key);
+
+            Assert.False(string.IsNullOrWhiteSpace(item.Art), $"{item.Name} has no ASCII art");
+            Assert.Contains(item.Art.TrimEnd(), item.Look());
+        }
+    }
+
+    [Fact]
     public void CreateByKey_UnknownKey_Throws()
     {
         Assert.Throws<ArgumentException>(() => ItemFactory.CreateByKey("excalibur"));

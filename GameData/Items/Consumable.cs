@@ -26,7 +26,7 @@ public record Consumable(
     : Item(Name, Description, Weight, Value)
 {
     public override string Look()
-        => $"{Name}  [{KindLabel}: {Potency}]  ({Weight:0.#} lbs, {Value} gold){Environment.NewLine}{Description}";
+        => $"{ArtBlock}{Name}  [{KindLabel}: {Potency}]  ({Weight:0.#} lbs, {Value} gold){Environment.NewLine}{Description}";
 
     private string KindLabel => Kind switch
     {

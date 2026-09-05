@@ -30,7 +30,7 @@ public class ShoppingState(Npc npc) : GameStateBase
             ]);
 
         ctx.IO.WriteLine();
-        ctx.IO.WriteLine($"{npc.Name} spreads their goods before you.", ConsoleColor.Cyan);
+        ctx.IO.WriteLine($"{npc.Name} sets out the goods.", ConsoleColor.Cyan);
         ListWares(ctx);
     }
 

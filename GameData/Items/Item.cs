@@ -15,11 +15,19 @@ namespace The_World.GameData.Items;
 public record Item(string Name, string Description, double Weight, int Value = 0)
 {
     /// <summary>
+    /// Optional ASCII depiction shown when the item is inspected.
+    /// </summary>
+    public string Art { get; init; } = "";
+
+    /// <summary>
     /// When you look at the item, this is what you see.
     /// Derived types add their own details (damage dice, defense, etc.).
     /// </summary>
     public virtual string Look()
-        => $"{Name}  ({Weight:0.#} lbs, {Value} gold){Environment.NewLine}{Description}";
+        => $"{ArtBlock}{Name}  ({Weight:0.#} lbs, {Value} gold){Environment.NewLine}{Description}";
+
+    protected string ArtBlock =>
+        string.IsNullOrWhiteSpace(Art) ? "" : Art.TrimEnd() + Environment.NewLine;
 
     public string Name { get; } = Name?.Trim() switch
     {

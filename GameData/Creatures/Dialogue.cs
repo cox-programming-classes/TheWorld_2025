@@ -64,11 +64,33 @@ public record DialogueChoice(
 public record DialogueNode(string Id, string Text, List<DialogueChoice> Choices);
 
 /// <summary>
+/// A conditional entry point for conversations that should open differently
+/// once the story has moved on.
+/// </summary>
+public record DialogueEntryPoint(
+    string NodeId,
+    string? RequiredFlag = null,
+    string? ForbiddenFlag = null);
+
+/// <summary>
 /// A whole conversation graph for one NPC.
 /// </summary>
-public record DialogueTree(string StartNodeId, Dictionary<string, DialogueNode> Nodes)
+public record DialogueTree(
+    string StartNodeId,
+    Dictionary<string, DialogueNode> Nodes,
+    IReadOnlyList<DialogueEntryPoint>? ConditionalStarts = null)
 {
     public DialogueNode Start => Nodes[StartNodeId];
+
+    public DialogueNode StartFor(Func<string, bool> hasFlag)
+    {
+        foreach (var entry in ConditionalStarts ?? [])
+            if ((entry.RequiredFlag is null || hasFlag(entry.RequiredFlag))
+                && (entry.ForbiddenFlag is null || !hasFlag(entry.ForbiddenFlag)))
+                return Nodes[entry.NodeId];
+
+        return Start;
+    }
 
     public DialogueNode? Get(string id) => Nodes.GetValueOrDefault(id);
 
@@ -82,6 +104,10 @@ public record DialogueTree(string StartNodeId, Dictionary<string, DialogueNode> 
         var problems = new List<string>();
         if (!Nodes.ContainsKey(StartNodeId))
             problems.Add($"Start node '{StartNodeId}' does not exist.");
+
+        foreach (var entry in ConditionalStarts ?? [])
+            if (!Nodes.ContainsKey(entry.NodeId))
+                problems.Add($"Conditional start '{entry.NodeId}' does not exist.");
 
         foreach (var node in Nodes.Values)
         {

@@ -13,7 +13,7 @@ namespace The_World.Engine.States;
 /// </summary>
 public class DialogueState(Npc npc) : GameStateBase
 {
-    private DialogueNode _node = npc.Dialogue.Start;
+    private DialogueNode? _node;
     private List<DialogueChoice> _visible = [];
 
     public override string Name => "Talking";
@@ -29,6 +29,7 @@ public class DialogueState(Npc npc) : GameStateBase
         ctx.IO.WriteLine();
         ctx.IO.WriteLine($"--- {npc.Name} ---", ConsoleColor.Cyan);
         ctx.IO.WriteLine(npc.Description, ConsoleColor.DarkGray);
+        _node ??= npc.Dialogue.StartFor(ctx.HasFlag);
         Render(ctx);
     }
 
@@ -40,6 +41,8 @@ public class DialogueState(Npc npc) : GameStateBase
 
     private void Render(GameContext ctx)
     {
+        _node ??= npc.Dialogue.StartFor(ctx.HasFlag);
+
         ctx.IO.WriteLine();
         ctx.IO.WriteLine(_node.Text);
         ctx.IO.WriteLine();

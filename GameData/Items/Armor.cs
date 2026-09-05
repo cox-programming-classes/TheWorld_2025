@@ -13,5 +13,5 @@ public record Armor(
     : Item(Name, Description, Weight, Value)
 {
     public override string Look()
-        => $"{Name}  [Armor: +{DefenseBonus} defense]  ({Weight:0.#} lbs, {Value} gold){Environment.NewLine}{Description}";
+        => $"{ArtBlock}{Name}  [Armor: +{DefenseBonus} defense]  ({Weight:0.#} lbs, {Value} gold){Environment.NewLine}{Description}";
 }

@@ -38,6 +38,7 @@ public static class WorldBuilder
 
         var village = AreaBuilder
             .FromName("Willowbrook Village")
+            .WithArt(AsciiArt.Areas.Village)
             .WithDescription(
                 "A cluster of thatched roofs around a mossy well. Chickens patrol the lanes with an air of authority. " +
                 "The moot hall steps hold Elder Maera; Bram's Provisions leans companionably against the tavern.")
@@ -48,6 +49,7 @@ public static class WorldBuilder
 
         var tavern = AreaBuilder
             .FromName("Rusty Flagon Tavern")
+            .WithArt(AsciiArt.Areas.Tavern)
             .WithDescription(
                 "Low beams, a roaring hearth, and the competing smells of stew and spilled ale. " +
                 "A gambler runs dice at the corner table while the barkeep keeps order with a look.")
@@ -58,6 +60,7 @@ public static class WorldBuilder
 
         var clearing = AreaBuilder
             .FromName("Sunny Clearing")
+            .WithArt(AsciiArt.Areas.Clearing)
             .WithDescription(
                 "A bright clearing bathed in sunlight, with soft grass and colorful flowers. " +
                 "After the gloom of the forest, it feels like surfacing for air.")
@@ -70,6 +73,7 @@ public static class WorldBuilder
 
         var hut = AreaBuilder
             .FromName("Hermit's Hut")
+            .WithArt(AsciiArt.Areas.Hut)
             .WithDescription(
                 "A crooked little dwelling of driftwood and river stone, herbs drying under the eaves. " +
                 "It smells of woodsmoke, sage, and long silences.")
@@ -81,6 +85,7 @@ public static class WorldBuilder
 
         var forest = AreaBuilder
             .FromName("Dark Forest")
+            .WithArt(AsciiArt.Areas.Forest)
             .WithDescription(
                 "A gloomy forest filled with towering trees and eerie sounds. The canopy swallows the sun; " +
                 "something small and green snickers in the undergrowth.")
@@ -93,6 +98,7 @@ public static class WorldBuilder
 
         var mill = AreaBuilder
             .FromName("Old Mill")
+            .WithArt(AsciiArt.Areas.Mill)
             .WithDescription(
                 "A broken waterwheel groans in the current beside a sagging mill house. " +
                 "Someone has been living here - and judging by the bones by the fire pit, not politely.")
@@ -104,6 +110,7 @@ public static class WorldBuilder
 
         var goblinCave = AreaBuilder
             .FromName("Goblin Cave")
+            .WithArt(AsciiArt.Areas.Cave)
             .WithDescription(
                 "A reeking cave mouth fringed with gnawed bones and crude fetishes. Guttural voices " +
                 "echo from deeper in, arguing over something. Probably dinner.")
@@ -113,6 +120,7 @@ public static class WorldBuilder
 
         var chiefsDen = AreaBuilder
             .FromName("Chief's Den")
+            .WithArt(AsciiArt.Areas.ChiefsDen)
             .WithDescription(
                 "The heart of the goblin warren, lit by a guttering fire. Trophies of a dozen raids hang " +
                 "from the walls - and there, atop a heap of plunder, sits a strongbox stamped 'BRAM'S PROVISIONS'.")
@@ -123,6 +131,7 @@ public static class WorldBuilder
 
         var foothills = AreaBuilder
             .FromName("Mountain Foothills")
+            .WithArt(AsciiArt.Areas.Foothills)
             .WithDescription(
                 "Windswept slopes of heather and scree climbing toward grey peaks. A cairn-marked trail " +
                 "winds north; wolf tracks stitch back and forth across it.")
@@ -131,6 +140,7 @@ public static class WorldBuilder
 
         var ruins = AreaBuilder
             .FromName("Ancient Ruins")
+            .WithArt(AsciiArt.Areas.Ruins)
             .WithDescription(
                 "Shattered columns and fallen archways of some elder civilization, half-swallowed by moss. " +
                 "In the courtyard's center, an enormous stone figure stands too still to be a statue.")
@@ -143,6 +153,7 @@ public static class WorldBuilder
 
         var crypt = AreaBuilder
             .FromName("Barrow Crypt")
+            .WithArt(AsciiArt.Areas.Crypt)
             .WithDescription(
                 "Beneath the barrow mound, cold air breathes up a stairway of black stone. Niches line the " +
                 "walls, their occupants long-since risen and not at all happy about visitors.")
@@ -152,6 +163,7 @@ public static class WorldBuilder
 
         var depths = AreaBuilder
             .FromName("Crypt Depths")
+            .WithArt(AsciiArt.Areas.Depths)
             .WithDescription(
                 "The stair ends in a vaulted hall of tombs. Frost furs every surface despite the airless " +
                 "still. At the far end looms an iron gate wrought with warding sigils, and before it drifts a gaunt shape.")
@@ -165,6 +177,7 @@ public static class WorldBuilder
 
         var sanctum = AreaBuilder
             .FromName("Lich's Sanctum")
+            .WithArt(AsciiArt.Areas.Sanctum)
             .WithDescription(
                 "A round chamber below the roots of the hill, lit by candles that burn green and cast no heat. " +
                 "Ranks of ancient books rot on the shelves. Upon a throne of grave-goods sits the crowned corpse of Malakhar, " +

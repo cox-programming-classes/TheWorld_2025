@@ -64,11 +64,30 @@ public class EngineIntegrationTests
             "buy healing potion",
             "sell healing potion",     // sell one right back at half price
             "leave",                   // shop -> dialogue
-            "5",                       // "Just browsing. Goodbye."
+            "3",                       // "Just browsing. Goodbye."
             "quit", "y");
 
+        Assert.Contains("Merchant Bram sets out the goods", io.Output);
         Assert.Contains("You buy the Healing Potion for 15 gold", io.Output);
         Assert.Contains("You sell the Healing Potion for 7 gold", io.Output);
+    }
+
+    [Fact]
+    public void ElderMaera_RecognizesTheHeroAfterTheLichFalls()
+    {
+        var io = new ScriptedIO();
+        var ctx = new GameContext(io, new Random(1))
+        {
+            Player = Player.CreateNewPlayer("Hero", PlayerClass.Warrior,
+                new StatChart(50, 10, Strength: 16, Dexterity: 12, Intelligence: 10)),
+            CurrentArea = WorldBuilder.BuildWorld()
+        };
+        ctx.SetFlag(NpcFactory.FlagLichSlain);
+
+        ctx.States.Push(ctx, new DialogueState(NpcFactory.ElderMaera()));
+
+        Assert.Contains("You came back from the Barrow", io.Output);
+        Assert.DoesNotContain("A new face", io.Output);
     }
 
     [Fact]
@@ -130,6 +149,16 @@ public class CombatScenarioTests
         Assert.True(ctx.HasFlag(NpcFactory.FlagLichSlain));
         Assert.Contains("LICH", io.Output);
         Assert.DoesNotContain("enemy", ctx.CurrentArea.Creatures.Keys);
+    }
+
+    [Fact]
+    public void LichSoulDrain_ReadsCleanlyWhenTargetingThePlayer()
+    {
+        var lich = CreatureFactory.LichMalakhar();
+        var line = string.Format(lich.Special!.FlavorText, "you");
+
+        Assert.Contains("your soul", line);
+        Assert.DoesNotContain("you's soul", line);
     }
 
     [Fact]

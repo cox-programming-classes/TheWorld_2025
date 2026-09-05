@@ -52,6 +52,15 @@ public class AreaBuilder
         _area = _area with { Description = description?.Trim() ?? "" };
         return this;
     }
+
+    /// <summary>
+    /// Adds an ASCII depiction shown when the area is inspected.
+    /// </summary>
+    public AreaBuilder WithArt(string art)
+    {
+        _area = _area with { Art = art?.TrimEnd() ?? "" };
+        return this;
+    }
     
     /// <summary>
     /// Adds an Item to the Area.

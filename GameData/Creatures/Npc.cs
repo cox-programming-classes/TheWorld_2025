@@ -21,6 +21,9 @@ public record Npc(
     /// </summary>
     public List<Item> Wares { get; init; } = [];
 
+    public override string Look()
+        => $"{ArtBlock}{Name} [Level {Level}]{Environment.NewLine}{Description}{Environment.NewLine}They look willing to talk.";
+
     /// <summary>
     /// Create an NPC (peaceable by default - IsHostile comes from Creature
     /// and must be turned off here).
@@ -30,10 +33,12 @@ public record Npc(
         string description,
         int level,
         DialogueTree dialogue,
-        List<Item>? wares = null)
+        List<Item>? wares = null,
+        string art = "")
         => new(name, description, new StatChart(20 + 5 * level, 10), level, dialogue)
         {
             IsHostile = false,
-            Wares = wares ?? []
+            Wares = wares ?? [],
+            Art = art
         };
 }

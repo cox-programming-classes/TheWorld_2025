@@ -13,97 +13,120 @@ public static class ItemFactory
 
     public static Weapon RustySword() => new(
         "Rusty Sword", "An old and worn sword, still sharp enough to be dangerous.",
-        3.5, 5, new Dice(1, 6));
+        3.5, 5, new Dice(1, 6))
+    { Art = AsciiArt.Items.Sword };
 
     public static Weapon Dagger() => new(
         "Dagger", "Short, wicked, and easy to slip between ribs.",
-        1.0, 8, new Dice(1, 4), Finesse: true);
+        1.0, 8, new Dice(1, 4), Finesse: true)
+    { Art = AsciiArt.Items.Dagger };
 
     public static Weapon Shortsword() => new(
         "Shortsword", "A dependable soldier's blade. Nothing fancy, everything functional.",
-        3.0, 12, new Dice(1, 6));
+        3.0, 12, new Dice(1, 6))
+    { Art = AsciiArt.Items.Sword };
 
     public static Weapon GnarledStaff() => new(
         "Gnarled Staff", "A walking stick that has clearly walked through some things.",
-        4.0, 10, new Dice(1, 6));
+        4.0, 10, new Dice(1, 6))
+    { Art = AsciiArt.Items.Staff };
 
     public static Weapon IronSword() => new(
         "Iron Sword", "Well-balanced and keen-edged. A proper weapon at last.",
-        4.0, 35, new Dice(1, 8));
+        4.0, 35, new Dice(1, 8))
+    { Art = AsciiArt.Items.Sword };
 
     public static Weapon RunedWarstaff() => new(
         "Runed Warstaff", "Ancient sigils crawl along its length, humming faintly with power.",
-        4.0, 80, new Dice(1, 8), AttackBonus: 1);
+        4.0, 80, new Dice(1, 8), AttackBonus: 1)
+    { Art = AsciiArt.Items.Staff };
 
     public static Weapon SteelGreatsword() => new(
         "Steel Greatsword", "Six feet of gleaming persuasion. Requires commitment to swing.",
-        9.0, 90, new Dice(2, 6));
+        9.0, 90, new Dice(2, 6))
+    { Art = AsciiArt.Items.Greatsword };
 
     // --- Armor --------------------------------------------------------------
 
     public static Armor ApprenticeRobes() => new(
         "Apprentice Robes", "Scratchy wool robes. The hood makes you look mysterious, at least.",
-        2.0, 8, DefenseBonus: 1);
+        2.0, 8, DefenseBonus: 1)
+    { Art = AsciiArt.Items.Armor };
 
     public static Armor LeatherArmor() => new(
         "Leather Armor", "Boiled leather, scuffed but sturdy.",
-        8.0, 15, DefenseBonus: 2);
+        8.0, 15, DefenseBonus: 2)
+    { Art = AsciiArt.Items.Armor };
 
     public static Armor ChainMail() => new(
         "Chain Mail", "Interlocking steel rings. Heavy, jingly, and very reassuring.",
-        20.0, 60, DefenseBonus: 4);
+        20.0, 60, DefenseBonus: 4)
+    { Art = AsciiArt.Items.Armor };
 
     public static Armor PlateArmor() => new(
         "Plate Armor", "A walking fortress. Turns sword blows into dents and curses.",
-        35.0, 150, DefenseBonus: 6);
+        35.0, 150, DefenseBonus: 6)
+    { Art = AsciiArt.Items.Armor };
 
     // --- Consumables ----------------------------------------------------------
 
     public static Consumable HealingHerb() => new(
         "Healing Herb", "A small herb known for its medicinal properties.",
-        0.2, 4, ConsumableKind.Healing, new Dice(1, 8));
+        0.2, 4, ConsumableKind.Healing, new Dice(1, 8))
+    { Art = AsciiArt.Items.Herb };
 
     public static Consumable HealingPotion() => new(
         "Healing Potion", "A ruby-red draught that tastes of cherries and regret.",
-        0.5, 15, ConsumableKind.Healing, new Dice(2, 8, 2));
+        0.5, 15, ConsumableKind.Healing, new Dice(2, 8, 2))
+    { Art = AsciiArt.Items.Potion };
 
     public static Consumable GreaterHealingPotion() => new(
         "Greater Healing Potion", "The good stuff. Practically glows.",
-        0.5, 40, ConsumableKind.Healing, new Dice(4, 8, 4));
+        0.5, 40, ConsumableKind.Healing, new Dice(4, 8, 4))
+    { Art = AsciiArt.Items.Potion };
 
     public static Consumable ManaPotion() => new(
         "Mana Potion", "A swirling blue liquid that fizzes on the tongue.",
-        0.5, 15, ConsumableKind.ManaRestore, new Dice(2, 8, 2));
+        0.5, 15, ConsumableKind.ManaRestore, new Dice(2, 8, 2))
+    { Art = AsciiArt.Items.Potion };
 
     public static Consumable MoonpetalBlossom() => new(
         "Moonpetal Blossom", "A silver flower that blooms only for those who truly look.",
-        0.1, 30, ConsumableKind.Healing, new Dice(3, 8, 3));
+        0.1, 30, ConsumableKind.Healing, new Dice(3, 8, 3))
+    { Art = AsciiArt.Items.Blossom };
 
     // --- Quest items -----------------------------------------------------------
 
     public static QuestItem BarrowKey() => new(
-        "Barrow Key", "A heavy iron key, cold to the touch. It smells of old earth and older secrets.");
+        "Barrow Key", "A heavy iron key, cold to the touch. It smells of old earth and older secrets.")
+    { Art = AsciiArt.Items.Key };
 
     public static QuestItem StolenGoods() => new(
         "Stolen Goods", "A merchant's strongbox stamped 'BRAM'S PROVISIONS', pried at but unopened.",
-        Weight: 4.0);
+        Weight: 4.0)
+    { Art = AsciiArt.Items.Strongbox };
 
     public static QuestItem Phylactery() => new(
-        "Malakhar's Phylactery", "A cracked soul-vessel, dark and finally silent. Proof the Lich is no more.");
+        "Malakhar's Phylactery", "A cracked soul-vessel, dark and finally silent. Proof the Lich is no more.")
+    { Art = AsciiArt.Items.Phylactery };
 
     // --- Valuables (for looting and selling) -----------------------------------
 
     public static Item WolfPelt() => new(
-        "Wolf Pelt", "Thick grey fur. A furrier would pay well for this.", 3.0, 8);
+        "Wolf Pelt", "Thick grey fur. A furrier would pay well for this.", 3.0, 8)
+    { Art = AsciiArt.Items.Valuable };
 
     public static Item SilverLocket() => new(
-        "Silver Locket", "A delicate locket holding a tiny portrait of someone long forgotten.", 0.1, 25);
+        "Silver Locket", "A delicate locket holding a tiny portrait of someone long forgotten.", 0.1, 25)
+    { Art = AsciiArt.Items.Valuable };
 
     public static Item AmberRing() => new(
-        "Amber Ring", "A golden ring with a fly trapped in its amber stone. Vintage.", 0.1, 35);
+        "Amber Ring", "A golden ring with a fly trapped in its amber stone. Vintage.", 0.1, 35)
+    { Art = AsciiArt.Items.Valuable };
 
     public static Item AncientTome() => new(
-        "Ancient Tome", "A crumbling book of pre-Imperial history. Collectors would duel over it.", 2.0, 60);
+        "Ancient Tome", "A crumbling book of pre-Imperial history. Collectors would duel over it.", 2.0, 60)
+    { Art = AsciiArt.Items.Tome };
 
     // --- Creation by key --------------------------------------------------------
 

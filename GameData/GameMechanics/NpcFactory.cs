@@ -105,14 +105,46 @@ public static class NpcFactory
                 [
                     new DialogueChoice("\"It was an honor, Elder.\"",
                         Effects: [new DialogueEffect(DialogueEffectKind.EndConversation)])
+                ]),
+
+            ["after_lich"] = new("after_lich",
+                "Maera rises before you reach the moot hall steps. For once, every line in her face has gone still. " +
+                "\"You came back from the Barrow. Tell me, quickly - is Malakhar ended?\"",
+                [
+                    new DialogueChoice("\"The Lich is destroyed. It's done.\"", "gratitude",
+                        RequiredFlag: FlagLichSlain, ForbiddenFlag: FlagElderRewardGiven,
+                        Effects:
+                        [
+                            new DialogueEffect(DialogueEffectKind.SetFlag, FlagElderRewardGiven),
+                            new DialogueEffect(DialogueEffectKind.GiveGold, "200"),
+                            new DialogueEffect(DialogueEffectKind.AddJournal,
+                                "Elder Maera rewarded me with 200 gold for destroying Lich Malakhar.")
+                        ]),
+                    new DialogueChoice("\"Who are you, exactly?\"", "about"),
+                    new DialogueChoice("\"Farewell.\"",
+                        Effects: [new DialogueEffect(DialogueEffectKind.EndConversation)])
+                ]),
+
+            ["after_reward"] = new("after_reward",
+                "Maera inclines her head as you approach. \"Willowbrook sleeps easier because of you. " +
+                "If the bell sounds brighter tonight, it is because it has remembered how.\"",
+                [
+                    new DialogueChoice("\"Who are you, exactly?\"", "about"),
+                    new DialogueChoice("\"Farewell.\"",
+                        Effects: [new DialogueEffect(DialogueEffectKind.EndConversation)])
                 ])
-        });
+        },
+        [
+            new DialogueEntryPoint("after_reward", RequiredFlag: FlagElderRewardGiven),
+            new DialogueEntryPoint("after_lich", RequiredFlag: FlagLichSlain)
+        ]);
 
         return Npc.CreateNpc(
             "Elder Maera",
             "A silver-haired woman in a woolen shawl, with eyes that miss nothing.",
             level: 5,
-            dialogue: tree);
+            dialogue: tree,
+            art: AsciiArt.Creatures.Elder);
     }
 
     public static Npc MerchantBram()
@@ -182,6 +214,7 @@ public static class NpcFactory
             "A cheerfully round shopkeeper whose apron has seen every kind of stain.",
             level: 2,
             dialogue: tree,
+            art: AsciiArt.Creatures.Merchant,
             wares:
             [
                 ItemFactory.HealingPotion(),
@@ -250,7 +283,8 @@ public static class NpcFactory
             "Barkeep Hulda",
             "A broad-shouldered woman with forearms like a blacksmith and the patience of a saint. A tired saint.",
             level: 3,
-            dialogue: tree);
+            dialogue: tree,
+            art: AsciiArt.Creatures.Barkeep);
     }
 
     public static Npc FinnTheGambler()
@@ -295,7 +329,8 @@ public static class NpcFactory
             "Finn",
             "A gambler in a patched velvet coat, rolling a pair of dice across his knuckles like they owe him money.",
             level: 2,
-            dialogue: tree);
+            dialogue: tree,
+            art: AsciiArt.Creatures.Gambler);
     }
 
     public static Npc HermitOdo()
@@ -342,6 +377,7 @@ public static class NpcFactory
             "A weathered old priest living far from anything, with kind hands and haunted eyes.",
             level: 6,
             dialogue: tree,
+            art: AsciiArt.Creatures.Hermit,
             wares:
             [
                 ItemFactory.HealingPotion(),
