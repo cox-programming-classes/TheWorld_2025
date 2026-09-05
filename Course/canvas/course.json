@@ -88,6 +88,6 @@
   "_assignmentNote": "Appears at the top of every Assignment.  The Processing course says 'not scored' because it carries no credit; this one carries credit, so it says what is actually true here.  Change the wording here, in course.json, and the generator picks it up.",
   "assignmentNote": "The four stages below are the standard, and they are the same in every lesson.  They describe **the work** -- and you can revise and re-submit any time.",
 
-  "_submitHint": "Appears under 'What to turn in'. Set to \"\" to omit the line entirely.",
-  "submitHint": "Zipping a project:  delete the `bin/` and `obj/` folders first.  They are build output, they are large, and they are safe to throw away."
+  "_submitHint": "Appears under 'What to turn in'.  Set to \"\" to omit the line entirely.",
+  "submitHint": "**Getting your URL from GitHub Desktop:**  type a short summary, click **Commit to main**, then click **Push origin** at the top.  Both steps matter -- a commit that has yet to be pushed stays on your laptop, and the page I open would show your work from last week.  Then **Repository > View on GitHub** and copy the address out of your browser.  The `bin/` and `obj/` folders stay out of the repository on their own, so leave them alone.  If pushing refuses to work, zip the project folder instead and tell me what it said."
 }

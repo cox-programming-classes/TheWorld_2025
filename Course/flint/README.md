@@ -86,7 +86,9 @@ to check `dotnet build` before believing the editor.
 ## The size limit
 
 **Flint caps activity instructions at roughly 12,000 characters.**  Every prompt
-is written to fit under that with room to spare.  Check before pasting:
+fits under it.  Lesson 1 has room to spare.  Lessons 2 and 3 sit within a few
+hundred characters of the ceiling, so anything added to those two wants
+something else taken out.  Check before pasting:
 
 ```bash
 for f in lesson-0*.md; do
@@ -95,11 +97,11 @@ done
 ```
 
 Only the text below the `---` goes into Flint, so the note at the top of each
-file is free.  If the real cap turns out lower than 12,000, cut in this
-order:  the Rider inspection lists, then the stuck-point bullets, then the
-board summary in "What happened in class".  The rubric table, the homework, and
-the hold-back list earn their place -- they are what a general assistant gets
-wrong.
+file is free.  If the real cap turns out lower than 12,000, cut in this order:
+the Rider inspection lists, then the stuck-point bullets, then the board summary
+in "What happened in class".  The rubric table, the homework, the submission
+flow, and the hold-back list earn their place -- they are what a general
+assistant gets wrong, and they are why Sparky exists.
 
 ## Keeping these in step with the lessons
 

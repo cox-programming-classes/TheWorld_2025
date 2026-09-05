@@ -186,7 +186,7 @@
     "Be ready to answer:  which of your rules protect against a **bug in your code**, and which against **bad data from outside it**?"
   ],
   "submit": [
-    "Your `Lesson02_ValidationAndFactories` folder, zipped (delete `bin/` and `obj/` first).",
+    "**Your repository URL**, with `Lesson02_ValidationAndFactories` committed *and pushed*.",
     "Your `Card.cs`, including the deck factory and its printed count.",
     "The list of the five worst Cards you were able to build **before** you added guards.  Keep it -- that list is evidence.",
     "Your answer to **Show your thinking** below."

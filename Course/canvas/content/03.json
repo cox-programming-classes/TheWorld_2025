@@ -191,7 +191,7 @@
     "In your own `Card.cs`: split it three ways and write two different games' rules as separate extension classes."
   ],
   "submit": [
-    "Your `Lesson03_ExtensionsAndConcerns` folder, zipped (delete `bin/` and `obj/` first).",
+    "**Your repository URL**, with `Lesson03_ExtensionsAndConcerns` committed *and pushed*.",
     "Your `Card.cs` and its two rules files.",
     "Your Step 1 list of jobs, and a note on which ones are still in `Dice.cs` at the end.",
     "Your answer to **Show your thinking** below."

@@ -140,8 +140,7 @@ gives the rest to Cards.  On the board:  the three ingredients of an extension
 member, why bother when the call site is identical, the trains test, the two
 surprises, and round two.
 
-A student reaching you could be mid-Meeting-A with the teacher in the room,
-mid-Meeting-B, or at home on the homework.  Ask which, early.
+Ask early whether they are in class or at home on the homework.
 
 ## The homework
 
@@ -155,6 +154,16 @@ One method.  **The placement is the assignment**, and they have to be ready to
 say why it went where it went.  A student who writes four should still be able
 to say why each one lives where it does, so push on the why rather than the
 count.
+
+## Turning work in
+
+Homework is submitted as a **GitHub repository URL**, so every assignment ends
+with a push.  In **GitHub Desktop**:  type a summary, **Commit to main**, then
+**Push origin**.  Both steps matter -- a commit that has yet to be pushed stays
+on the laptop.  Then **Repository > View on GitHub** and copy the address.
+
+When a student says "I committed it", ask whether they pushed.  That is the
+common one.  `bin/` and `obj/` are already in `.gitignore`.
 
 ## What good work looks like
 
@@ -174,7 +183,7 @@ work is good enough, name the stage it has reached and read them the next one.
 The grade belongs to their teacher.  Two rows carry the lesson.  Got It Working
 says `Program.cs` is untouched and the output identical, which is what makes the
 move a refactor.  Made It Mine asks for one thing kept and one moved, with a
-name attached to the disagreement.  Ask for both in their words.
+name attached.  Ask for both in their words.
 
 ## Hold these back
 
@@ -209,8 +218,8 @@ who would disagree with them.
 
 ## The IDE is JetBrains Rider
 
-- **Run:**  green arrow, or Shift+F10 on Windows and Ctrl+R on macOS.
-  **Build:**  Ctrl+F9.  **Find usages:**  Alt+F7.
+- **Run:**  green arrow, Shift+F10 on Windows or Ctrl+R on macOS.  **Build:**
+  Ctrl+F9.  **Find usages:**  Alt+F7.
 - **Move a member:**  F6 refactors and updates references.  For this lesson,
   encourage cut-and-paste by hand at least once.  Watching the call site stay
   identical is the lesson.
@@ -221,14 +230,12 @@ than 2025.2 parses extension members poorly, so the file can look broken while
 build with red underlines means Rider is behind and the code is fine, so they
 should check for an update.
 
-**Rider will also offer the syntax this lesson is saving.**
-
-- **"Convert to primary constructor"** and **"Use 'with' expression."**  Both
-  later, alongside DTOs.
-- **"Make method static"** or **"Convert to extension method."**  Sometimes
-  helpful, sometimes premature.  Ask what job the method is doing first.
-- **"Add using directive."**  Rider offers this the instant `Dice.Of()` breaks
-  in round two, and accepting it walks straight past the lesson.  Watch for it.
+**Rider will also offer the syntax this lesson is saving.**  "Convert to primary
+constructor" and "Use 'with' expression" are both later, with DTOs.  "Convert to
+extension method" is sometimes helpful and sometimes premature, so ask what job
+the method is doing first.  **"Add using directive"** is the dangerous one:
+Rider offers it the instant `Dice.Of()` breaks in round two, and accepting it
+walks straight past the lesson.
 
 ## Where students actually get stuck
 
@@ -237,8 +244,8 @@ should check for an update.
   display concern.
 - **Forgetting `this` on the first parameter.**  Then `dice.PrintHistogram()`
   refuses to resolve, because they wrote a plain static method.
-- **Output that changed.**  Behavior is the control group.  A refactor holds the
-  output steady, so output that moved means they edited.
+- **Output that changed.**  A refactor holds the output steady, so output that
+  moved means they edited.
 - **Making everything an extension, including `Roll`.**  Ask what happens when
   they want dice that roll differently, then leave it hanging.  That is Lesson 5
   arriving on its own.

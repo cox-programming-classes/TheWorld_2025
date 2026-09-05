@@ -115,6 +115,16 @@ It uses only what they already have.  The three comment lines are the actual
 assignment, so a `Card` that compiles is half of it.  If a student shows you a
 working file and stops, ask for the three lines.
 
+## Turning work in
+
+Homework is submitted as a **GitHub repository URL**, so every assignment ends
+with a push.  In **GitHub Desktop**:  type a summary, **Commit to main**, then
+**Push origin**.  Both steps matter -- a commit that has yet to be pushed stays
+on the laptop.  Then **Repository > View on GitHub** and copy the address.
+
+When a student says "I committed it", ask whether they pushed.  That is the
+common one.  `bin/` and `obj/` are already in `.gitignore`.
+
 ## What good work looks like
 
 The assignment is graded against four stages, and students can see them too.

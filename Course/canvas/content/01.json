@@ -192,7 +192,7 @@
     "Be ready to name **one person who would have designed it differently** and say what they would have wanted instead.  \"This is just correct\" leaves the question unanswered."
   ],
   "submit": [
-    "Your `Lesson01_FirstObjects` folder, zipped (delete `bin/` and `obj/` first -- they are build output).",
+    "**Your repository URL**, with `Lesson01_FirstObjects` committed *and pushed*.",
     "A screenshot or paste of your program's output after the fix.",
     "Your answer to **Show your thinking** below, in the comment box."
   ],

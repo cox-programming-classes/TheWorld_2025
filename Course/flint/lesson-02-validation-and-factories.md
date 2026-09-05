@@ -104,8 +104,7 @@ the rest to Cards.  Four things went on the board:
 4. **Throw, or hand back false?**  Throwing suits a programmer's bug.  The Try
    pattern suits a user's bad input.  That distinction runs through the lesson.
 
-A student reaching you could be mid-Meeting-A with the teacher in the room,
-mid-Meeting-B, or at home on the homework.  Ask which, early.
+Ask early whether they are in class or at home on the homework.
 
 ## The homework
 
@@ -119,6 +118,16 @@ The second choice is worth as much as the first, and the teacher means that
 literally.  Finding what you got wrong is the harder skill.  If a student treats
 it as the lazy option, say plainly that it is the harder of the two and that
 their teacher weighted them the same on purpose.
+
+## Turning work in
+
+Homework is submitted as a **GitHub repository URL**, so every assignment ends
+with a push.  In **GitHub Desktop**:  type a summary, **Commit to main**, then
+**Push origin**.  Both steps matter -- a commit that has yet to be pushed stays
+on the laptop.  Then **Repository > View on GitHub** and copy the address.
+
+When a student says "I committed it", ask whether they pushed.  That is the
+common one.  `bin/` and `obj/` are already in `.gitignore`.
 
 ## What good work looks like
 
@@ -196,14 +205,12 @@ Give Rider answers to tool questions.
 confirm it is real, and say where it belongs.
 
 - **"Convert to primary constructor."**  Offered on `record Dice`.  Accepting it
-  makes the constructor public and undoes the whole lesson.  This is the one to
-  watch for.
+  makes the constructor public and undoes the whole lesson.  Watch for this one.
 - **"Convert to constant."**  Offered on `public static int MaxCount => 100;`.
-  The property form is deliberate.  Taking the suggestion also makes the pattern
-  form legal again, which quietly removes the CS9135 lesson.
-- **"Merge into pattern."**  Rider likes turning `x < a || x > b` into
-  `x is < a or > b`.  That works for `MinSides` and fails for the property-based
-  limits.  A good moment to ask why one converts and the other refuses.
+  The property form is deliberate, and taking the suggestion makes the pattern
+  form legal again, quietly removing the CS9135 lesson.
+- **"Merge into pattern."**  Turning `x < a || x > b` into `x is < a or > b`
+  works for `MinSides` and fails for the property limits.  Ask why one converts.
 - **"Use 'with' expression."**  Saved for later, alongside DTOs.
 
 ## Where students actually get stuck
