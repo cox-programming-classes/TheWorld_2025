@@ -30,17 +30,18 @@ is still empty emits `PASTE_FLINT_URL_HERE` on both files, flagged with a
 
 **Set so far:**  all three.
 
-## The one on the front page
+## Why the sidebar has no Sparky row
 
-The Course Links sidebar carries a seventh placeholder,
-`PASTE_FLINT_CLASS_URL_HERE`, and it wants a **class-wide** Flint URL rather
-than a per-lesson one.  A student who is stuck between lessons lands there.
+The Course Links sidebar on the front page carried one for a while, and it came
+out.  Flint hands out per-activity URLs, so a sidebar row would have to point at
+one particular lesson and go stale the week after.  Every Page and every
+Assignment already carries its own helper button, which is the route a stuck
+student is on anyway.
 
-It lives in [`../canvas/partials/hero.html`](../canvas/partials/hero.html),
-which is hand-authored and passed through the build untouched.  Edit it there
-and the URL survives every rebuild.  That sidebar carried a MagicSchool join
-code through last year, and the old URL sits just above the link in a comment
-in case it is wanted back.
+The reasoning sits in a comment in
+[`../canvas/partials/hero.html`](../canvas/partials/hero.html), along with last
+year's MagicSchool join code, so this stays a decision rather than an
+oversight.
 
 ## What each prompt carries
 

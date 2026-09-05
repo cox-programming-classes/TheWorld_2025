@@ -16,12 +16,9 @@ works until the next rebuild overwrites it.
 A lesson with `flintUrl` still empty emits `PASTE_FLINT_URL_HERE`, flagged by a `<!-- FLINT-LINK -->`
 comment, on both its Page and its Assignment.
 
-`front-page.html` carries a seventh, `PASTE_FLINT_CLASS_URL_HERE`, in the Course Links sidebar.
-That one wants a **class-wide** Flint URL, and it lives in `../partials/hero.html`, which the build
-passes through untouched.  Edit it there and it survives every rebuild.
-
 ```bash
-grep -rn 'PASTE_FLINT' .
+grep -rn '"flintUrl"' ../content/          # what is set
+grep -rln PASTE_FLINT pages assignments   # what is still waiting
 ```
 
 Teacher files open with a red banner.  Keep them in an **unpublished** module.
