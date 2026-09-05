@@ -20,11 +20,23 @@ button on every Canvas Page and Assignment.
    flagged with a `<!-- FLINT-LINK -->` comment.
 
 ```bash
-grep -rn 'PASTE_FLINT_URL_HERE' ../canvas/html/
+grep -rn 'PASTE_FLINT' ../canvas/
 ```
 
 Rebuilding the Canvas HTML overwrites those files, so paste the URLs into Canvas
 once the build is done.
+
+## The one on the front page
+
+The Course Links sidebar carries a seventh placeholder,
+`PASTE_FLINT_CLASS_URL_HERE`, and it wants a **class-wide** Flint URL rather
+than a per-lesson one.  A student who is stuck between lessons lands there.
+
+It lives in [`../canvas/partials/hero.html`](../canvas/partials/hero.html),
+which is hand-authored and passed through the build untouched.  Edit it there
+and the URL survives every rebuild.  That sidebar carried a MagicSchool join
+code through last year, and the old URL sits just above the link in a comment
+in case it is wanted back.
 
 ## Why each prompt is this long
 
