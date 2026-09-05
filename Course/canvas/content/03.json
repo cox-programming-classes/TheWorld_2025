@@ -8,7 +8,7 @@
   "whenToUse": null,
   "timing": "Two meetings (~50 min each)",
   "newIdea": "Behavior can live beside the data it describes",
-  "builtOn": "Lessons 1 and 2.  Your dice hold still and arrive valid -- which is precisely what makes today safe.",
+  "builtOn": "Lessons 1 and 2.  Your dice are fixed once built and arrive valid -- which is precisely what makes today safe.",
 
   "goals": [
     "Write an extension method -- and an extension **property**, instance or static",
@@ -36,7 +36,7 @@
         "It is worth saying the whole shape out loud now, because today is where it pays off:"
       ],
       "bullets": [
-        "**Lesson 1** -- the data holds still.",
+        "**Lesson 1** -- the data is fixed once it is built.",
         "**Lesson 2** -- therefore there is exactly one moment it could be wrong, so close it.",
         "**Lesson 3** -- therefore everything outside can be handed ordinary access, so behavior can move out."
       ]
@@ -205,7 +205,7 @@
     "Show two games' rules for my `Card`, in two files, with `Card.cs` a third one."
   ],
 
-  "standard": "Move behavior off a type using extension members, decide what belongs where using a stated test, and prove the refactor changed structure while behavior held.",
+  "standard": "Move behavior off a type using extension members, decide what belongs where using a stated test, and prove the refactor changed structure while behavior stayed the same.",
   "stages": [
     { "name": "Getting Started", "text": "Everything is still in one file, or the build went red after a move.  **Next step:**  the most common miss is forgetting `this` on the first parameter -- leave it off and you have written a plain static method, so `dice.PrintHistogram()` stays unresolved.  The second most common is moving `PrintRoll` before deciding where `IsCritical` goes; move the things it depends on first." },
     { "name": "Got It Working", "text": "Display is in `DiceDisplay`, the game's rules are in `DiceRules`, `Dice.cs` has been cleared of `Console`, and `Program.cs` is untouched with identical output." },

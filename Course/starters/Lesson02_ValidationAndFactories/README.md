@@ -14,7 +14,7 @@ after every change.  The output should get less embarrassing.
 
 ## Where we left off
 
-Lesson 1 ended with dice that hold still.  That closed off every way a set of
+Lesson 1 ended with dice that are fixed the moment they are built.  That closed off every way a set of
 dice could go wrong, save one.
 
 If a value can only ever be set while the object is being built, then the moment
@@ -103,7 +103,7 @@ Look at the top of `Dice.cs`.  `MinSides` is a `const`.  The other three are
 
 | | Form | Because |
 |---|---|---|
-| `MinSides` | `public const int MinSides = 2;` | **Structural.**  A random result needs at least two faces to choose between, in this game or any other.  That number holds for good. |
+| `MinSides` | `public const int MinSides = 2;` | **Structural.**  A random result needs at least two faces to choose between, in this game or any other.  That number is permanent. |
 | `MaxCount`, `MaxSides`, `MaxModifier` | `public static int MaxCount => 100;` | **House rules.**  This table's numbers.  Another game picks different ones and is still playing with dice. |
 
 The form you pick tells the next reader which kind of number they're looking at.

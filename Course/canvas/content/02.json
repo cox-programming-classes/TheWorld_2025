@@ -19,13 +19,13 @@
 
   "vocab": [
     { "term": "guard clause", "def": "a check at the top of a method that refuses bad input and gets out immediately" },
-    { "term": "invariant", "def": "something that is true about an object for its entire life, because the type holds it that way" },
+    { "term": "invariant", "def": "something that is true about an object for its entire life, because the type guarantees it" },
     { "term": "exception", "def": "an error that travels up the call stack looking for somebody who knows what to do about it" },
     { "term": "factory method", "def": "a static method that builds an object -- so construction can say what it is *for*, and can refuse" },
     { "term": "the Try pattern", "def": "`TryParse(input, out result)` returning `bool`.  C#'s way of saying \"this might fail, and failure here is Tuesday\"" }
   ],
 
-  "warmup": "Last week you made dice that hold still.  So how many moments are there, now, when a set of dice can be wrong?  Count them.  Then look at the museum in Scene 1 and decide which exhibit worries you most -- and be ready to argue about it, because the expensive one is probably the quiet one.",
+  "warmup": "Last week you made dice that are fixed the moment they are built.  So how many moments are there, now, when a set of dice can be wrong?  Count them.  Then look at the museum in Scene 1 and decide which exhibit worries you most -- and be ready to argue about it, because the expensive one is probably the quiet one.",
 
   "howItWorks": [
     {
@@ -218,7 +218,7 @@
       {
         "h": "Immutability collapsed the problem",
         "p": [
-          "Open with the callback, because it makes the whole style cohere:  \"Last week you made dice that hold still.  So how many moments are there, now, when a set of dice can be wrong?\"",
+          "Open with the callback, because it makes the whole style cohere:  \"Last week you made dice that are fixed the moment they are built.  So how many moments are there, now, when a set of dice can be wrong?\"",
           "One.  The moment it is built.  That is an enormous simplification and it came free with the decision they already made.  Today we put a door on that moment.",
           "This is also the honest reason the private constructor is worth its ceremony.  Lesson 1 is what gives it teeth, since a locked constructor means something only when everything after construction is sealed too."
         ]

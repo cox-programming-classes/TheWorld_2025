@@ -1,6 +1,6 @@
 # What Comes Next
 
-Sketches.  Lessons 4 and 5 are worked out far enough to confirm the arc holds,
+Sketches.  Lessons 4 and 5 are worked out far enough to confirm the arc works,
 and they get written once Lessons 1-3 have actually been taught and I know what
 the room is like.
 

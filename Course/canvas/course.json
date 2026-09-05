@@ -10,7 +10,7 @@
 
   "overview": [
     "You have written objects before, in at least two languages, so this course starts past the definition.  What it shows you instead is that most of what you believe about objects is a **decision** somebody made, in the language you happened to learn first, and that other languages decided differently.",
-    "C# has been moving for a decade toward a particular set of those decisions:  data that holds still, types that arrive valid or get refused, and behavior that lives beside the data.  That is where we are going, and it will look strange for a week or two.",
+    "C# has been moving for a decade toward a particular set of those decisions:  data that is fixed once built, types that arrive valid or get refused, and behavior that lives beside the data.  That is where we are going, and it will look strange for a week or two.",
     "You build the tools.  Everything the final game runs on -- dice, cards, collections, entities, a world, a command loop -- you write yourself, in order, each one arriving because the lesson before it made you feel the absence.  Every piece of it is yours, down to the bottom.",
     "Around the middle of the semester you choose what you are actually building.  Everything after that point is scaffolding for **your** choice."
   ],

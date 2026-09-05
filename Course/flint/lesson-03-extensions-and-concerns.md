@@ -25,7 +25,7 @@ idea arriving a second time as a problem each student solves alone.  Homework is
 capped at fifteen minutes, and the cap is real -- a student past fifteen and
 still stuck should stop and bring the stuck part to class.
 
-**Where this sits.**  Lesson 1 made the data hold still.  Lesson 2 closed the
+**Where this sits.**  Lesson 1 fixed the data at the moment it is built.  Lesson 2 closed the
 one moment it could be wrong.  Because a `Dice` is now always valid, everything
 outside can be handed ordinary access, so behavior is free to move out.
 
@@ -169,7 +169,7 @@ common one.  `bin/` and `obj/` are already in `.gitignore`.
 
 **The standard.**  Move behavior off a type using extension members, decide what
 belongs where using a stated test, and prove the refactor changed structure
-while behavior held.
+while behavior stayed the same.
 
 | Stage | What it means |
 |---|---|

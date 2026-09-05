@@ -4,7 +4,7 @@ namespace Toolkit;
 /// A set of dice:  Count dice with Sides sides, plus a flat Modifier.
 ///
 /// This is your Dice from Lesson 1, with the change you made -- the three
-/// properties are init-only, so a set of dice holds still once it exists.
+/// properties are init-only, so a set of dice is fixed once it exists.
 ///
 /// Which leaves exactly one moment when dice could be wrong:  the moment they
 /// are built.  So this version closes that moment too.  The constructor is
@@ -21,8 +21,8 @@ public record Dice
 
     // MinSides is a `const`, because it is structural.  A random result needs
     // at least two faces to choose between -- in this game, in a board game
-    // about trains, in any game anyone will ever write.  That number holds for
-    // good, so the compiler may as well bake it in.
+    // about trains, in any game anyone will ever write.  That number is
+    // permanent, so the compiler may as well bake it in.
     //
     // Worth knowing while you are here:  a const is ALREADY static.  You reach
     // it as Dice.MinSides, straight off the type, and writing

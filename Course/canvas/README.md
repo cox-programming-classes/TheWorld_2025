@@ -140,7 +140,7 @@ difference is one of the two intended fixes:
 - **20 new `<em>` tags**, in the places their content already wrote `*italics*`
   and the old script rendered as literal asterisks.
 
-Timings hold steady, because the Processing lessons leave the timing fields out
+Timings carry through as written, because the Processing lessons leave the timing fields out
 and take the original defaults.
 
 Verified by regenerating their series into a temp folder and diffing file by

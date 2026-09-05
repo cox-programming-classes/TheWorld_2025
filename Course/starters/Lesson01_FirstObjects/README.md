@@ -22,7 +22,7 @@ This course leans the other way, because modern C# does:
 
 | The shape you were taught | The shape we're going to build |
 |---|---|
-| an object **has** state you change | a value **is** its data, and holds still |
+| an object **has** state you change | a value **is** its data, fixed once built |
 | `setSides(4)` -- reach in and modify | build a different one and use that |
 | two objects are equal if they're the *same object* | two values are equal if they *say the same thing* |
 | behavior lives on the object | behavior can live beside the data (Lesson 3) |
@@ -102,7 +102,7 @@ $"{Count}d{Sides}"                      // string interpolation
    **That last one is the point of the whole lesson.**  The sharing is still
    there.  `first` and `second` are one object with two names, exactly as they
    were this morning.  What changed is that it stopped mattering, because the
-   thing they share holds still.
+   thing they share is fixed.
 
    That's what you bought:  the freedom to stop asking whether you are holding
    the original.

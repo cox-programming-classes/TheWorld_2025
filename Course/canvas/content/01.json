@@ -36,7 +36,7 @@
         "This course leans the other way, because modern C# does:"
       ],
       "bullets": [
-        "an object **has** state you change &nbsp;&rarr;&nbsp; a value **is** its data, and holds still",
+        "an object **has** state you change &nbsp;&rarr;&nbsp; a value **is** its data, fixed once built",
         "`setSides(4)` -- reach in and modify &nbsp;&rarr;&nbsp; build a different one and use that",
         "two objects are equal if they are the **same object** &nbsp;&rarr;&nbsp; two values are equal if they **say the same thing**",
         "behavior lives on the object &nbsp;&rarr;&nbsp; behavior can live beside the data (that is Lesson 3)"

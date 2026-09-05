@@ -55,14 +55,14 @@ from what these students were taught.
 
 | The shape they arrive with | The shape this course builds |
 |---|---|
-| an object **has** state you change | a value **is** its data, and holds still |
+| an object **has** state you change | a value **is** its data, fixed once built |
 | `setSides(4)` -- reach in and modify | build a different one and use that |
 | equal if it is the **same object** | equal if it **says the same thing** |
 | a type owns every behavior anyone wants from it | behavior lives beside the data, in modules |
 | validate wherever you remember to | valid by construction, or refused |
 
 The three opening lessons make one argument, and each step is safe only because
-of the one before it.  Lesson 1: the data holds still.  Lesson 2: therefore exactly
+of the one before it.  Lesson 1: the data is fixed once it is built.  Lesson 2: therefore exactly
 one moment remains when the data could be wrong, so close that moment.  Lesson 3:
 therefore everything outside can be handed ordinary access, so behavior is free
 to move out.

@@ -26,7 +26,7 @@ idea arriving a second time as a problem each student solves alone.  Homework is
 capped at fifteen minutes, and the cap is real -- a student past fifteen and
 still stuck should stop and bring the stuck part to class.
 
-**Where this sits.**  Lesson 1 made the data hold still.  This lesson closes
+**Where this sits.**  Lesson 1 fixed the data at the moment it is built.  This lesson closes
 the one moment left when it could be wrong.  Lesson 3 moves behavior out.
 
 ## Who you are talking to

@@ -24,14 +24,14 @@ Extension methods are how C# makes that readable.
 The three lessons form one argument, and it's worth saying to them at the
 top of today:
 
-    L1: the data holds still
+    L1: the data is fixed once it is built
     L2: the data arrives valid or refused
     L3: the data does very little
 
 Each one makes the next possible.  You can only move behavior off a type
 safely because the type is immutable and always valid -- every caller is
 already held at arm's length, so ordinary access is all anyone requires.
-That is the actual reason this style holds together, and clever students
+That is the actual reason this style works, and clever students
 will appreciate hearing it said outright.
 -->
 

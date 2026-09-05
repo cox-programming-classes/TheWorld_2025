@@ -103,7 +103,7 @@ is the frame they will read every line of C# through unless you move it.
 
 Two columns on the board:
 
-    an object HAS state you change    |  a value IS its data, and holds still
+    an object HAS state you change    |  a value IS its data, fixed once built
     setSides(4)                       |  build a different one and use it
     equal if it's the SAME object     |  equal if it SAYS the same thing
     behavior lives on the object      |  behavior can live beside it (L3)
@@ -222,7 +222,7 @@ it* -- and the compiler has closed that route.
 Re-run everything.  `ReferenceEquals` still prints `True`.
 
 **The sharing is still there.**  `first` and `second` are still one object with
-two names, exactly as they were this morning.  That part held.
+two names, exactly as they were this morning.  That part stayed the same.
 
 What changed is that it stopped mattering.
 

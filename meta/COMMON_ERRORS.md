@@ -142,11 +142,46 @@ to write than a paragraph that has to hold an argument together.  A guiding
 principles document, a rationale, or anything making a case wants connected
 prose.  A step list, a reference table, or a lookup wants a list.
 
+### 8.  "Holds" doing work it was never asked to do
+
+Jason uses `hold` in one sense, the ordinary one:  to hold a position.  "I hold
+authority in my classroom."  "I hold my own view firmly."  "Constructionism
+holds that people learn by making."  Nine uses in `teaching_philosophy.md`, and
+every one of them is that.
+
+An assistant draft grew a second sense, in which a value is personified as
+keeping itself motionless:  the data *holds still*, the type *holds it that
+way*, dice that *hold still*, behavior that *held*.  Twenty-eight of those
+across the course, including the sentence opening the whole three-lesson
+argument.  It reads as invented vocabulary, and to a fourteen-year-old it is a
+riddle.
+
+**The fix:**  say `fixed`.  "The data is fixed once it is built."  "Because the
+type guarantees it."  The rubric already carried the plain phrasing -- *what is
+fixed for good and what can change* -- so the words were sitting right there.
+
+These senses stay, and they are why a bare grep for the word is useless:
+
+| Keep | Because |
+|---|---|
+| `a variable holds a value` | standard CS English, and the whole Lesson 1 board diagram |
+| `hold back`, `hold the line` | ordinary idiom |
+| `hold both columns as equals` | Jason's own sense |
+| `a record holding a List` | it contains one |
+
+```bash
+grep -rniE '\b(holds?|holding|held) +(still|steady|together|for good)' .
+```
+
+**The general lesson.**  A word appearing ninety times across a repository is
+doing several different jobs.  Sort the senses before touching any of them, and
+read the author's own writing to find out which sense is theirs.
+
 ---
 
 ## Applying a rule across a repository
 
-### 8.  Structural punctuation is exempt
+### 9.  Structural punctuation is exempt
 
 A global find-and-replace for prose punctuation will hit syntax that only looks
 like prose.  Every one of these was a real near-miss:
@@ -171,7 +206,7 @@ indistinguishable from a sentence by pattern alone.  Apply the rule, then repair
 it in `.cs` files only.  That repair is safe there because every prose sentence
 in those comments ends on a lowercase word.
 
-### 9.  Generated files keep their own copy
+### 10.  Generated files keep their own copy
 
 Fixing the source and declaring victory leaves behind whatever the build step
 writes from its own hardcoded strings.  In this repository the Canvas HTML is
@@ -181,7 +216,7 @@ a file header.
 
 **Check the generator, then rebuild, then audit the output.**
 
-### 10.  Self-referential examples break
+### 11.  Self-referential examples break
 
 Applying a rule to the document that documents the rule turns the examples into
 nonsense.  A memory file explaining that `Dice? ByName` must stay single-spaced
@@ -191,7 +226,7 @@ a tell`, which now says something else entirely.
 When a document quotes the thing it is correcting, that quotation is a citation
 and it stays exactly as written.
 
-### 11.  The rule hides behind markup
+### 12.  The rule hides behind markup
 
 A sentence that ends inside bold puts the closing `**` between the punctuation
 and the space, so an audit anchored on `[.?!:] [A-Z]` walks straight past it.
@@ -208,7 +243,7 @@ grep -rnE '[a-z)][.?!:](\*\*|\*) [^ ]' --include='*.md' --include='*.json' .
 ```
 
 Requiring the emphasis marker is also what keeps the pass clear of the exempt
-syntax in entry 8.  `// TODO (Step 4): sides is wide open` and `Dice? dice`
+syntax in entry 9.  `// TODO (Step 4): sides is wide open` and `Dice? dice`
 carry no markers, so a marker-anchored pattern leaves them alone by
 construction, and the landmine defuses itself.
 
@@ -218,13 +253,13 @@ construction, and the landmine defuses itself.
 
 Four ways an audit reported clean when the work was still dirty.
 
-### 12.  Case-sensitive search
+### 13.  Case-sensitive search
 
 `grep 'nothing'` misses `Nothing` at the start of a sentence, which is where it
 most often appears.  Roughly a dozen instances survived a first pass this way.
 Use `grep -i` for prose audits.
 
-### 13.  Backticks inside a double-quoted shell string
+### 14.  Backticks inside a double-quoted shell string
 
 ```bash
 grep -ohE "[a-z)\`*]\. [A-Z]" $FILES     # backtick opens command substitution
@@ -242,13 +277,13 @@ Building the backslash with `chr(92)` sidesteps the whole question.  When a
 generated file shows the right characters and the wrong escapes, suspect
 transit before suspecting the regex.
 
-### 14.  Counting capture groups
+### 15.  Counting capture groups
 
 `my $c = () = $t =~ /(a)(b)/g;` in list context returns one element per capture
 group per match, so a pattern with two groups reports double.  Divide by the
 group count, or count with a group-free pattern.
 
-### 15.  grep in a byte locale
+### 16.  grep in a byte locale
 
 With `LANG` unset, GNU grep reads a **bracket expression** one byte at a time.
 A class holding the two typographic dashes becomes the four bytes they are

@@ -44,7 +44,7 @@ Students will be able to:
 
 - **guard clause** -- a check at the top that refuses bad input and gets out.
 - **invariant** -- something true about an object for its whole life, because the
-  type holds it that way for life.
+  type guarantees it for life.
 - **exception** -- an error that travels up the call stack looking for someone who
   knows what to do about it.
 - **factory method** -- a static method that builds an object, so construction can
@@ -93,7 +93,7 @@ Save the words "guard clause" for Direct Instruction.
 
 Open with the callback, because it makes the whole style cohere:
 
-    "Last week you made dice that hold still.  So how many moments are
+    "Last week you made dice that are fixed the moment they are built.  So how many moments are
      there, now, when a set of dice can be wrong?"
 
 One.  The moment it's built.  That is an enormous simplification and it came
