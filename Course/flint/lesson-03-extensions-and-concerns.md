@@ -1,9 +1,9 @@
 # Flint prompt - Lesson 3, Extensions and Separating Concerns
 
-Paste the block below into the Flint activity for Lesson 3.  Then copy that
-activity's chat URL into `PASTE_FLINT_URL_HERE` in both
-`canvas/html/pages/lesson-03-extensions-and-concerns.html` and
-`canvas/html/assignments/lesson-03-extensions-and-concerns.html`.
+Paste the block below into the Flint activity for Lesson 3.  Then put that
+activity's chat URL in `flintUrl` in `canvas/content/03.json` and re-run
+`build_canvas_html.ps1`.  The Page and the Assignment both read it from there,
+so it survives every rebuild.
 
 Budget:  Flint caps activity instructions at roughly 12,000 characters.  Check
 the body length before pasting -- `wc -c` on everything below the rule.

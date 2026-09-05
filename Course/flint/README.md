@@ -15,16 +15,20 @@ button on every Canvas Page and Assignment.
 2. Paste everything **below the `---`** in that lesson's file as the activity
    instructions.  The text above the rule is a note to you.
 3. Copy the activity's chat URL.
-4. Replace `PASTE_FLINT_URL_HERE` in **two** generated files -- the Page and the
-   Assignment for that lesson.  Both live under `../canvas/html/`, and each is
-   flagged with a `<!-- FLINT-LINK -->` comment.
+4. Set `flintUrl` in that lesson's `../canvas/content/NN.json`, then re-run
+   `build_canvas_html.ps1`.  The Page and the Assignment both pick it up.
 
 ```bash
-grep -rn 'PASTE_FLINT' ../canvas/
+grep -rn '"flintUrl"' ../canvas/content/              # what is set
+grep -rln PASTE_FLINT ../canvas/html ../canvas/partials # what is still waiting
 ```
 
-Rebuilding the Canvas HTML overwrites those files, so paste the URLs into Canvas
-once the build is done.
+The URL lives in the JSON because the HTML is generated:  editing the HTML
+directly works until the next build overwrites it.  A lesson whose `flintUrl`
+is still empty emits `PASTE_FLINT_URL_HERE` on both files, flagged with a
+`<!-- FLINT-LINK -->` comment.
+
+**Set so far:**  Lesson 1.  Lessons 2 and 3 are waiting on their activities.
 
 ## The one on the front page
 

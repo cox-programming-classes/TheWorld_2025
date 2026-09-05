@@ -177,6 +177,8 @@
   "challenge": "Get a third game's rules to drop in with `Card.cs` untouched.  If something stops you, find the line that stopped you -- that line is the thing this lesson is about.",
 
   "flintHint": "Good things to ask:  \"how do I write an extension method in C#?\", \"what is an extension property and how is `extension(Type)` different from `extension(Type t)`?\", or \"why is my extension method being ignored?\" Tell it you are on Lesson 3 and using C# 14 / .NET 10, or it will tell you extension properties are still years away.",
+  "_flintUrl": "The AI-helper button's href, from the Flint activity for this lesson.  Left empty, the build emits a waiting placeholder on both the Page and the Assignment.",
+  "flintUrl": "",
 
   "wrapup": "Name one thing you left on `Dice`, and one thing you moved off it.  For each, say who would disagree with you and what they would have wanted instead.",
 

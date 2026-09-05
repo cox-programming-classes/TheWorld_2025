@@ -9,14 +9,12 @@ tag is one Canvas allows, so the markup survives the paste exactly as written.
 
 ## Before you publish
 
-Every Page and every Assignment carries one AI-helper button with a placeholder link:
+Every Page and every Assignment carries one AI-helper button.  Its href comes from `flintUrl`
+in that lesson's `content/NN.json`, so **set it there and re-run the build** -- editing the HTML
+works until the next rebuild overwrites it.
 
-``html
-<a href="PASTE_FLINT_URL_HERE" ...>Open the AI Helper</a>
-``
-
-Search each file for `PASTE_FLINT_URL_HERE` (flagged by a `<!-- FLINT-LINK -->` comment) and swap in
-that lesson's Flint chat URL.  There are **two per lesson** -- one on the Page, one on the Assignment.
+A lesson with `flintUrl` still empty emits `PASTE_FLINT_URL_HERE`, flagged by a `<!-- FLINT-LINK -->`
+comment, on both its Page and its Assignment.
 
 `front-page.html` carries a seventh, `PASTE_FLINT_CLASS_URL_HERE`, in the Course Links sidebar.
 That one wants a **class-wide** Flint URL, and it lives in `../partials/hero.html`, which the build

@@ -214,12 +214,16 @@ function Partial([string]$relPath) {
   return (Get-Content -Raw -Encoding UTF8 $full).TrimEnd() + "`n"
 }
 
-function FlintBox([string]$numLabel, [string]$hint) {
-  return '<!-- FLINT-LINK: swap the placeholder href below for the Flint AI chat URL for this lesson -->' +
+function FlintBox([string]$numLabel, [string]$hint, [string]$url) {
+  $href = if ([string]::IsNullOrWhiteSpace($url)) { 'PASTE_FLINT_URL_HERE' } else { Esc $url }
+  $note = if ($href -eq 'PASTE_FLINT_URL_HERE') {
+    '<!-- FLINT-LINK: set "flintUrl" in content/NN.json, then re-run the build -->'
+  } else { '<!-- FLINT-LINK: href comes from "flintUrl" in content/NN.json -->' }
+  return $note +
   '<div style="background:#f0fdfa;border:2px solid #14b8a6;border-radius:10px;padding:16px 20px;margin:20px 0;">' +
   '<p style="margin:0 0 4px;font-size:17px;font-weight:700;color:#0f766e;">&#129302; Stuck?  Ask the ' + (Esc $numLabel) + ' helper</p>' +
   '<p style="margin:0 0 14px;color:#31625d;">' + (Inline $hint) + '</p>' +
-  '<a href="PASTE_FLINT_URL_HERE" target="_blank" rel="noopener" style="display:inline-block;background:#0f766e;color:#ffffff;text-decoration:none;' + $FONT + 'font-size:15px;font-weight:700;padding:11px 22px;border-radius:6px;">Open the AI Helper &rarr;</a>' +
+  '<a href="' + $href + '" target="_blank" rel="noopener" style="display:inline-block;background:#0f766e;color:#ffffff;text-decoration:none;' + $FONT + 'font-size:15px;font-weight:700;padding:11px 22px;border-radius:6px;">Open the AI Helper &rarr;</a>' +
   '<p style="margin:12px 0 0;font-size:13px;color:#4b7c77;">The helper asks you questions and nudges you toward the answer, and leaves the answer for you to reach.  That is the point.</p></div>'
 }
 
@@ -327,7 +331,7 @@ function Build-Page($lesson, $th) {
   }
   [void]$sb.Append('</div>')
 
-  [void]$sb.Append((FlintBox ($th.label + ' ' + $lesson.num) $lesson.flintHint))
+  [void]$sb.Append((FlintBox ($th.label + ' ' + $lesson.num) $lesson.flintHint $lesson.flintUrl))
 
   [void]$sb.Append((H2 'Wrap-up' $a))
   [void]$sb.Append((Callout '&#128172;' 'Be ready to answer' $lesson.wrapup '#c2761c' '#fffaf0' '#f0dcbc'))
@@ -352,7 +356,7 @@ function Build-Assignment($lesson, $th) {
   [void]$sb.Append('<div style="background:' + $th.soft + ';border:1px solid ' + $th.edge + ';border-radius:0 0 8px 8px;border-top:none;padding:12px 20px;margin:0 0 8px;font-size:14px;color:' + $MUTED + ';">' +
     (Inline $scoringNote) + '</div>')
 
-  [void]$sb.Append((FlintBox ($th.label + ' ' + $lesson.num) $lesson.flintHint))
+  [void]$sb.Append((FlintBox ($th.label + ' ' + $lesson.num) $lesson.flintHint $lesson.flintUrl))
 
   [void]$sb.Append((H2 'What to do' $a))
   [void]$sb.Append((P $lesson.assignmentTask))
@@ -576,14 +580,12 @@ $index.Add('tag is one Canvas allows, so the markup survives the paste exactly a
 $index.Add('')
 $index.Add('## Before you publish')
 $index.Add('')
-$index.Add('Every Page and every Assignment carries one AI-helper button with a placeholder link:')
+$index.Add('Every Page and every Assignment carries one AI-helper button.  Its href comes from `flintUrl`')
+$index.Add('in that lesson''s `content/NN.json`, so **set it there and re-run the build** -- editing the HTML')
+$index.Add('works until the next rebuild overwrites it.')
 $index.Add('')
-$index.Add('``html')
-$index.Add('<a href="PASTE_FLINT_URL_HERE" ...>Open the AI Helper</a>')
-$index.Add('``')
-$index.Add('')
-$index.Add('Search each file for `PASTE_FLINT_URL_HERE` (flagged by a `<!-- FLINT-LINK -->` comment) and swap in')
-$index.Add('that lesson''s Flint chat URL.  There are **two per lesson** -- one on the Page, one on the Assignment.')
+$index.Add('A lesson with `flintUrl` still empty emits `PASTE_FLINT_URL_HERE`, flagged by a `<!-- FLINT-LINK -->`')
+$index.Add('comment, on both its Page and its Assignment.')
 $index.Add('')
 $index.Add('`front-page.html` carries a seventh, `PASTE_FLINT_CLASS_URL_HERE`, in the Course Links sidebar.')
 $index.Add('That one wants a **class-wide** Flint URL, and it lives in `../partials/hero.html`, which the build')

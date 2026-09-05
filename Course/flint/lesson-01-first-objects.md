@@ -1,9 +1,9 @@
 # Flint prompt - Lesson 1, First Objects
 
-Paste the block below into the Flint activity for Lesson 1.  Then copy that
-activity's chat URL into `PASTE_FLINT_URL_HERE` in both
-`canvas/html/pages/lesson-01-first-objects.html` and
-`canvas/html/assignments/lesson-01-first-objects.html`.
+Paste the block below into the Flint activity for Lesson 1.  Then put that
+activity's chat URL in `flintUrl` in `canvas/content/01.json` and re-run
+`build_canvas_html.ps1`.  The Page and the Assignment both read it from there,
+so it survives every rebuild.
 
 Budget:  Flint caps activity instructions at roughly 12,000 characters.  Check
 the body length before pasting -- `wc -c` on everything below the rule.

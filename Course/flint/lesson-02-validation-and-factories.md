@@ -1,9 +1,9 @@
 # Flint prompt - Lesson 2, Data Validation and Factory Methods
 
-Paste the block below into the Flint activity for Lesson 2.  Then copy that
-activity's chat URL into `PASTE_FLINT_URL_HERE` in both
-`canvas/html/pages/lesson-02-validation-and-factories.html` and
-`canvas/html/assignments/lesson-02-validation-and-factories.html`.
+Paste the block below into the Flint activity for Lesson 2.  Then put that
+activity's chat URL in `flintUrl` in `canvas/content/02.json` and re-run
+`build_canvas_html.ps1`.  The Page and the Assignment both read it from there,
+so it survives every rebuild.
 
 Budget:  Flint caps activity instructions at roughly 12,000 characters.  Check
 the body length before pasting -- `wc -c` on everything below the rule.

@@ -179,6 +179,8 @@
   "challenge": "Make one member of your `Card` that you are genuinely torn about, write both versions, and keep the one you can defend better.  Bring the one you threw away -- that is the more interesting half of the conversation.",
 
   "flintHint": "Good things to ask:  \"what is the difference between a record and a class in C#?\", \"why does my code say CS8852 init-only property\", or \"I changed one object and another one changed too -- why?\" Tell it you are on Lesson 1 and that you already program in another language, so it starts where you are.",
+  "_flintUrl": "The AI-helper button's href, from the Flint activity for this lesson.  Left empty, the build emits a waiting placeholder on both the Page and the Assignment.",
+  "flintUrl": "https://app.flintk12.com/activities/lesson-1-firs-f66b9e",
 
   "wrapup": "Name one thing about a set of dice you made impossible to change, and one thing you left changeable -- and say who would disagree with you.",
 
