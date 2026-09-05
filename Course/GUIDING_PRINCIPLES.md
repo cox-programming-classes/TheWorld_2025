@@ -152,10 +152,10 @@ written the arc past the fork in pencil.
 | 6 | Interfaces | A promise about behavior, held by unrelated types | `IRoller`, `IDescribable` | Anything that can be drawn from |
 | 7 | State & Events | Objects that announce what happened | `Entity`, health, `LeveledUp` | Scoring a hand |
 | -- | **THE FORK** | -- | *students choose what they are building* | -- |
-| 8–12 | Systems | commands, a loop, a world, saving -- and DTOs, where primary constructors and `with` finally arrive | *depends on the fork* | |
+| 8-12 | Systems | commands, a loop, a world, saving -- and DTOs, where primary constructors and `with` finally arrive | *depends on the fork* | |
 | 13+ | Build & Showcase | synthesis | *their game* | |
 
-Lessons 1–3 are written.  Lessons 4–5 are sketched in
+Lessons 1-3 are written.  Lessons 4-5 are sketched in
 [`lessons/NEXT_LESSONS.md`](lessons/NEXT_LESSONS.md).  Everything past the fork
 stays deliberately unwritten, because writing it now would be guessing at choices
 the students have yet to make.
@@ -166,11 +166,11 @@ The commitments I hold to when a lesson starts arguing for more.
 
 ### On pacing
 
-**One new idea per lesson.** Techniques count separately.  Lesson 2 introduces
+**One new idea per lesson.**  Techniques count separately.  Lesson 2 introduces
 guard clauses, `TryParse`, and factory methods, and those are three techniques
 answering one question:  where does "is this legal?" live?
 
-**Count the files.  The file count is the scope.** Lesson 1 is two files, and that
+**Count the files.  The file count is the scope.**  Lesson 1 is two files, and that
 is the constraint doing its work.  When a starter needs a fifth file to make its
 point, I am looking at two lessons.
 
@@ -190,25 +190,25 @@ What got cut, and where it went:
 The tell was file count.  Notice it early.
 -->
 
-**Every meeting ends with a running program.** Running, today.
+**Every meeting ends with a running program.**  Running, today.
 
-**Every starter runs before a student edits it.** Open the folder, press Run, see
+**Every starter runs before a student edits it.**  Open the folder, press Run, see
 output.  Every time.
 
-**Student work goes in files the student creates.** The Cards track lives in a
+**Student work goes in files the student creates.**  The Cards track lives in a
 `Card.cs` they make themselves in Lesson 1 and carry forward.  It is the one file
 in this course that belongs entirely to them.
 
 ### On homework
 
-**Homework consolidates syntax already taught.** Fifteen minutes alone is barely
+**Homework consolidates syntax already taught.**  Fifteen minutes alone is barely
 enough time to get unstuck, so I keep new syntax in the room where I can help.
 
-**Every lesson opens fresh.** A student who skips the homework entirely walks in
+**Every lesson opens fresh.**  A student who skips the homework entirely walks in
 able to participate.  That is what makes the cap real; the moment homework becomes
 load-bearing, the cap turns into a fiction and the students find out.
 
-**Homework is consolidation or personalization.** Finish the thing you started,
+**Homework is consolidation or personalization.**  Finish the thing you started,
 or make one decision about your own build and write down why.
 
 ### On content
@@ -217,7 +217,7 @@ or make one decision about your own build and write down why.
 querying.  It is the most tempting shortcut in the language, and it hides exactly
 the loop a student should write once by hand.
 
-**Dice stay fully immutable.** They are the course's reference example of a
+**Dice stay fully immutable.**  They are the course's reference example of a
 value.  When something about dice seems to want to change, that is a signal the
 thing belongs somewhere else -- which is precisely how Lesson 3's `DiceRules`
 earns its existence.
@@ -265,44 +265,44 @@ first, so that `virtual` arrives as the answer to a question the students have
 already asked out loud.
 
 **This course leaves async, reflection, dependency injection, and ORMs alone,
-permanently.** All four are real, all four live in the finished game's
+permanently.**  All four are real, all four live in the finished game's
 neighborhood, and any one of them would eat a semester.
 
 **Every line in a starter uses syntax a student has met, or syntax the file
-itself explains.** Scaffolding helpers get a one-line comment.  Every line earns
+itself explains.**  Scaffolding helpers get a one-line comment.  Every line earns
 its explanation.
 
 ### On stance
 
-**Treat their prior language fairly.** "Python allows this and C# refuses" is a
+**Treat their prior language fairly.**  "Python allows this and C# refuses" is a
 comparison.  "C# is safer than Python" is a ranking, and it is false often enough
 to be worth avoiding entirely.  The move is always to ask what each language
 decided and what the decision cost.
 
-**Leave the arguable cases open.** Several lessons carry a genuinely contested
+**Leave the arguable cases open.**  Several lessons carry a genuinely contested
 design question where two answers are both defensible:  is `1d20-50` valid dice?
 does `Value` belong on `Card`?  The temptation to settle it is enormous.  Leave it
 open.  The student's job is to make a call and defend it, and a teacher who
 answers has taken the assignment away.
 
-**Name the scaffolding as temporary, out loud.** Every starter is a thing being
+**Name the scaffolding as temporary, out loud.**  Every starter is a thing being
 handed over, and students should know the handover is coming.
 
 ## Adaptations from the Framework
 
-The framework is written for grades 6–8.  Four of its ten principles change shape
+The framework is written for grades 6-8.  Four of its ten principles change shape
 for this audience, and I record the departures here so they stay deliberate.
 
 | Principle | As written | Here |
 |---|---|---|
-| **5.** Treat abstraction layers as tools, not lessons | Hide what is under the library; students press the buttons | Inverted.  **The students build the library.** They write every layer they use.  The only opaque tool is the .NET runtime itself -- `Random`, `Console`, `List<T>`. |
-| **6.** Give advanced syntax a jargon-free cover story | Withhold the technical term | Inverted.  These students hold two languages' worth of concepts already, and withholding a name is condescension.  **Name it honestly, defer the depth.** "This is an init-only property.  It means set-once.  What that implies is Lesson 2." |
+| **5.** Treat abstraction layers as tools, not lessons | Hide what is under the library; students press the buttons | Inverted.  **The students build the library.**  They write every layer they use.  The only opaque tool is the .NET runtime itself -- `Random`, `Console`, `List<T>`. |
+| **6.** Give advanced syntax a jargon-free cover story | Withhold the technical term | Inverted.  These students hold two languages' worth of concepts already, and withholding a name is condescension.  **Name it honestly, defer the depth.**  "This is an init-only property.  It means set-once.  What that implies is Lesson 2." |
 | **9.** Vocabulary only after the experience | Introduce *variable*, *loop*, *object* once seen | Holds, with a twist.  They have the experiences and *some* of the words, and the words mean subtly different things in C#. The work is re-anchoring:  `record` and `class` diverge, and so do `==` and `is`. |
 | **10.** End every lesson with personalization | A "Make It Yours" section | Becomes Strand B. Personalization runs the whole semester as a parallel track, and it carries the assessment. |
 
 One structural departure.  The framework puts Direct Instruction and Guided
 Activity in HTML comments so they stay teacher-only.  **Here the Guided Activity
-is student-visible.** These students work ahead, work at different speeds, and
+is student-visible.**  These students work ahead, work at different speeds, and
 work when absent, and with homework capped, class time is where the building
 happens.  They need the steps in writing.  Direct Instruction and Teacher Notes
 stay mine.
@@ -315,7 +315,7 @@ than a quiz would.
 
 The defense is the assessment.  Every lesson closes with a question in the same
 shape:  *name a call you made, and say who would disagree with you and what they
-would want instead.* A student who can answer that has the judgment this course
+would want instead.*  A student who can answer that has the judgment this course
 is actually about.  A student who wrote correct code and stalls on the question
 has rules-based reasoning and a building yet to go up on top of it, and knowing
 which one I am looking at is worth the two minutes.
@@ -330,7 +330,7 @@ or Java.  Hand this out in Lesson 1.
 
 | C# | What it means | The trap |
 |---|---|---|
-| `record` | A type compared by its values, with `with` for free | **It governs comparison.** Mutability is a separate declaration, and a record with `{ get; set; }` misbehaves like anything else. |
+| `record` | A type compared by its values, with `with` for free | **It governs comparison.**  Mutability is a separate declaration, and a record with `{ get; set; }` misbehaves like anything else. |
 | `class` | A type compared by identity | `a == b` comes out false even when every field matches. |
 | `{ get; init; }` | Set once, while the object is built | It protects the slot.  Whatever the slot points at stays open. |
 | `{ get; private set; }` | Only this type may change it | This is how "mutable but disciplined" is spelled. |

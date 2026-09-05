@@ -2,7 +2,7 @@
 
 *Complexity, and managing mutability.*
 
-**Two meetings.** Starter: [`starters/Lesson01_FirstObjects/`](../starters/Lesson01_FirstObjects/) --
+**Two meetings.**  Starter: [`starters/Lesson01_FirstObjects/`](../starters/Lesson01_FirstObjects/) --
 two files, `Dice.cs` and `Program.cs`.
 
 ---
@@ -121,9 +121,9 @@ Scene 1 shows the right-hand column already paying out:  two separately built
 
 Scene 3, drawn on the board as boxes:
 
-    int a = 5; int b = a;      [a|5]  [b|5]      two boxes, two fives
-    var first = new Dice(...); [first |●]──▶(dice)
-    var second = first;        [second|●]──▶(dice)   two boxes, one die
+    int a = 5; int b = a;        [a|5]  [b|5]        two boxes, two fives
+    var first  = new Dice(...);  [first |*]--> (dice)
+    var second = first;          [second|*]--> (dice)  two boxes, one die
 
 "Scene 2 is the second picture.  That's all it ever was."
 
@@ -192,7 +192,7 @@ picture -- the string one.
 
 In `Dice.cs`, change all three `{ get; set; }` to `{ get; init; }`.
 
-Build.  **Read both errors before you touch anything.** They are the two places
+Build.  **Read both errors before you touch anything.**  They are the two places
 in this program that were quietly relying on being able to reach into an object
 that somebody else was also holding.
 
@@ -206,7 +206,7 @@ The die is sealed now, so you will have to **build a different one** -- your own
 Re-run.  You should still get your +5, and the table's die should still be `1d20`.
 
 > That is the move the whole style rests on:  **construction replaces
-> modification.** It looks like more typing right now.  Ask yourself what it
+> modification.**  It looks like more typing right now.  Ask yourself what it
 > would look like with nine properties on Dice -- and then hold that question,
 > because C# has an answer and we will get to it.
 
@@ -221,7 +221,7 @@ it* -- and the compiler has closed that route.
 
 Re-run everything.  `ReferenceEquals` still prints `True`.
 
-**The sharing is still there.** `first` and `second` are still one object with
+**The sharing is still there.**  `first` and `second` are still one object with
 two names, exactly as they were this morning.  That part held.
 
 What changed is that it stopped mattering.
@@ -265,7 +265,7 @@ Two files.  That is the entire project, and it is deliberate -- see the note und
 
 *This runs all semester.  Dice are the worked example; cards are yours.*
 
-**Make your own file.** `Card.cs`, in this folder, created by you and carried
+**Make your own file.**  `Card.cs`, in this folder, created by you and carried
 forward to Lessons 2 and 3.
 
 Build a `Card` -- the card alone, with the game left for later.  Then answer, in the design of
@@ -275,13 +275,13 @@ the type itself:
 
 Have an opinion on:
 
-- **Rank and suit.** Does the Ace of Spades ever become something else?
-- **Face up or face down.** Is that a fact about the *card*, or about *where the
+- **Rank and suit.**  Does the Ace of Spades ever become something else?
+- **Face up or face down.**  Is that a fact about the *card*, or about *where the
   card currently is*?  Those have different answers, and the second one may
   belong to the table.
 - **How do you say "Queen"?** A string `"Q"`?  A number `12`?  C# has a type built
   for "one of a fixed set of named options." Go find out what it's called.
-- **Should two separately-created Aces of Spades be equal?** Try it before you
+- **Should two separately-created Aces of Spades be equal?**  Try it before you
   decide.  C# has an opinion and it depends on what you declared.
 
 The first pass can come out wrong.  What matters is that you can say why you

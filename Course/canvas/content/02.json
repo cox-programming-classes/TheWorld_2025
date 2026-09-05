@@ -40,7 +40,7 @@
       "p": [
         "Scene 1 builds eight sets of dice.  Some are refused.  Some roll happily.  One is accepted and then detonates.",
         "The instinct is to say the crash is the worst one.  Look again.  The crash told you immediately, at the line where you made the mistake.  The `1d0` shipped.",
-        "Read the crash message when you get to it:  *'minValue' cannot be greater than maxValue.* Everybody in this room can see those are somebody else's words.  That message came from inside `Random`.  Your bad value walked out of your type, into somebody else's code, and blew up there -- in their vocabulary, pointing at their variable names.",
+        "Read the crash message when you get to it:  *'minValue' cannot be greater than maxValue.*  Everybody in this room can see those are somebody else's words.  That message came from inside `Random`.  Your bad value walked out of your type, into somebody else's code, and blew up there -- in their vocabulary, pointing at their variable names.",
         "That is what validating late buys you."
       ]
     },
@@ -105,8 +105,8 @@
         "A value can be wrong in two different ways, and the line between them is yours to draw."
       ],
       "bullets": [
-        "**Formatting is noise.** `\" 2d6 \"`, `\"2D6\"`, `\"2d6\"` are one claim typed by three people.  Clean it up quietly; everything meaningful survives.  (`TryParse` already does this for you.  Find the line.)",
-        "**Meaning is a claim.** `\"0d6\"` says something false.  Refuse it.",
+        "**Formatting is noise.**  `\" 2d6 \"`, `\"2D6\"`, `\"2d6\"` are one claim typed by three people.  Clean it up quietly; everything meaningful survives.  (`TryParse` already does this for you.  Find the line.)",
+        "**Meaning is a claim.**  `\"0d6\"` says something false.  Refuse it.",
         "Where does `\"2 d 6\"` go?  You and the person next to you will disagree, and you each need a reason."
       ]
     },
@@ -147,7 +147,7 @@
     "`modifier` is wide open too.  Give it a rule using `MaxModifier`.  Decide for yourself whether a negative modifier is legal -- it is, but *how* negative?  Write down the reason for the number you pick.",
     "Grow `TryParse` until Scene 2 loads what should load and refuses the rest.  Add a missing count first (`\"d20\"` means `\"1d20\"`), then a modifier (`\"3d8+2\"`, `\"1d4-1\"`).  Re-run after each.",
     "Add three archetypes to `Dice` that your game would actually use.  **Make them call `Of()`** -- if you are re-typing a rule, you have gone wrong.  Look at how `Attack` and `AbilityScore` are one line each.",
-    "**Count what you touched.** You wrote two rules, in one method.  Now list everything that got them for free:  `Attack`, `AbilityScore`, `ByName`, `Parse`, `TryParse`, and all six `Dice.D*` presets.  Every one of them stays silent about the limits.  That is what the private constructor bought you:  **one place to change your mind.**"
+    "**Count what you touched.**  You wrote two rules, in one method.  Now list everything that got them for free:  `Attack`, `AbilityScore`, `ByName`, `Parse`, `TryParse`, and all six `Dice.D*` presets.  Every one of them stays silent about the limits.  That is what the private constructor bought you:  **one place to change your mind.**"
   ],
 
   "code": [
@@ -163,9 +163,9 @@
 
   "makeItYours": [
     "**Open your `Card.cs` from Lesson 1** and do to it what we did to `Dice`.",
-    "**Break it on purpose first.** Before writing a single guard, construct the five worst Cards your design allows.  A card missing its suit.  A rank of 47.  A rank of -3.  Print them.  Sit with it.",
+    "**Break it on purpose first.**  Before writing a single guard, construct the five worst Cards your design allows.  A card missing its suit.  A rank of 47.  A rank of -3.  Print them.  Sit with it.",
     "Sort each failure into **noise** (fix it quietly -- `\"ace of spades\"`, `\"ACE OF SPADES\"`, `\" AS \"`) or **a claim** (refuse it -- rank 47).  Say where you put the line.",
-    "**Make the constructor private.** Then work out what factory methods your game actually wants.  `Card.Of(rank, suit)`?  `Card.AceOf(suit)`?",
+    "**Make the constructor private.**  Then work out what factory methods your game actually wants.  `Card.Of(rank, suit)`?  `Card.AceOf(suit)`?",
     "Give `Card` a `TryParse`.  `\"AS\"` is the ace of spades, `\"10H\"` the ten of hearts.  Then survive these:  `\"2c\"`, `\" KS \"`, `\"1S\"`, `\"11H\"`, `\"ZZ\"`, `\"\"`, `\"10\"`.",
     "Write a factory that hands back a **full standard deck**.  Fifty-two cards, each one distinct, the whole grid covered.  Prove it -- print the count."
   ],
@@ -200,7 +200,7 @@
 
   "standard": "Make a type impossible to construct in an invalid state, using a private constructor and composing factory methods, and choose correctly between throwing and the Try pattern.",
   "stages": [
-    { "name": "Getting Started", "text": "Guards still to write, or the build is red.  **Next step:** look at how the `count` guard inside `Of()` is written -- check the value, throw with a message naming the parameter, then get out.  Copy that shape for `sides`.  If you are getting **CS9135**, you tried to use `MaxSides` in a pattern; a pattern requires a `const` and this is a property, so write it as `sides < MinSides || sides > MaxSides` instead." },
+    { "name": "Getting Started", "text": "Guards still to write, or the build is red.  **Next step:**  look at how the `count` guard inside `Of()` is written -- check the value, throw with a message naming the parameter, then get out.  Copy that shape for `sides`.  If you are getting **CS9135**, you tried to use `MaxSides` in a pattern; a pattern requires a `const` and this is a property, so write it as `sides < MinSides || sides > MaxSides` instead." },
     { "name": "Got It Working", "text": "`Of()` guards all three values, `TryParse` loads the seven valid lines and refuses the rest, and Scene 1's museum has been cleared of everything embarrassing." },
     { "name": "Made It Mine", "text": "&hellip;and my own `Card` has a private constructor with every rule behind a factory, a working `TryParse`, and a deck factory that prints 52 -- and I can say which of my rules catch bugs and which catch bad data." },
     { "name": "Went Beyond", "text": "&hellip;and I went after something the lesson left open -- an enum-based rank that makes `\"11H\"` impossible to express, a `Result` type in place of exceptions, a factory that composes so cleanly a new archetype is one line, or a real argument about where `\"2 d 6\"` belongs that I can defend from both sides." }
@@ -273,13 +273,13 @@
     ],
     "wrapupAnswer": "Any specific rule, correctly sorted.  The distinction to listen for:  a rule catching a programmer error should throw and live in `Of()`; a rule catching bad external data should be the `TryParse` path that catches that throw.  A student who says \"both, it's the same rule\" has actually got it -- there IS only one copy, and the two paths differ only in what they do with the refusal.",
     "notes": [
-      "**Pacing.** Meeting A: 7 warm-up / 13 instruction / 22 guided (steps 1&ndash;5) / 5 wrap.  Meeting B: 5 recap / 15 guided (steps 6&ndash;8) / 25 Cards / 5 wrap.",
+      "**Pacing.**  Meeting A: 7 warm-up / 13 instruction / 22 guided (steps 1-5) / 5 wrap.  Meeting B: 5 recap / 15 guided (steps 6-8) / 25 Cards / 5 wrap.",
       "**The thing to protect is step 8,** the counting exercise.  Two rules, eleven call sites, zero duplication.  Skip it and \"make the constructor private\" reads as ceremony somebody imposed on them.  With it, it reads as the thing that made the counting come out that way.",
-      "**Two arguments to leave open.** First:  is `\"2 d 6\"` the same claim as `\"2d6\"`?  Genuinely arguable -- whitespace inside a token stands on different footing from whitespace around it.  Second:  is `1d20-50` valid?  The honest answer is that it is perfectly good dice notation and a terrible game rule, so the check belongs somewhere that knows about the game -- a layer still to come.  That layer is Lesson 3, and Lesson 3 is built to land exactly there.",
+      "**Two arguments to leave open.**  First:  is `\"2 d 6\"` the same claim as `\"2d6\"`?  Genuinely arguable -- whitespace inside a token stands on different footing from whitespace around it.  Second:  is `1d20-50` valid?  The honest answer is that it is perfectly good dice notation and a terrible game rule, so the check belongs somewhere that knows about the game -- a layer still to come.  That layer is Lesson 3, and Lesson 3 is built to land exactly there.",
       "If a student gets to \"that belongs to the game, and the dice type is the wrong place for it,\" write their name down.  That is the whole arc of the next lesson arriving a week early, from a student, which is worth more than anything you can say.",
       "The same shape appears in Cards immediately:  is a rank of 11 invalid, or is it a Jack?  Depends on the game.  Let them find it.",
-      "**A hole you should know about and leave alone.** A record still supports `with` from outside the type, and `with` sidesteps your factory -- `Dice.D20 with { Sides = 0 }` would sail straight past `Of()`.  `with` waits for a later lesson by design, so students will walk past this on their own.  If a sharp student finds it, that is a real discovery:  they have found the one door the factory leaves open, and reconciling those two is exactly why `with` gets its own lesson later, alongside DTOs.  Leave it be -- a hole a student can see is the only kind worth teaching.",
-      "**If they finish early:** `GameData/Items/Item.cs` in the finished game validates by NORMALIZING -- negative weight becomes zero, an empty name becomes \"Unknown Item\", every value coerces, and construction stays wide open at all.  That is the opposite call from the one they just made.  Ask which is right.  (Both are.  It depends on whether a wrong item should stop the game.  It should let the player keep going -- a player with a weird item keeps playing.  A wrong die probably should, because every number after it is nonsense.)"
+      "**A hole you should know about and leave alone.**  A record still supports `with` from outside the type, and `with` sidesteps your factory -- `Dice.D20 with { Sides = 0 }` would sail straight past `Of()`.  `with` waits for a later lesson by design, so students will walk past this on their own.  If a sharp student finds it, that is a real discovery:  they have found the one door the factory leaves open, and reconciling those two is exactly why `with` gets its own lesson later, alongside DTOs.  Leave it be -- a hole a student can see is the only kind worth teaching.",
+      "**If they finish early:**  `GameData/Items/Item.cs` in the finished game validates by NORMALIZING -- negative weight becomes zero, an empty name becomes \"Unknown Item\", every value coerces, and construction stays wide open at all.  That is the opposite call from the one they just made.  Ask which is right.  (Both are.  It depends on whether a wrong item should stop the game.  It should let the player keep going -- a player with a weird item keeps playing.  A wrong die probably should, because every number after it is nonsense.)"
     ]
   }
 }

@@ -99,7 +99,7 @@ $"{Count}d{Sides}"                      // string interpolation
 6. Re-run.  The table's die is untouched, you still got your +5, and
    `ReferenceEquals` still says `True`.
 
-   **That last one is the point of the whole lesson.** The sharing is still
+   **That last one is the point of the whole lesson.**  The sharing is still
    there.  `first` and `second` are one object with two names, exactly as they
    were this morning.  What changed is that it stopped mattering, because the
    thing they share holds still.

@@ -2,7 +2,7 @@
 
 *Some of what a thing can do belongs somewhere else.*
 
-**Two meetings.** Starter: [`starters/Lesson03_ExtensionsAndConcerns/`](../starters/Lesson03_ExtensionsAndConcerns/) --
+**Two meetings.**  Starter: [`starters/Lesson03_ExtensionsAndConcerns/`](../starters/Lesson03_ExtensionsAndConcerns/) --
 four files:  `Dice.cs`, `Display/DiceDisplay.cs`, `Rules/DiceRules.cs`, `Program.cs`.
 
 ---
@@ -203,7 +203,7 @@ in the constructor in the first place.
 Everything works today.  You're about to change code that works, and you need to
 be able to say what you bought.
 
-**The rule for the whole lesson:  `Program.cs` stays exactly as it is.** If a move
+**The rule for the whole lesson:  `Program.cs` stays exactly as it is.**  If a move
 requires editing a call site, you moved something wrong.
 
 ### Step 1 - Read `Dice.cs`, all of it
@@ -223,7 +223,7 @@ Into `Display/DiceDisplay.cs`:
 Re-run.  **Output byte-for-byte identical, `Program.cs` untouched.**
 
 That is what refactoring means, and it is a technique you can practise:  *the
-behavior is the control group.* Output that changed means you edited.
+behavior is the control group.*  Output that changed means you edited.
 
 ### Step 3 - The hard one
 
@@ -285,7 +285,7 @@ public static int MaxModifier => 20;
 Does a board game about trains need this exact number for the thing to be a die
 at all -- or is it just what *this table* happens to allow?
 
-**Three of them fail.** Move those three into an `extension(Dice)` block in
+**Three of them fail.**  Move those three into an `extension(Dice)` block in
 `DiceRules`.  The lines copy across completely unchanged -- that's the point -- and
 then delete them from `Dice.cs`.
 
@@ -308,7 +308,7 @@ ready to say why that is the right outcome.
 Re-run Scene 3. `1d20-50` now *builds* -- it is a perfectly well-formed die -- and
 reports `legal here?  False`.
 
-**That's the question Lesson 2 left hanging.** There was nowhere to put the
+**That's the question Lesson 2 left hanging.**  There was nowhere to put the
 distinction last week.  There is now.
 
 ### Step 8 - Prove the fence is real
@@ -358,7 +358,7 @@ those three did you just pick a side in -- and where does that leave the others?
 Write the rules for **two** of those games as separate extension classes.  Then
 look at the two files side by side and say what that arrangement bought you.
 
-**Prove the separation is real:** delete a `using` and show that exactly the code
+**Prove the separation is real:**  delete a `using` and show that exactly the code
 you expected stopped compiling.
 
 ---

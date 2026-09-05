@@ -6,7 +6,7 @@ edits prose for this repository.  Every entry here was caught in real work.
 Read this alongside [`APPALACHIAN_ACADEMIC_STYLE.md`](APPALACHIAN_ACADEMIC_STYLE.md).
 That document says what the voice is.  This one says where it goes wrong.
 
-**Adding to the list:** when a correction happens, add the pattern, the fix, and
+**Adding to the list:**  when a correction happens, add the pattern, the fix, and
 a command that finds it again.  An entry earns its place by being catchable.
 
 ---
@@ -28,7 +28,7 @@ with a space on each side.
 
 The HTML entity `&mdash;` is the same error wearing a costume.  So is `&ndash;`.
 
-**Why it matters:** the typographic character has become a marker that gets
+**Why it matters:**  the typographic character has become a marker that gets
 written work dismissed as machine output before anyone reads the argument.  The
 goal is prose that reads as thoughtfully crafted and AI-assisted, so the tell
 comes out.
@@ -46,7 +46,7 @@ grep -rnE '^#{1,6} .* -- ' --include='*.md' .
 Every sentence-terminal mark takes two spaces:  periods, question marks,
 exclamation points, and colons.
 
-**Why it matters, and this one is load-bearing:** Jason is dyslexic, and the
+**Why it matters, and this one is load-bearing:**  Jason is dyslexic, and the
 double space is what lets him see where one sentence ends and the next begins.
 Treat it as an accessibility requirement.  A formatter or a linter that
 normalizes it away has broken something real.
@@ -87,7 +87,7 @@ The ban covers the whole family:  `never`, `nothing`, `nobody`, `neither`,
 setup-and-knockdown work.  Imperatives count too, so `Do not cut the warm-up`
 becomes `Protect the warm-up`.
 
-**The method:** rewrite the negative as a positive assertion.  A positive form
+**The method:**  rewrite the negative as a positive assertion.  A positive form
 almost always exists, and reaching for it forces more precision than the
 negative had.
 
@@ -108,7 +108,7 @@ contractions.  That document is a formal essay written to administrators.  The
 style guide asks for prose that stays *speakable*, which points the other way
 entirely.
 
-**The fix:** read [`APPALACHIAN_ACADEMIC_STYLE.md`](APPALACHIAN_ACADEMIC_STYLE.md)
+**The fix:**  read [`APPALACHIAN_ACADEMIC_STYLE.md`](APPALACHIAN_ACADEMIC_STYLE.md)
 first.  Ask for a guide when one seems likely to exist.  Statistics over a
 sample tell you what one document did, and the guide tells you what the voice is.
 
@@ -191,19 +191,40 @@ a tell`, which now says something else entirely.
 When a document quotes the thing it is correcting, that quotation is a citation
 and it stays exactly as written.
 
+### 11.  The rule hides behind markup
+
+A sentence that ends inside bold puts the closing `**` between the punctuation
+and the space, so an audit anchored on `[.?!:] [A-Z]` walks straight past it.
+`**Face up or face down.** Is that a fact about the card` is a single-spaced
+sentence break wearing a costume.  One pass over this repository found a hundred
+and three of them after two earlier passes had reported clean.
+
+The capital-letter anchor misses two more shapes.  A colon inside bold usually
+introduces a lowercase clause, `**The method:** rewrite the negative`, and it
+still takes two spaces.  So does a sentence ending on a digit or a brace.
+
+```bash
+grep -rnE '[a-z)][.?!:](\*\*|\*) [^ ]' --include='*.md' --include='*.json' .
+```
+
+Requiring the emphasis marker is also what keeps the pass clear of the exempt
+syntax in entry 8.  `// TODO (Step 4): sides is wide open` and `Dice? dice`
+carry no markers, so a marker-anchored pattern leaves them alone by
+construction, and the landmine defuses itself.
+
 ---
 
 ## Verifying the work
 
-Three ways an audit reported clean when the work was still dirty.
+Four ways an audit reported clean when the work was still dirty.
 
-### 11.  Case-sensitive search
+### 12.  Case-sensitive search
 
 `grep 'nothing'` misses `Nothing` at the start of a sentence, which is where it
 most often appears.  Roughly a dozen instances survived a first pass this way.
 Use `grep -i` for prose audits.
 
-### 12.  Backticks inside a double-quoted shell string
+### 13.  Backticks inside a double-quoted shell string
 
 ```bash
 grep -ohE "[a-z)\`*]\. [A-Z]" $FILES     # backtick opens command substitution
@@ -214,11 +235,40 @@ The first form reported zero matches across nine hundred real ones, and the
 count looked like success.  **A surprising zero deserves a sanity check against
 a pattern known to match.**
 
-### 13.  Counting capture groups
+The same family, one layer up:  a heredoc written through a tool call can
+arrive with its backslashes already consumed, so a script that reads correctly
+in the message writes `\|` as `|` and `\x{2014}` as the character itself.
+Building the backslash with `chr(92)` sidesteps the whole question.  When a
+generated file shows the right characters and the wrong escapes, suspect
+transit before suspecting the regex.
+
+### 14.  Counting capture groups
 
 `my $c = () = $t =~ /(a)(b)/g;` in list context returns one element per capture
 group per match, so a pattern with two groups reports double.  Divide by the
 group count, or count with a group-free pattern.
+
+### 15.  grep in a byte locale
+
+With `LANG` unset, GNU grep reads a **bracket expression** one byte at a time.
+A class holding the two typographic dashes becomes the four bytes they are
+built from, and it then matches any UTF-8 character sharing one of those bytes.
+An audit written that way reported hits in eight files, and the matches were a
+right arrow, a filled bullet, and a less-than-or-equal sign.
+
+Alternation is byte-safe, because each branch matches as a literal byte
+sequence.  The distinction is the whole entry:
+
+```bash
+grep -rnE '[—–]' .                            # a class:  byte-matched, silently wrong
+grep -rn  '—\|–' .                            # alternation:  correct
+perl -ne 'print if /[\x{2014}\x{2013}]/' f    # what I reach for now
+```
+
+Run the audit through the same engine that ran the fix.  A pass applied with
+perl and checked with grep is two regex dialects and two different ideas about
+what counts as one character, and the disagreement shows up as either a
+phantom hit or a silent miss.
 
 ---
 

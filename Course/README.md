@@ -29,7 +29,7 @@ dotnet run
 Every starter runs the moment it is opened, before a student changes a line.  I
 hold that as a hard rule -- see the Guardrails.
 
-Lessons 1–3 stand independent, so a student can start any of them cold.  From
+Lessons 1-3 stand independent, so a student can start any of them cold.  From
 Lesson 4 on, students carry their own files forward, and the starter's job
 shifts from "here is the code" to "here is the room your code moves into."
 
@@ -56,12 +56,12 @@ productively.
 | Meetings | Phase | What happens |
 |---|---|---|
 | 1 | Setup | Toolchain, `dotnet run`, everybody sees output on their own machine |
-| 2–7 | **Objects & Types** | Lessons 1–3 -- mutability, validity, where behavior lives |
-| 8–15 | **Behavior** | Lessons 4–7 -- collections, polymorphism, interfaces, events |
-| 16–17 | **The Fork** | Students choose what they are building.  Pitch, scope, commit. |
-| 18–29 | **Systems** | Whatever the fork demands:  a loop, commands, a world, saving |
-| 30–41 | **Build** | Student-directed, with short mini-lessons pulled in as needed |
-| 42–45 | **Showcase** | Play each other's games; a retrospective on what they'd do differently |
+| 2-7 | **Objects & Types** | Lessons 1-3 -- mutability, validity, where behavior lives |
+| 8-15 | **Behavior** | Lessons 4-7 -- collections, polymorphism, interfaces, events |
+| 16-17 | **The Fork** | Students choose what they are building.  Pitch, scope, commit. |
+| 18-29 | **Systems** | Whatever the fork demands:  a loop, commands, a world, saving |
+| 30-41 | **Build** | Student-directed, with short mini-lessons pulled in as needed |
+| 42-45 | **Showcase** | Play each other's games; a retrospective on what they'd do differently |
 
 The back half runs longer than the front half on purpose.  Homework is capped, so
 class time is where the building actually happens.

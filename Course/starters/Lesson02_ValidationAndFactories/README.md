@@ -75,10 +75,10 @@ into an answer.  **One copy of every rule.**
 
 A value can be wrong in two different ways, and they want different answers.
 
-- **Formatting is noise.** `" 2d6 "`, `"2D6"`, `"2d6"` are one claim typed by
+- **Formatting is noise.**  `" 2d6 "`, `"2D6"`, `"2d6"` are one claim typed by
   three people.  Clean it up quietly; everything meaningful survives.  (`TryParse` already does
   this for you; find the line.)
-- **Meaning is a claim.** `"0d6"` says something false.  Refuse it.
+- **Meaning is a claim.**  `"0d6"` says something false.  Refuse it.
 
 The line between them can be genuinely hard to find, and *you* have to put it
 somewhere.
@@ -103,8 +103,8 @@ Look at the top of `Dice.cs`.  `MinSides` is a `const`.  The other three are
 
 | | Form | Because |
 |---|---|---|
-| `MinSides` | `public const int MinSides = 2;` | **Structural.** A random result needs at least two faces to choose between, in this game or any other.  That number holds for good. |
-| `MaxCount`, `MaxSides`, `MaxModifier` | `public static int MaxCount => 100;` | **House rules.** This table's numbers.  Another game picks different ones and is still playing with dice. |
+| `MinSides` | `public const int MinSides = 2;` | **Structural.**  A random result needs at least two faces to choose between, in this game or any other.  That number holds for good. |
+| `MaxCount`, `MaxSides`, `MaxModifier` | `public static int MaxCount => 100;` | **House rules.**  This table's numbers.  Another game picks different ones and is still playing with dice. |
 
 The form you pick tells the next reader which kind of number they're looking at.
 That's worth more than the two characters it costs you.
@@ -114,10 +114,10 @@ That's worth more than the two characters it costs you.
 1. **A `const` is already `static`.** You reach it as `Dice.MinSides`, straight
    off the type.  If you learned `static final` somewhere else, your fingers
    will try `public static const` exactly once -- that's **CS0504**.
-2. **`public static int MaxCount => 100;` is a property.** It's computed each
+2. **`public static int MaxCount => 100;` is a property.**  It's computed each
    time it's asked for, which is why it *needs* the `static` keyword that a
    `const` carries on its own.
-3. **Only a `const` can appear in a pattern.** The guards in `Of()` could have
+3. **Only a `const` can appear in a pattern.**  The guards in `Of()` could have
    been written as patterns -- `count is >= 1 and <= MaxCount` -- which is
    idiomatic modern C#. A pattern requires a `const`, and `MaxCount` is a
    property.  Try it and you'll get **CS9135**, *"a constant value is expected."*
@@ -152,7 +152,7 @@ Both are genuinely open.  Pick a side and be able to defend it.
 
 - **Is `"2 d 6"` the same claim as `"2d6"`?** You and the person next to you
   will disagree.  Both of you need a reason.
-- **Is `1d20-50` valid?** It parses.  It rolls.  Its best possible result is -30.
+- **Is `1d20-50` valid?**  It parses.  It rolls.  Its best possible result is -30.
   Is that the `Dice` type's problem, or the game's?
 
 ## Done for today?

@@ -27,7 +27,7 @@
     { "term": "compile-time binding", "def": "the compiler picks which method runs using the type the variable is **declared** as, leaving what it holds at runtime out of it" }
   ],
 
-  "warmup": "Read `Dice.cs` all the way through before you touch anything.  It is about 220 lines.  Then answer one question:  **how many different jobs is this type doing?** Write the list down -- you will check against it at the end.  And note that every method in that file was a reasonable idea on the day it was written.",
+  "warmup": "Read `Dice.cs` all the way through before you touch anything.  It is about 220 lines.  Then answer one question:  **how many different jobs is this type doing?**  Write the list down -- you will check against it at the end.  And note that every method in that file was a reasonable idea on the day it was written.",
 
   "howItWorks": [
     {
@@ -143,14 +143,14 @@
 
   "steps": [
     "Read `Dice.cs`, all of it, before touching anything.  Count the jobs and write the list down.",
-    "**The rule for the whole lesson:  `Program.cs` stays exactly as it is.** If a move requires editing a call site, you moved something wrong.",
+    "**The rule for the whole lesson:  `Program.cs` stays exactly as it is.**  If a move requires editing a call site, you moved something wrong.",
     "Move `PrintHistogram` into `Display/DiceDisplay.cs`.  Copy the body, make the first parameter `this Dice dice`, change bare `Roll(rng)` to `dice.Roll(rng)`, and delete it from `Dice.cs`.",
-    "Re-run.  **Output byte-for-byte identical, `Program.cs` untouched.** That is what refactoring means -- the behavior is the control group.  Output that changed means you edited.",
+    "Re-run.  **Output byte-for-byte identical, `Program.cs` untouched.**  That is what refactoring means -- the behavior is the control group.  Output that changed means you edited.",
     "Sort `IsCritical`, `IsFumble`, `Beats`, and `ChanceOfBeating` using the trains test.  Argue the contested one, place it, and write one sentence in the file saying why.  **Then** move `PrintRoll` -- it depends on two of them, so it moves last.",
     "Move `ToBoxArt`.  `Dice.cs` should now be about half its old size.  Re-read what is left -- does it match your Step 1 list?",
     "Scene 4 calls `dice.Describe()`.  Work out which of the two `Describe` methods ran, predict what the line prints once you delete the other, then delete `Dice.Describe()` and check.  **An instance method always wins, and it wins silently.**",
     "Add one presentation the file has yet to carry -- `ToShortString()`, a table of dice in columns, `ToOdds(int dc)`.  It should leave `Dice.cs` untouched.",
-    "**Round two:  the numbers.** Run the trains test on the four limits at the top of `Dice.cs`.  Three of them fail it.  Move those three into an `extension(Dice)` block in `DiceRules` -- the lines copy across *unchanged* -- and delete them from `Dice.cs`.",
+    "**Round two:  the numbers.**  Run the trains test on the four limits at the top of `Dice.cs`.  Three of them fail it.  Move those three into an `extension(Dice)` block in `DiceRules` -- the lines copy across *unchanged* -- and delete them from `Dice.cs`.",
     "Two things happen and both are the lesson.  `IsLegalHere` keeps working untouched, because it reads the member the same way either side of the move.  And `Dice.Of()` stops compiling -- **resist fixing that with a `using`**, which would make the dice depend on one game's rulebook.  Fix it by asking what those guards were doing in `Of()` in the first place.  One of the three disappears entirely; work out which and say why that is the right outcome.",
     "Delete a `using` from `Program.cs`.  Read what breaks.  Put it back.  Did anything break that **caught you by surprise**?  Those are the good ones."
   ],
@@ -167,12 +167,12 @@
   ],
 
   "makeItYours": [
-    "**Split your `Card.cs` into three:** `Toolkit.Cards` (what it is), `Toolkit.Cards.Display` (what it looks like), `Toolkit.Cards.Rules` (what it is worth).",
+    "**Split your `Card.cs` into three:**  `Toolkit.Cards` (what it is), `Toolkit.Cards.Display` (what it looks like), `Toolkit.Cards.Rules` (what it is worth).",
     "Display is mechanical:  a short form (`A&#9824;`), a long form (`Ace of Spades`), a drawn card.",
-    "The rules half is where this gets real, because **a card's value belongs to the game being played.** In blackjack an ace is 1 or 11 and a king is 10.  In war a king beats a jack and an ace beats everything.  In hearts the queen of spades is worth thirteen points of misery.",
+    "The rules half is where this gets real, because **a card's value belongs to the game being played.**  In blackjack an ace is 1 or 11 and a king is 10.  In war a king beats a jack and an ace beats everything.  In hearts the queen of spades is worth thirteen points of misery.",
     "One `Card` type.  Three games.  **If `card.Value` is a property on `Card`, which of those three did you just pick a side in** -- and where does that leave the other two?",
     "Write the rules for **two** of those games as separate extension classes.  Then look at the two files sitting side by side and say what that arrangement bought you.",
-    "**Prove the separation is real:** delete a `using` and show that exactly the code you expected stopped compiling."
+    "**Prove the separation is real:**  delete a `using` and show that exactly the code you expected stopped compiling."
   ],
   "challenge": "Get a third game's rules to drop in with `Card.cs` untouched.  If something stops you, find the line that stopped you -- that line is the thing this lesson is about.",
 
@@ -205,7 +205,7 @@
 
   "standard": "Move behavior off a type using extension members, decide what belongs where using a stated test, and prove the refactor changed structure while behavior held.",
   "stages": [
-    { "name": "Getting Started", "text": "Everything is still in one file, or the build went red after a move.  **Next step:** the most common miss is forgetting `this` on the first parameter -- leave it off and you have written a plain static method, so `dice.PrintHistogram()` stays unresolved.  The second most common is moving `PrintRoll` before deciding where `IsCritical` goes; move the things it depends on first." },
+    { "name": "Getting Started", "text": "Everything is still in one file, or the build went red after a move.  **Next step:**  the most common miss is forgetting `this` on the first parameter -- leave it off and you have written a plain static method, so `dice.PrintHistogram()` stays unresolved.  The second most common is moving `PrintRoll` before deciding where `IsCritical` goes; move the things it depends on first." },
     { "name": "Got It Working", "text": "Display is in `DiceDisplay`, the game's rules are in `DiceRules`, `Dice.cs` has been cleared of `Console`, and `Program.cs` is untouched with identical output." },
     { "name": "Made It Mine", "text": "&hellip;and I split my own `Card` three ways and wrote two different games' rules as separate extension classes -- and I can name one thing I left on `Card` and one I moved off, and say who would disagree." },
     { "name": "Went Beyond", "text": "&hellip;and I went somewhere the lesson left open -- a third rule set that dropped in with `Card.cs` untouched, a genuine argument about `ChanceOfBeating` I can make from both sides, an extension property of my own, or the realization that blackjack's ace is a function of the **hand**." }
@@ -259,7 +259,7 @@
         "p": [
           "Save this for Meeting B, on its own.  Open with it.",
           "Show the `extension` block syntax and name the two flavours:  `extension(Dice)` for static members, `extension(Dice dice)` for instance members.  Then point at the four limits and ask the trains test one more time.",
-          "**The moment worth engineering:** have them predict what breaks when `MaxCount` leaves `Dice`.  They will say `IsLegalHere`, because it says `Dice.MaxCount`.  It keeps working, because it reads them the same way.  What breaks is `Dice.Of()`, which is the one place they expect to stay safe, and it breaks because `Of()` was quietly enforcing a house rule that belonged to the table.",
+          "**The moment worth engineering:**  have them predict what breaks when `MaxCount` leaves `Dice`.  They will say `IsLegalHere`, because it says `Dice.MaxCount`.  It keeps working, because it reads them the same way.  What breaks is `Dice.Of()`, which is the one place they expect to stay safe, and it breaks because `Of()` was quietly enforcing a house rule that belonged to the table.",
           "Then let them find that `modifier`'s guard has nowhere to go at all.  That guard was 100% policy.  It leaves, and `Dice` is more correct for losing it.",
           "Expect pushback:  \"so anyone can make 1d20-500 now?\" Yes.  And it is a perfectly good die that this table refuses.  The type's job is to guarantee a die, and the rulebook belongs elsewhere.  Sit in that discomfort with them for a minute and leave it there -- it is the same discomfort that makes people put every rule in the constructor in the first place."
         ]
@@ -278,15 +278,15 @@
       "**Losing the `this` keyword,** producing a confusing error.  One-line fix, but let them read the error first.",
       "**Making EVERYTHING an extension, including `Roll`.** Ask what happens when they want a `WeightedDice` that rolls differently.  Leave it hanging -- that is Lesson 5, and this is the best possible way for the question to arrive.",
       "**Fixing the Step 10 break by adding `using Toolkit.Rules;` to `Dice.cs`.** It compiles.  It is also backwards, and it is worth stopping the room over:  the dice would now depend on one game's rulebook.",
-      "**Over-application.** Some students will come out of this wanting six files per type.  Say the quiet part:  \"Three similar lines beat a premature helper.  Split when the mixing has cost you something you can name.\" `Dice.cs` earned its split by growing for four fictional weeks.  A forty-line type has earned the right to stay one file."
+      "**Over-application.**  Some students will come out of this wanting six files per type.  Say the quiet part:  \"Three similar lines beat a premature helper.  Split when the mixing has cost you something you can name.\" `Dice.cs` earned its split by growing for four fictional weeks.  A forty-line type has earned the right to stay one file."
     ],
     "wrapupAnswer": "Anything specific with a named opponent.  The second half of the question is the assessment.  Also listen for whether they can state the COST -- three files where one used to do, and having to know `Describe` lives somewhere out of sight.  A student who thinks every refactor is a free win will refactor everything, forever.",
     "notes": [
-      "**Pacing.** Meeting A: 8 warm-up / 12 instruction / 22 guided (steps 1&ndash;7) / 5 wrap.  Meeting B: 5 recap on the trains test / 15 guided (steps 8&ndash;11) / 25 Cards / 5 wrap.",
-      "**The Cards argument is the real assessment of this lesson.** The strongest students go somewhere genuinely interesting:  an ace is 1 OR 11 depending on the rest of the hand, which makes blackjack's value a function of the HAND -- it is a function of the HAND. That is a real insight about where a rule lives and it should be praised loudly.  It is also Lesson 4 arriving early.",
+      "**Pacing.**  Meeting A: 8 warm-up / 12 instruction / 22 guided (steps 1-7) / 5 wrap.  Meeting B: 5 recap on the trains test / 15 guided (steps 8-11) / 25 Cards / 5 wrap.",
+      "**The Cards argument is the real assessment of this lesson.**  The strongest students go somewhere genuinely interesting:  an ace is 1 OR 11 depending on the rest of the hand, which makes blackjack's value a function of the HAND -- it is a function of the HAND. That is a real insight about where a rule lives and it should be praised loudly.  It is also Lesson 4 arriving early.",
       "Weaker responses put `Value` on `Card` with a comment saying \"blackjack rules.\" Fine for today.  Ask one question -- \"what does the war game do now?\" -- and move on.  They will hit it again when hands become real.",
-      "**Forward hooks planted today.** \"Extensions resolve at compile time\" &rarr; Lesson 5, `virtual` and `WeightedDice`. \"Value depends on the hand\" &rarr; Lesson 4, collections.  And \"where does 1d20-50 get rejected?\" &rarr; answered today, finally.",
-      "**If they finish early:** `GameData/GameMechanics/` versus `Engine/States/` in the finished game.  Same split, thirty files, and every console call in the domain model still goes through `IGameIO` -- that interface is the seam.  Ask them to find the one place a game state actually writes output.",
+      "**Forward hooks planted today.**  \"Extensions resolve at compile time\" &rarr; Lesson 5, `virtual` and `WeightedDice`. \"Value depends on the hand\" &rarr; Lesson 4, collections.  And \"where does 1d20-50 get rejected?\" &rarr; answered today, finally.",
+      "**If they finish early:**  `GameData/GameMechanics/` versus `Engine/States/` in the finished game.  Same split, thirty files, and every console call in the domain model still goes through `IGameIO` -- that interface is the seam.  Ask them to find the one place a game state actually writes output.",
       "Extension properties are C# 14 / .NET 10.  If a student's editor flags `extension(Dice)` as invalid syntax, check the SDK version before debugging anything else."
     ]
   }

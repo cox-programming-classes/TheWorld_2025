@@ -2,7 +2,7 @@
 
 *Where does "is this legal?" live?*
 
-**Two meetings.** Starter: [`starters/Lesson02_ValidationAndFactories/`](../starters/Lesson02_ValidationAndFactories/) --
+**Two meetings.**  Starter: [`starters/Lesson02_ValidationAndFactories/`](../starters/Lesson02_ValidationAndFactories/) --
 two files:  `Dice.cs`, `Program.cs`.
 
 ---
@@ -12,7 +12,7 @@ two files:  `Dice.cs`, `Program.cs`.
 > **A type should be impossible to construct in an invalid state.**
 
 The mechanism is one move:  **make the constructor private, and let factory
-methods be the only way in.** Guard clauses, named archetypes, and `TryParse`
+methods be the only way in.**  Guard clauses, named archetypes, and `TryParse`
 are three techniques serving that one idea.
 
 <!--
@@ -154,7 +154,7 @@ the method hands back, alongside the bool." Stop there.
 
 ## Guided Activity
 
-`Program.cs` is a report card on your `Dice` type.  **Leave it alone.** Run it
+`Program.cs` is a report card on your `Dice` type.  **Leave it alone.**  Run it
 after every change and watch the output get less embarrassing.
 
 First, though, try this in `Program.cs` and read what happens:
@@ -193,16 +193,16 @@ Scene 2 loads a rulebook straight from somebody's first draft.  Right now
 `TryParse` handles `"2d6"` and little else.  Two things to add, in this order,
 re-running each time:
 
-- **a.** A missing count -- `"d20"` should mean `"1d20"`.
-- **b.** A modifier -- `"3d8+2"`, `"1d4-1"`.
+- **a.**  A missing count -- `"d20"` should mean `"1d20"`.
+- **b.**  A modifier -- `"3d8+2"`, `"1d4-1"`.
 
 Useful:  `text.Split('d')`, `int.TryParse(s, out var n)`,
 `text.LastIndexOfAny(new[] { '+', '-' })`, `text[..i]`, `text[i..]`.
 
-**Target:** Scene 2 loads `2d6  d20  3d8+2  1d4-1  4d6  2d6  1d20+3` and refuses
+**Target:**  Scene 2 loads `2d6  d20  3d8+2  1d4-1  4d6  2d6  1d20+3` and refuses
 the rest.
 
-> **Notice something.** The trimming and lowercasing at the top of `TryParse`
+> **Notice something.**  The trimming and lowercasing at the top of `TryParse`
 > was written for you.  That's *normalizing* -- formatting is noise, so clean it
 > up quietly and three inputs become one claim.  What you're adding is different:
 > deciding whether a claim is **true**.  Two different jobs, and it's worth
@@ -284,13 +284,13 @@ something to defend, and a DTO carries data alone.
 
 Do to `Card` what we did to `Dice`:
 
-1. **Break it on purpose first.** Before writing a single guard, construct the
+1. **Break it on purpose first.**  Before writing a single guard, construct the
    five worst Cards your design allows.  A card missing its suit.  A rank of 47.  A
    rank of -3.  Print them.  Sit with it.
 2. Sort each failure into **noise** (fix it quietly -- `"ace of spades"`,
    `"ACE OF SPADES"`, `" AS "`) or **a claim** (refuse it -- rank 47).  Say where
    you put the line.
-3. **Make the constructor private.** Then work out what factory methods your
+3. **Make the constructor private.**  Then work out what factory methods your
    game actually wants.  `Card.Of(rank, suit)`?  `Card.AceOf(suit)`?
 4. Give `Card` a `TryParse`.  `"AS"` is the ace of spades, `"10H"` the ten of
    hearts.  Then survive:  `"2c"`, `" KS "`, `"1S"`, `"11H"`, `"ZZ"`, `""`, `"10"`.

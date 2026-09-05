@@ -110,7 +110,7 @@
         ],
         "bullets": [
           "Java's `final` also stops at the reference, exactly like `init` does.  A `final List` can still have things added to it.",
-          "**Java's `record` sits elsewhere.** It is much closer to C#'s positional records -- genuinely immutable and terse.  C#'s `record` keyword is the looser of the two, which is why `Dice` can misbehave in Scene 2 at all."
+          "**Java's `record` sits elsewhere.**  It is much closer to C#'s positional records -- genuinely immutable and terse.  C#'s `record` keyword is the looser of the two, which is why `Dice` can misbehave in Scene 2 at all."
         ]
       },
       "p": [
@@ -171,10 +171,10 @@
   "makeItYours": [
     "**Start your own `Card.cs`.** A file you create yourself, in the same folder.  It follows you to Lesson 2 and Lesson 3, and it is the one file in this course that is unambiguously yours.",
     "Build a `Card` -- the card alone, with the game left for later.  Then answer, in the design of the type itself:  **what about a card is fixed for good, and what about it can change?**",
-    "**Rank and suit.** Does the Ace of Spades ever become something else?  What does your answer mean for how you declare them?",
-    "**Face up or face down.** Is that a fact about the *card*, or about *where the card currently is*?  Those have different answers, and the second one may belong to the table.",
+    "**Rank and suit.**  Does the Ace of Spades ever become something else?  What does your answer mean for how you declare them?",
+    "**Face up or face down.**  Is that a fact about the *card*, or about *where the card currently is*?  Those have different answers, and the second one may belong to the table.",
     "**How do you say \"Queen\"?** A string `\"Q\"`?  A number `12`?  C# has a type built for \"one of a fixed set of named options.\" Go find out what it is called.",
-    "**Should two separately-created Aces of Spades be equal?** Try it before you decide.  C# has an opinion and it depends on what you declared."
+    "**Should two separately-created Aces of Spades be equal?**  Try it before you decide.  C# has an opinion and it depends on what you declared."
   ],
   "challenge": "Make one member of your `Card` that you are genuinely torn about, write both versions, and keep the one you can defend better.  Bring the one you threw away -- that is the more interesting half of the conversation.",
 
@@ -205,7 +205,7 @@
 
   "standard": "Declare immutability member by member on a `record`, repair the call sites that depended on mutation, and explain what that bought.",
   "stages": [
-    { "name": "Getting Started", "text": "The build is red, or the properties still say `{ get; set; }`.  **Next step:** change all three to `{ get; init; }` and read the two errors carefully -- they are pointing at the two places that were relying on reaching into an object somebody else was also holding.  Fix those two lines and you are through." },
+    { "name": "Getting Started", "text": "The build is red, or the properties still say `{ get; set; }`.  **Next step:**  change all three to `{ get; init; }` and read the two errors carefully -- they are pointing at the two places that were relying on reaching into an object somebody else was also holding.  Fix those two lines and you are through." },
     { "name": "Got It Working", "text": "All three properties are init-only, both scenes are repaired with `set` left where it lies, and the program runs." },
     { "name": "Made It Mine", "text": "&hellip;and I built my own `Card` with a deliberate call about what is fixed and what can change -- and I can name somebody who would have decided differently and say what they would have wanted." },
     { "name": "Went Beyond", "text": "&hellip;and I went after something the lesson left open -- an enum for rank or suit, a `Card` that refuses to exist in a nonsense state, a second version of a member I was torn about, or a question about `Random` and mutable state I chased down on my own." }
@@ -276,7 +276,7 @@
       "Release them to Cards for the back half of Meeting B. Circulate; resist answering."
     ],
     "pitfalls": [
-      "**Step 5 \"fixed\" by putting `set` back.** Watch for it.  The instruction is explicit and they will still do it once.",
+      "**Step 5 \"fixed\" by putting `set` back.**  Watch for it.  The instruction is explicit and they will still do it once.",
       "**Step 6 attempted with `==` where `ReferenceEquals` belongs,** which prints `True` and looks like it worked.  Excellent mistake and worth catching publicly:  `==` is `True` because the VALUES match, and it would be `True` for two entirely separate dice.  It says only that the values match.  This is step 10 arriving early, from a student, which is the best way for it to arrive.",
       "Somebody will ask whether a shortcut exists for building a modified copy.  One does -- it is called `with` -- and it waits for a later lesson by design.  Write that student's name down and tell them they have found a later lesson.",
       "Somebody will change `set` to `init` and then try to make `Random` immutable, or wonder why it stays mutable.  Take it seriously:  a `Random` with fixed internal state hands back the same number forever.  State earns its keep, and unmanaged state is the enemy.  Say it in those words.",
@@ -284,11 +284,11 @@
     ],
     "wrapupAnswer": "Anything specific and defended.  The tell is the second half of the question -- a student who can name a reasonable person who would have built it differently has judgment; a student who answers \"this is just correct\" has a rule they are following.  Both are fine on day one, but note which is which.",
     "notes": [
-      "**Pacing.** Meeting A: 7 warm-up / 13 instruction / 22 guided (steps 1&ndash;5) / 5 wrap.  Meeting B: 5 recap / 20 guided (steps 6&ndash;10) / 20 Cards / 5 wrap.",
+      "**Pacing.**  Meeting A: 7 warm-up / 13 instruction / 22 guided (steps 1-5) / 5 wrap.  Meeting B: 5 recap / 20 guided (steps 6-10) / 20 Cards / 5 wrap.",
       "If Meeting A runs long, cut the primitives section and fold it into the Meeting B recap.  Protect the warm-up, and protect step 8 -- those are the two things this lesson is actually for.",
       "**The thing to protect is step 8.** Everything else here is syntax they would have picked up from a reference page.  The reframe -- the sharing stayed and you made it stop mattering -- is what makes the whole functional-leaning style read as a trade with something on both sides.  Students who miss it spend the semester thinking immutability is a rule they are being asked to follow.",
-      "**Held back on purpose:** `struct`, `private set`, deep immutability, records holding collections, the heap and the stack, boxing, and `with`.  Every one of those is a good lesson, and every one belongs to a later day.  `private set` and deep immutability land in Lesson 4, where a `Deck`'s contents genuinely change and the need is felt first.",
-      "**If they finish early:** point them at `GameData/GameMechanics/Dice.cs` in the finished game -- the same record, grown up, with a `Parse` and a `WeightedDice` that overrides `Roll` to cheat.  Leave `virtual` alone.  Let them ask, and write down who asked; that is Lesson 5's warm-up.",
+      "**Held back on purpose:**  `struct`, `private set`, deep immutability, records holding collections, the heap and the stack, boxing, and `with`.  Every one of those is a good lesson, and every one belongs to a later day.  `private set` and deep immutability land in Lesson 4, where a `Deck`'s contents genuinely change and the need is felt first.",
+      "**If they finish early:**  point them at `GameData/GameMechanics/Dice.cs` in the finished game -- the same record, grown up, with a `Parse` and a `WeightedDice` that overrides `Roll` to cheat.  Leave `virtual` alone.  Let them ask, and write down who asked; that is Lesson 5's warm-up.",
       "Expect and welcome the face-up/face-down argument in Cards.  Two answers are defensible and the disagreement IS the lesson.  Leave it open.  If you need a thumb on the scale, ask \"who is holding the card, and do they know what it is?\" and then get out of the way."
     ]
   }

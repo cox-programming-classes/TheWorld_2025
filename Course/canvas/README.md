@@ -11,7 +11,7 @@ look as the Processing Sprite import in [`../canvas_example/`](../canvas_example
 | The generator that turns the JSON into HTML | [`build_canvas_html.ps1`](build_canvas_html.ps1) |
 | Descriptive rubrics as a CSV, for Canvas's rubric importer | [`canvas_rubrics.csv`](canvas_rubrics.csv) |
 
-**Lessons 1–3 are built.** The rest arrive as they are written -- drop a new
+**Lessons 1-3 are built.**  The rest arrive as they are written -- drop a new
 `content/NN.json` in and re-run.
 
 ## Building the HTML
@@ -28,7 +28,7 @@ Each output file is a **body fragment**: copy the whole file and paste it into
 the Canvas HTML editor (the `</>` button in the Rich Content Editor).  Every
 style is inline and every asset is embedded, so Canvas passes it through whole.
 
-**Before publishing:** every Page and Assignment has an AI-helper button with a
+**Before publishing:**  every Page and Assignment has an AI-helper button with a
 placeholder `href="PASTE_FLINT_URL_HERE"`, flagged by a `<!-- FLINT-LINK -->`
 comment.  Swap in the Flint chat URL for that lesson -- two per lesson, one on the
 Page and one on the Assignment.
@@ -73,19 +73,19 @@ Only `h` is required; `icon` defaults to a coffee cup.  The aside is emitted
 right after the section heading so the prose wraps around it, and the float is
 closed before any code block so code always gets full width.
 
-**Eight of them ship, across the three lessons.** They are titled *"If you're
+**Eight of them ship, across the three lessons.**  They are titled *"If you're
 coming from Java"* so a student arriving from Python or JS can skip them and
 keep everything load-bearing.
 
 Three rules for writing one, from the course guardrails:
 
-- **Compare, and hold both as equals.** "Java does X, C# does Y, here is what
+- **Compare, and hold both as equals.**  "Java does X, C# does Y, here is what
   each buys" -- leaving "C# is better" out of it.  The right-hand column is the
   one they have yet to meet, and both are defensible.
-- **Say when the two languages agree.** The value/reference aside in Lesson 1
+- **Say when the two languages agree.**  The value/reference aside in Lesson 1
   exists to say *Java works exactly this way* -- which is the point, because it
   means Scene 2's bug was always available to them.
-- **Give credit where the idea is older.** Lesson 2's factory aside opens with
+- **Give credit where the idea is older.**  Lesson 2's factory aside opens with
   "you may already know this one" and points at *Effective Java*, because a
   student who recognizes it is ahead of the lesson.
 
@@ -133,7 +133,7 @@ the same 32 before and after the aside feature was added, with zero
 `float:right` in the output, because that content leaves the aside key out.  Every
 difference is one of the two intended fixes:
 
-- **The banner.** Their `course.json` omits `seriesName`, so it falls back to
+- **The banner.**  Their `course.json` omits `seriesName`, so it falls back to
   `title` and the banner reads *Make Your Own Game* in place of *Processing
   Sprite*.  Adding `"seriesName": "Processing Sprite"` to that file restores it
   exactly.
@@ -155,7 +155,7 @@ These rubrics are **descriptive**.  They mirror the stage table at the end of
 each lesson, and their job is to give a student (and you) a clear picture of
 where they are and what to try next -- a *map*.
 
-> **One thing to check before you publish.** The Processing course sits outside
+> **One thing to check before you publish.**  The Processing course sits outside
 > the credit system, so its assignments say *"This assignment is not scored"* outright.
 > This course is half-credit and graded, so that sentence would have been a lie.
 > It was hardcoded in the generator and now lives in `course.json` →
@@ -167,7 +167,7 @@ where they are and what to try next -- a *map*.
 > determined separately.
 >
 > **That is my inference from your grading philosophy, and you have yet to tell
-> me otherwise.** If the relationship between the stages and the grade should be
+> me otherwise.**  If the relationship between the stages and the grade should be
 > stated outright to students, the sentence goes in `assignmentNote` (per
 > assignment) or `stagesIntro` (front page).
 
@@ -179,7 +179,7 @@ Every lesson uses the same named ladder.  Each stage includes the one before it.
 |---|---|
 | **Getting Started** | The build is red, or the change is still ahead of them -- paired with a specific next step to try. |
 | **Got It Working** | The lesson's change is made and the program runs. |
-| **Made It Mine** ⭐ | …and the same thing was done to the student's own code, unassisted, with the calls defended.  **The goal for everyone.** |
+| **Made It Mine** ⭐ | …and the same thing was done to the student's own code, unassisted, with the calls defended.  **The goal for everyone.**  |
 | **Went Beyond** | …and they took it somewhere the lesson left open. |
 
 **"Made It Mine" is the Cards track**, and that carries real weight.  Dice is the

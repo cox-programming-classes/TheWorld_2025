@@ -13,7 +13,7 @@ and you need to be able to say what you bought.
 | `Dice.cs` | Your dice, four weeks later, after everyone added one small thing. |
 | `Display/DiceDisplay.cs` | Where display goes.  Two methods already here, as the example. |
 | `Rules/DiceRules.cs` | Where your game's rules go.  Nearly empty, on purpose. |
-| `Program.cs` | Five scenes.  **These barely change all lesson.** That's the point. |
+| `Program.cs` | Five scenes.  **These barely change all lesson.**  That's the point. |
 
 ## Read `Dice.cs` first
 
@@ -124,7 +124,7 @@ dependency graph, printed by the compiler, for free.
 
 ## Today's steps
 
-**The rule for the whole lesson:  `Program.cs` stays exactly as it is.** If a move
+**The rule for the whole lesson:  `Program.cs` stays exactly as it is.**  If a move
 requires editing a call site, you moved something wrong.
 
 1. Read `Dice.cs`.  Count the jobs.  Write the list down.
@@ -139,7 +139,7 @@ requires editing a call site, you moved something wrong.
    extension finally get a turn.
 6. Add one presentation this file has yet to carry -- `ToShortString()`, a table
    of dice in columns, `ToOdds(int dc)`.  It should leave `Dice.cs` untouched.
-7. **Round two:  the numbers.** Run the trains test on the four limits at the top
+7. **Round two:  the numbers.**  Run the trains test on the four limits at the top
    of `Dice.cs`.  Three of them fail it.  Move those three into an
    `extension(Dice)` block in `DiceRules` -- the lines copy across *unchanged* --
    and delete them from `Dice.cs`.
