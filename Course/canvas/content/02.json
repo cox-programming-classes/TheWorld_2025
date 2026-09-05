@@ -173,7 +173,7 @@
 
   "flintHint": "Good things to ask:  \"what is the difference between throwing and returning false in C#?\", \"why does my static property fail in a pattern?\", or \"how do I write a TryParse method with an out parameter?\" Tell it you are on Lesson 2 and that your constructor is private on purpose -- otherwise it will suggest you just make it public.",
   "_flintUrl": "The AI-helper button's href, from the Flint activity for this lesson.  Left empty, the build emits a waiting placeholder on both the Page and the Assignment.",
-  "flintUrl": "",
+  "flintUrl": "https://app.flintk12.com/activities/lesson-2-data-v-473154",
 
   "wrapup": "Name one rule you wrote.  Is it protecting you from a bug in your code, or from bad data outside it?  Show me where it lives *because* of that.",
 
