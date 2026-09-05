@@ -28,7 +28,7 @@ directly works until the next build overwrites it.  A lesson whose `flintUrl`
 is still empty emits `PASTE_FLINT_URL_HERE` on both files, flagged with a
 `<!-- FLINT-LINK -->` comment.
 
-**Set so far:**  Lessons 1 and 2.  Lesson 3 is waiting on its activity.
+**Set so far:**  all three.
 
 ## The one on the front page
 
