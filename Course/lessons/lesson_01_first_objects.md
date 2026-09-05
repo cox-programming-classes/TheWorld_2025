@@ -25,7 +25,7 @@ those is a good lesson, and every one belongs to a later day.
 Where the cut material went:
   { get; private set; } and mutation-through-methods  -> Lesson 4 (collections
       need it:  a Deck's contents genuinely change)
-  deep immutability / a record holding a List         -> Lesson 4, same reason
+  deep immutability / a record that has a List         -> Lesson 4, same reason
   ReferenceEquals vs ==                               -> stays, but only as the
       TOOL for Step 5, and only there
 -->
@@ -50,7 +50,7 @@ Introduced only when there is something on screen to attach it to.
 - **reference type** -- the variable holds *where the thing is*.  Every `class` and
   every `record`.  Copying the variable copies the address.
 - **immutable** -- fixed once it exists.  `string` already is.  `Dice` will be.
-- **record** -- a type C# compares by the values it holds.
+- **record** -- a type C# compares by the values it has.
 - **init-only** -- settable while the object is being built, and fixed from then on.
 - **aliasing** -- two names for one object.
 
@@ -194,7 +194,7 @@ In `Dice.cs`, change all three `{ get; set; }` to `{ get; init; }`.
 
 Build.  **Read both errors before you touch anything.**  They are the two places
 in this program that were quietly relying on being able to reach into an object
-that somebody else was also holding.
+that somebody else also has.
 
 ### Step 4 - Fix Scene 2
 

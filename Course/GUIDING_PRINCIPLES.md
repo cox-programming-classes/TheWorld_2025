@@ -105,7 +105,7 @@ Two strands, running the whole semester.
 The class builds one library together, in the same order, lesson by lesson.
 Everyone's is the same shape, and everyone typed their own.  This is the *imitate*
 strand:  worked examples, live coding, a common vocabulary, and a guarantee that
-every student walks out holding the tool whatever else happened that day.
+every student walks out with the tool whatever else happened that day.
 
 It starts with `Dice` because dice are the smallest object in games that is
 genuinely interesting.  Dice are pure immutable data, and they sit right next to

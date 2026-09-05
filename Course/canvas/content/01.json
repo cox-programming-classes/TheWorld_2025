@@ -21,7 +21,7 @@
     { "term": "value type", "def": "the variable holds the thing itself.  `int`, `double`, `bool`, `char`.  Copying the variable copies the thing" },
     { "term": "reference type", "def": "the variable holds *where the thing is*.  Every `class` and every `record`.  Copying the variable copies the address" },
     { "term": "immutable", "def": "fixed once it exists.  `string` already is.  `Dice` will be by the end of today" },
-    { "term": "record", "def": "a type C# compares by the values it holds" },
+    { "term": "record", "def": "a type C# compares by the values it has" },
     { "term": "init-only", "def": "settable while the object is being built, and sealed from then on.  Spelled `{ get; init; }`" },
     { "term": "aliasing", "def": "two names for one object.  Fine, right up until the day it bites" }
   ],
@@ -207,7 +207,7 @@
 
   "standard": "Declare immutability member by member on a `record`, repair the call sites that depended on mutation, and explain what that bought.",
   "stages": [
-    { "name": "Getting Started", "text": "The build is red, or the properties still say `{ get; set; }`.  **Next step:**  change all three to `{ get; init; }` and read the two errors carefully -- they are pointing at the two places that were relying on reaching into an object somebody else was also holding.  Fix those two lines and you are through." },
+    { "name": "Getting Started", "text": "The build is red, or the properties still say `{ get; set; }`.  **Next step:**  change all three to `{ get; init; }` and read the two errors carefully -- they are pointing at the two places that were relying on reaching into an object somebody else also has.  Fix those two lines and you are through." },
     { "name": "Got It Working", "text": "All three properties are init-only, both scenes are repaired with `set` left where it lies, and the program runs." },
     { "name": "Made It Mine", "text": "&hellip;and I built my own `Card` with a deliberate call about what is fixed and what can change -- and I can name somebody who would have decided differently and say what they would have wanted." },
     { "name": "Went Beyond", "text": "&hellip;and I went after something the lesson left open -- an enum for rank or suit, a `Card` that refuses to exist in a nonsense state, a second version of a member I was torn about, or a question about `Random` and mutable state I chased down on my own." }

@@ -8,7 +8,7 @@ namespace Toolkit;
 /// Three numbers and a way to roll them.  That's the whole object.
 ///
 /// This is a `record`, which is C#'s way of saying "this type is defined by
-/// the values it holds." You get some things for free:  two
+/// the values it has." You get some things for free:  two
 /// separately-made 2d6+3s compare as equal, and `with` makes modified copies.
 ///
 /// Notice what is already true down in Roll(): rolling dice leaves the dice

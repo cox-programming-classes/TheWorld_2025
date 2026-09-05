@@ -61,7 +61,7 @@ Students will be able to:
 - **refactoring** -- changing structure while behavior stays identical.  The output
   is the proof.
 - **compile-time binding** -- the compiler picks which method runs, using the type
-  the variable is *declared* as, leaving what it holds at runtime out of it.
+  the variable is *declared* as, leaving what it has at runtime out of it.
 
 ---
 

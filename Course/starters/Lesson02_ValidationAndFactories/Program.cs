@@ -153,8 +153,8 @@ static void Scene3_Factories()
     Console.WriteLine("Four ways to make dice, four different jobs:");
     Console.WriteLine("  Dice.Of(1, 20, 3)       you know exactly what you want");
     Console.WriteLine("  Dice.Attack(3)          you know what it is FOR");
-    Console.WriteLine("  Dice.ByName(\"attack\")   you are holding a key from a save file");
-    Console.WriteLine("  Dice.TryParse(text)     you are holding text and hoping");
+    Console.WriteLine("  Dice.ByName(\"attack\")   you have a key from a save file");
+    Console.WriteLine("  Dice.TryParse(text)     you have text and are hoping");
     Console.WriteLine();
     Console.WriteLine("All four end up at Of().  One door, one set of rules, every caller through it.");
 }

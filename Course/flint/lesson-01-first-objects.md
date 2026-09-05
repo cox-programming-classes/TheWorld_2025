@@ -158,7 +158,7 @@ them they found something real and that it is coming, then steer back.
   properties.
 - **`private set`.**  Lesson 4, where a collection's contents genuinely change.
 - **`struct`,** the heap and the stack, boxing, defensive copies.
-- **Deep immutability**, and what happens when a record holds a `List`.  Also
+- **Deep immutability**, and what happens when a record has a `List`.  Also
   Lesson 4.
 - **Inheritance, `virtual`, interfaces, LINQ.**  All later.
 
@@ -213,7 +213,7 @@ Rider being right and the lesson being ordered are both true at once.
 - **Using `==` where `ReferenceEquals` belongs** in Scene 3.  `==` prints `True`
   and looks like success, and it would print `True` for two entirely separate
   dice.  Ask what the line is supposed to prove.
-- **Believing a record is immutable.**  Many arrive holding this.  Scene 2 is
+- **Believing a record is immutable.**  Many arrive with it.  Scene 2 is
   the counter-example.  Let the program correct them.
 - **Trying to make `Random` immutable.**  Take it seriously.  A `Random` with
   fixed internal state hands back the same number forever.  State earns its

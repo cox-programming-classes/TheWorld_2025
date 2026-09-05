@@ -104,7 +104,7 @@ $"{Count}d{Sides}"                      // string interpolation
    were this morning.  What changed is that it stopped mattering, because the
    thing they share is fixed.
 
-   That's what you bought:  the freedom to stop asking whether you are holding
+   That's what you bought:  the freedom to stop asking whether you have
    the original.
 7. Scene 1's equality line was `True` before your change and `True` after.  Say
    why it was settled all along.

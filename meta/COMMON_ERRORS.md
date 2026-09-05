@@ -160,6 +160,16 @@ riddle.
 type guarantees it."  The rubric already carried the plain phrasing -- *what is
 fixed for good and what can change* -- so the words were sitting right there.
 
+**A second sense went the same way:  possession.**  Where `hold` would mean
+*has*, he writes `has`.  A record that **has** a `List`, the values it **has**,
+you **have** a key from a save file.  The exception is a deliberate physical
+image -- "who is holding the card" stays, and so does the Lesson 1 board
+diagram that draws variables as boxes, because there the physical picture is the
+teaching.
+
+So the word splits three ways:  staying constant becomes `fixed`, possession
+becomes `has`, and holding a position is his and stays.
+
 These senses stay, and they are why a bare grep for the word is useless:
 
 | Keep | Because |

@@ -24,7 +24,7 @@
     { "term": "separation of concerns", "def": "keeping \"what a thing is,\" \"how it is shown,\" and \"what it means here\" in different places" },
     { "term": "coupling", "def": "what a piece of code has to know about in order to work" },
     { "term": "refactoring", "def": "changing structure while behavior stays identical.  The output is the proof" },
-    { "term": "compile-time binding", "def": "the compiler picks which method runs using the type the variable is **declared** as, leaving what it holds at runtime out of it" }
+    { "term": "compile-time binding", "def": "the compiler picks which method runs using the type the variable is **declared** as, leaving what it has at runtime out of it" }
   ],
 
   "warmup": "Read `Dice.cs` all the way through before you touch anything.  It is about 220 lines.  Then answer one question:  **how many different jobs is this type doing?**  Write the list down -- you will check against it at the end.  And note that every method in that file was a reasonable idea on the day it was written.",
