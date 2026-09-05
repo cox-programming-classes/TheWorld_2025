@@ -38,10 +38,16 @@ and the URL survives every rebuild.  That sidebar carried a MagicSchool join
 code through last year, and the old URL sits just above the link in a comment
 in case it is wanted back.
 
-## Why each prompt is this long
+## What each prompt carries
 
-Sparky needs three things a general coding assistant lacks, and each one takes
-explaining.
+Sparky opens with the context a student would assume it already had:  what the
+course is, where the lesson sits in the argument, what went on the board, what
+the homework asks, and the four rubric stages that assignment is graded against.
+A helper that knows the homework can point at it.  One that guesses invents a
+different assignment.
+
+Past the context, Sparky needs three things a general coding assistant lacks,
+and each one takes explaining.
 
 **What to hold back.**  Every lesson deliberately saves syntax for later.
 Lesson 1 saves `with`, Lesson 2 saves primary constructors, Lesson 3 saves
@@ -72,6 +78,24 @@ to.  Rider being right and the lesson being ordered are both true at once.
 Lesson 3 carries the opposite problem:  `extension(Dice)` blocks are C# 14, and
 a Rider older than 2025.2 shows valid code as broken.  That prompt tells Sparky
 to check `dotnet build` before believing the editor.
+
+## The size limit
+
+**Flint caps activity instructions at roughly 12,000 characters.**  Every prompt
+is written to fit under that with room to spare.  Check before pasting:
+
+```bash
+for f in lesson-0*.md; do
+  printf '%-46s %6d\n' "$f" "$(sed '1,/^---$/d' "$f" | wc -c)"
+done
+```
+
+Only the text below the `---` goes into Flint, so the note at the top of each
+file is free.  If the real cap turns out lower than 12,000, cut in this
+order:  the Rider inspection lists, then the stuck-point bullets, then the
+board summary in "What happened in class".  The rubric table, the homework, and
+the hold-back list earn their place -- they are what a general assistant gets
+wrong.
 
 ## Keeping these in step with the lessons
 
