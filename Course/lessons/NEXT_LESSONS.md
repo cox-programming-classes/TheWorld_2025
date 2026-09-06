@@ -1,11 +1,25 @@
 # What Comes Next
 
-Sketches.  Lessons 4 and 5 are worked out far enough to confirm the arc works,
-and they get written once Lessons 1-3 have actually been taught and I know what
-the room is like.
+Sketches.  They get written once the lessons before them have actually been
+taught and I know what the room is like.
+
+The course runs in three units before the fork.  **Unit 1** is values:  one good
+small type, built four times over.  **Unit 2** is the domain model:  what happens
+when a program needs twenty of them and they have to fit together.  **Unit 3** is
+behavior:  the tools for making one call do more than one thing.
 
 Everything past the fork stays deliberately open, because designing it now
 would mean guessing at choices the students have yet to make.
+
+---
+
+## Unit 1 - Values
+
+*Lessons 1 through 4, plus a milestone.  Dice as the worked example, Cards as
+the transfer.*
+
+Lessons 1 to 3 are written.  Lesson 4 closes the unit, and the milestone is
+where the four of them turn into something a person can play.
 
 ---
 
@@ -61,7 +75,205 @@ gave them the framework to argue it.
 
 ---
 
-## Lesson 5 - Polymorphism
+## Milestone - a game made of Cards
+
+*Two meetings.  The end of Unit 1, and the first thing they build that a person
+can sit down and play.*
+
+Four lessons of toolkit, and every piece of it is theirs.  This is where it
+becomes a game.
+
+**The deliverable:**  a complete, playable card game.  Console, one opponent,
+win conditions, and an ending.  War is the floor.  Blackjack is the one most
+students reach for, and it pays off the ace argument they have been having since
+Lesson 3.  Go Fish needs matching and a little memory.  Anything they can scope
+and defend is fair.
+
+**Why it earns two meetings:**  every lesson so far ended with a type.  A game
+is the first thing that ends with an *experience*, and the gap between those two
+is where students find out what their toolkit actually does.  It is also the
+first honest rehearsal for the fork, at a size they can finish.
+
+**What it assesses, and it is the whole unit at once:**
+
+| From | What has to show up |
+|---|---|
+| Lesson 1 | a `Card` that is fixed once built, and a `Deck` whose contents change |
+| Lesson 2 | a deck that arrives complete and legal, every time |
+| Lesson 3 | this game's rules living beside `Card` rather than inside it |
+| Lesson 4 | a `Deck` and a `Hand` that are honest about running out |
+
+**Scope is the conversation.**  Most first pitches are a whole casino.  Cutting
+one down to a thing that finishes is the useful work, and doing it here means
+the fork conversation in Unit 3 lands on students who have already had it once.
+
+**Where Cards go after this:**  into a drawer, still in the project.  Unit 2
+starts a new thing entirely, and the card game stays where it is, compiling.
+Every game needs a mini-game, so whatever a student builds after the fork has a
+tavern, a train car, or a waiting room with a deck in it already written.
+
+---
+
+## Unit 2 - The Domain Model
+
+*Lessons 5 through 7.  `Player` as the worked example, `Creature` as the
+transfer.*
+
+Unit 1 taught how to build one good small type.  This unit is what happens when
+a program needs twenty of them.
+
+The unit runs on one long refactor.  Lesson 5 builds a `Player` that is honest
+about being a pile of numbers.  Lessons 6 and 7 turn it into a domain model,
+and the students do the turning.  **Each lesson changes the shape of code that
+already runs**, which is the Lesson 3 move at a larger scale.
+
+The word for what Lesson 5 builds is **primitive obsession**:  a design that
+says everything in `int` and `string` because those were the types at hand.
+Students meet the term in Lesson 5 and spend two more lessons working it off.
+
+---
+
+## Lesson 5 - Composition and the Shape of a Player
+
+*A class can be made of other classes.*
+
+**The one new idea:**  a class can be built out of other classes.  A `Player`
+**has** a set of abilities, rather than having six loose numbers.
+
+**What they build first, and it is deliberately flat:**  a `Player` with every
+value a primitive.  Name, level, XP, current and maximum HP, six ability scores,
+gold.  Twelve members, ten of them `int`.  They write it themselves, in class,
+and it works.
+
+**The felt problem, and it arrives in the first ten minutes.**  Build one
+through a factory, the way Lesson 2 taught:
+
+```csharp
+Player.Create("Bree", 1, 0, 10, 10, 14, 12, 13, 8, 15, 11, 50);
+```
+
+Swap two of those numbers.  It compiles.  It runs.  The character is wrong for
+the rest of the game, and every test passes, because 12 and 13 are both
+perfectly legal ints.
+
+**This is the bitter part, and it is the point.**  They know how to make a type
+impossible to construct in an invalid state.  They wrote guards in Lesson 2.
+And a guard checks a *range*, so every swapped value clears it.  Validation
+cannot reach this bug.  Something else has to.
+
+**The arc of the work:**
+
+1. Build the flat `Player`.  Run it.
+2. Swap two stats in the call.  Watch it compile and run wrong.
+3. Reach for **named arguments**, `strength: 14, dexterity: 12`.  Better, and
+   worth teaching -- and optional, so the next person can leave them off.
+4. Extract `AbilityScores`, one type holding six named values.  `Player` drops
+   from twelve members to seven, and the six-int constructor now lives in a type
+   that is *about* being six ints.
+5. Extract `Health`, current and maximum together, with the rule that current
+   stays within maximum.
+
+**The homework is where it pays off.**  Build the companion `Creature` class,
+alone.  A creature needs abilities and health too -- and both types already
+exist, so the second entity is nearly free.  Fifteen minutes, and the
+extraction justifies itself.
+
+**Hold back:**  inheritance.  Somebody will ask whether `Creature` should extend
+`Player`, or whether both should extend an `Entity`.  That is Lesson 7's
+question and Lesson 8's tool, and this unit is going to argue with it.  Tell
+them they have found the next lesson, then leave it.
+
+**Argument to leave open:**  is gold part of a `Player`, or part of an
+inventory?  Both are defensible, and the answer differs by what game they are
+building.
+
+---
+
+## Lesson 6 - Types That Carry Their Own Rules
+
+*Making the wrong thing impossible to say.*
+
+**The one new idea:**  a small type can make an illegal value impossible to
+express, which is a stronger claim than refusing it at the door.
+
+**Where Lesson 5 left it:**  the six ints are grouped, and they are still ints.
+`abilities.Strength` hands back an `int`, and the moment it does, the number has
+lost every bit of meaning the grouping gave it.  Level and XP are both `int`
+too, so passing one where the other belongs still compiles.
+
+**What gets built:**  `AbilityScore` as a type of its own, a record wrapping a
+single number, legal between 3 and 18, with `Modifier => (Value - 10) / 2`
+living on it.
+
+**The move that makes it land:**  ask where the modifier formula currently is.
+It is in three places, because three different callers needed it.  Now it has
+one home, and the home is a type so small it feels silly.  That is Lesson 3
+applied at a scale that looks absurd until the third caller shows up.
+
+**The distinction worth naming, since it is the unit's spine:**
+
+| Lesson 2 | Lesson 6 |
+|---|---|
+| the value is checked at the door | the value has a type that only holds legal values |
+| a bad number is refused | a bad number has nowhere to live |
+
+**`Health` gets the same treatment**, and it is the better demonstration:  a
+`Health` where current exceeds maximum is impossible to build, so every method
+downstream can stop asking.  `TakeDamage` hands back a new `Health`, clamped,
+and Lesson 1's immutability is what makes that read cleanly.
+
+**Homework:**  give one field on their `Creature` the same treatment, and be
+ready to say what it now makes impossible.
+
+---
+
+## Lesson 7 - Shared Parts
+
+*Two things built from the same pieces.*
+
+**The one new idea:**  shared structure can come from shared parts.
+
+**The felt problem, and every prior course set them up for it:**  `Player` and
+`Creature` both have `AbilityScores` and `Health` now.  The instinct arriving
+from Java is immediate -- extract a base class, call it `Entity`, put the common
+things in it.  Ask the room.  Most of them will want it.
+
+**The lesson takes that seriously and then takes it apart.**  Put the two types
+side by side and list what each has that the other lacks.  A creature has a loot
+table and an XP value for killing it.  A player has an inventory, gold, and a
+level.  A base class forces a decision *now* about what is universal, and the
+decision is made with the least information anyone will ever have about this
+game.
+
+**The demonstration:**  write a method that works on both, with the two types
+related only by what they are made of.
+
+```csharp
+static int Check(AbilityScores scores, Ability which, Dice d) => ...
+```
+
+Called on a player, called on a creature, one implementation.  **The shared
+thing is a part rather than a parent.**
+
+**Why this ordering matters for the rest of the course:**  polymorphism arrives
+next, and it arrives as a specific tool for a specific job -- one call, more than
+one behavior.  Students who meet inheritance first reach for it to share
+structure, which is the job it is worst at.  Meeting composition first means the
+inheritance lesson can be about what inheritance is genuinely good for.
+
+**Challenge:**  compose a third entity -- a shopkeeper, a summoned pet, a
+training dummy -- out of the parts that already exist, leaving every one of
+them exactly as it is.
+
+---
+
+## Unit 3 - Behavior
+
+*Lessons 8 through 10.  The tools for making one call do more than one thing.*
+
+---
+
+## Lesson 8 - Polymorphism
 
 *One call, more than one behavior.*
 
@@ -92,9 +304,10 @@ pattern matching over a closed set of types (`item switch { Weapon w => ..., }`)
 an overridden method and an extension method.  One does the loaded thing.  One
 rolls straight.  Lesson 3's gotcha, cashed in.
 
-**Cards challenge:**  cards that do something when played.  A base `Card`, derived
-kinds with different effects, one loop that plays a whole hand while staying ignorant of
-what any of them are.
+**Challenge:**  creatures that act differently on their turn.  A base `Creature`,
+derived kinds with their own behavior, and one encounter loop that runs the
+whole fight while staying ignorant of what any of them are.  Cards are in the
+drawer by now;  this unit's thread is the one that carries forward.
 
 **Guardrail:**  inheritance is introduced *here*, deliberately late, and only one
 level deep, and abstract base class hierarchies stay out.  If a student builds a five-level
@@ -103,22 +316,22 @@ answer to reach for is usually composition.
 
 ---
 
-## Lessons 6 and 7 - in pencil
+## Lessons 9 and 10 - in pencil
 
-- **6, Interfaces.**  A promise about behavior.  `IRoller`, `IDescribable`,
+- **9, Interfaces.**  A promise about behavior.  `IRoller`, `IDescribable`,
   `IHasValue`.  The move that matters:  a `Deck`, a `Dice`, and a spinner share
   wildly different structures, and every one of them can
   satisfy "produces a random result."
   Probably also where `IGameIO` gets motivated, since it's what lets a game be
   tested with the human left out of the loop.
-- **7, State and events.**  Objects that announce what happened and let something
+- **10, State and events.**  Objects that announce what happened and let something
   else decide what to do about it.  Health, damage, `LeveledUp`.  This is the last
   lesson before the fork, and it is the one where the pile of tools starts to
   feel like a *game*.
 
 ---
 
-## The Fork - meetings 16-17
+## The Fork - meetings 24-25
 
 Everything to here has been the same for everybody.  Here it stops.
 
@@ -143,7 +356,7 @@ Groups are allowed.  Solo is allowed.  Two people building the same game
 separately is allowed and often the most interesting outcome, because they
 diverge and can see it.
 
-**After the fork, lessons stop being lockstep.**  Meetings 18-29 run as short
+**After the fork, lessons stop being lockstep.**  Meetings 26-41 run as short
 mini-lessons on whatever the majority need, plus workbench time.  The lessons
 that get written are the ones the pitches demand, which is why they stay
 sketches for now.

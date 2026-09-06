@@ -148,14 +148,17 @@ written the arc past the fork in pencil.
 | 2 | Validation & Factory Methods | A type should be impossible to construct in an invalid state | Private ctor, guards, factory methods, `TryParse` | `Card` refuses bad data; a real 52-card deck |
 | 3 | Extensions & Separating Concerns | Behavior can live beside the data it describes | `Display` / `Rules` split | Card display; two games' rules, side by side |
 | 4 | Collections | Many things, and what many costs | `Deck`, `Hand`, `Inventory`, shuffle | The deck becomes real |
-| 5 | Polymorphism | One call, more than one behavior | `WeightedDice` -- the die that cheats | Cards with effects |
-| 6 | Interfaces | A promise about behavior, held by unrelated types | `IRoller`, `IDescribable` | Anything that can be drawn from |
-| 7 | State & Events | Objects that announce what happened | `Entity`, health, `LeveledUp` | Scoring a hand |
+| -- | **MILESTONE** | -- | *a playable card game, out of the whole unit* | -- |
+| 5 | Composition | A class can be made of other classes | `Player`, `AbilityScores`, `Health` | `Creature`, from the same parts |
+| 6 | Value Types | A small type can make an illegal value impossible to express | `AbilityScore` and `Health` with rules of their own | one `Creature` field given the same treatment |
+| 7 | Shared Parts | Shared structure can come from shared parts | the assembled model, related by what it is made of | a third entity out of the existing pieces |
+| 8 | Polymorphism | One call, more than one behavior | `WeightedDice` -- the die that cheats | creatures that act differently on their turn |
+| 9 | Interfaces | A promise about behavior, held by unrelated types | `IRoller`, `IDescribable` | anything that can be drawn from |
+| 10 | State & Events | Objects that announce what happened | damage, healing, `LeveledUp` | an encounter that reports itself |
 | -- | **THE FORK** | -- | *students choose what they are building* | -- |
-| 8-12 | Systems | commands, a loop, a world, saving -- and DTOs, where primary constructors and `with` finally arrive | *depends on the fork* | |
-| 13+ | Build & Showcase | synthesis | *their game* | |
+| 11+ | Systems & Build | commands, a loop, a world, saving -- and DTOs, where primary constructors and `with` finally arrive | *depends on the fork* | |
 
-Lessons 1-3 are written.  Lessons 4-5 are sketched in
+Lessons 1-3 are written.  Lessons 4 through 10 are sketched in
 [`lessons/NEXT_LESSONS.md`](lessons/NEXT_LESSONS.md).  Everything past the fork
 stays deliberately unwritten, because writing it now would be guessing at choices
 the students have yet to make.

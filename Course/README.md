@@ -56,17 +56,18 @@ productively.
 | Meetings | Phase | What happens |
 |---|---|---|
 | 1 | Setup | Toolchain, `dotnet run`, everybody sees output on their own machine |
-| 2-7 | **Objects & Types** | Lessons 1-3 -- mutability, validity, where behavior lives |
-| 8-15 | **Behavior** | Lessons 4-7 -- collections, polymorphism, interfaces, events |
-| 16-17 | **The Fork** | Students choose what they are building.  Pitch, scope, commit. |
-| 18-29 | **Systems** | Whatever the fork demands:  a loop, commands, a world, saving |
-| 30-41 | **Build** | Student-directed, with short mini-lessons pulled in as needed |
+| 2-9 | **Unit 1 - Values** | Lessons 1-4 -- mutability, validity, where behavior lives, collections |
+| 10-11 | **Milestone** | A playable card game, built out of the whole unit |
+| 12-17 | **Unit 2 - The Domain Model** | Lessons 5-7 -- composition, value types, shared parts |
+| 18-23 | **Unit 3 - Behavior** | Lessons 8-10 -- polymorphism, interfaces, state and events |
+| 24-25 | **The Fork** | Students choose what they are building.  Pitch, scope, commit. |
+| 26-41 | **Build** | Whatever the fork demands, with short mini-lessons pulled in as the pitches ask for them |
 | 42-45 | **Showcase** | Play each other's games; a retrospective on what they'd do differently |
 
 The back half runs longer than the front half on purpose.  Homework is capped, so
 class time is where the building actually happens.
 
-Everything past meeting 17 is written in pencil.  The shape of the systems phase
+Everything past meeting 25 is written in pencil.  The shape of the systems phase
 follows from what students choose, and choosing is the point.
 
 ## Homework
