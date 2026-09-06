@@ -18,14 +18,21 @@ would mean guessing at choices the students have yet to make.
 *Lessons 1 through 4, plus a milestone.  Dice as the worked example, Cards as
 the transfer.*
 
-Lessons 1 to 3 are written.  Lesson 4 closes the unit, and the milestone is
-where the four of them turn into something a person can play.
+Lessons 1 to 4 are written, and Lesson 4 lives in
+[`lesson_04_collections.md`](lesson_04_collections.md) rather than here.  The
+milestone below is where the four of them turn into something a person can
+play.
 
 ---
 
-## Lesson 4 - Collections
+## Lesson 4 - Collections  (written)
 
 *Many things, and what many costs.*
+
+**Written up in full:**  [`lesson_04_collections.md`](lesson_04_collections.md),
+with a starter project in `Course/starters/Lesson04_Collections`.  What follows
+is the sketch it was built from, kept because the reasoning is still the
+reasoning.
 
 **The one new idea:**  a collection is itself an object, with its own state, its
 own rules, and its own opinions about what may go into it.

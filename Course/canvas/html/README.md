@@ -32,6 +32,7 @@ Teacher files open with a red banner.  Keep them in an **unpublished** module.
 | 1 | First Objects | [page](pages/lesson-01-first-objects.html) | [assignment](assignments/lesson-01-first-objects.html) | [teacher](teacher/lesson-01-first-objects.html) |
 | 2 | Data Validation and Factory Methods | [page](pages/lesson-02-validation-and-factories.html) | [assignment](assignments/lesson-02-validation-and-factories.html) | [teacher](teacher/lesson-02-validation-and-factories.html) |
 | 3 | Extensions and Separating Concerns | [page](pages/lesson-03-extensions-and-concerns.html) | [assignment](assignments/lesson-03-extensions-and-concerns.html) | [teacher](teacher/lesson-03-extensions-and-concerns.html) |
+| 4 | Collections | [page](pages/lesson-04-collections.html) | [assignment](assignments/lesson-04-collections.html) | [teacher](teacher/lesson-04-collections.html) |
 
 ## Front page link tokens
 
@@ -44,3 +45,4 @@ click each link and re-point it at the real Page or Assignment (or find/replace 
 | First Objects | `LINK_LESSON_01_PAGE` | `LINK_LESSON_01_ASSIGNMENT` |
 | Data Validation and Factory Methods | `LINK_LESSON_02_PAGE` | `LINK_LESSON_02_ASSIGNMENT` |
 | Extensions and Separating Concerns | `LINK_LESSON_03_PAGE` | `LINK_LESSON_03_ASSIGNMENT` |
+| Collections | `LINK_LESSON_04_PAGE` | `LINK_LESSON_04_ASSIGNMENT` |

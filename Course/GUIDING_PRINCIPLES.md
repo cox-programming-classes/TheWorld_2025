@@ -158,7 +158,8 @@ written the arc past the fork in pencil.
 | -- | **THE FORK** | -- | *students choose what they are building* | -- |
 | 11+ | Systems & Build | commands, a loop, a world, saving -- and DTOs, where primary constructors and `with` finally arrive | *depends on the fork* | |
 
-Lessons 1-3 are written.  Lessons 4 through 10 are sketched in
+Lessons 1-4 are written, which is all of Unit 1.  Lessons 5 through 10 are
+sketched in
 [`lessons/NEXT_LESSONS.md`](lessons/NEXT_LESSONS.md).  Everything past the fork
 stays deliberately unwritten, because writing it now would be guessing at choices
 the students have yet to make.

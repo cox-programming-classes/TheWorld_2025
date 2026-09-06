@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lesson02_ValidationAndFacto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lesson03_ExtensionsAndConcerns", "Course\starters\Lesson03_ExtensionsAndConcerns\Lesson03_ExtensionsAndConcerns.csproj", "{FB7C9443-D01B-4710-B28A-6346496F81B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lesson04_Collections", "Course\starters\Lesson04_Collections\Lesson04_Collections.csproj", "{36C1C745-29E7-4E00-B226-3F1F3E04E2A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,18 @@ Global
 		{FB7C9443-D01B-4710-B28A-6346496F81B8}.Release|x64.Build.0 = Release|Any CPU
 		{FB7C9443-D01B-4710-B28A-6346496F81B8}.Release|x86.ActiveCfg = Release|Any CPU
 		{FB7C9443-D01B-4710-B28A-6346496F81B8}.Release|x86.Build.0 = Release|Any CPU
+		{36C1C745-29E7-4E00-B226-3F1F3E04E2A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36C1C745-29E7-4E00-B226-3F1F3E04E2A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36C1C745-29E7-4E00-B226-3F1F3E04E2A5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{36C1C745-29E7-4E00-B226-3F1F3E04E2A5}.Debug|x64.Build.0 = Debug|Any CPU
+		{36C1C745-29E7-4E00-B226-3F1F3E04E2A5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{36C1C745-29E7-4E00-B226-3F1F3E04E2A5}.Debug|x86.Build.0 = Debug|Any CPU
+		{36C1C745-29E7-4E00-B226-3F1F3E04E2A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36C1C745-29E7-4E00-B226-3F1F3E04E2A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36C1C745-29E7-4E00-B226-3F1F3E04E2A5}.Release|x64.ActiveCfg = Release|Any CPU
+		{36C1C745-29E7-4E00-B226-3F1F3E04E2A5}.Release|x64.Build.0 = Release|Any CPU
+		{36C1C745-29E7-4E00-B226-3F1F3E04E2A5}.Release|x86.ActiveCfg = Release|Any CPU
+		{36C1C745-29E7-4E00-B226-3F1F3E04E2A5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,5 +107,6 @@ Global
 		{9CD6FF3B-17A2-412B-861A-52BFA56A679F} = {364B9A5B-6A19-5375-871A-E3D4EE7A3904}
 		{E69388E2-40C0-4148-BEBE-5FA7691AF540} = {364B9A5B-6A19-5375-871A-E3D4EE7A3904}
 		{FB7C9443-D01B-4710-B28A-6346496F81B8} = {364B9A5B-6A19-5375-871A-E3D4EE7A3904}
+		{36C1C745-29E7-4E00-B226-3F1F3E04E2A5} = {364B9A5B-6A19-5375-871A-E3D4EE7A3904}
 	EndGlobalSection
 EndGlobal

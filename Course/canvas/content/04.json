@@ -1,0 +1,243 @@
+{
+  "id": "04",
+  "num": "4",
+  "kind": "core",
+  "slug": "lesson-04-collections",
+  "title": "Collections",
+  "tagline": "Many things, and what many costs.  A `List` holds things -- the rules are yours to write.",
+  "whenToUse": null,
+  "timing": "Two meetings (~50 min each).  Closes Unit 1.",
+  "newIdea": "A collection is itself an object, with its own state and its own rules",
+  "builtOn": "Lessons 1 through 3.  Your dice are fixed once built, they arrive valid, and their behavior lives beside them.  The container is the last thing left to design.",
+
+  "goals": [
+    "Write a type that wraps a collection and owns every rule about it",
+    "Say what `IReadOnlyList<T>` buys you -- and what it leaves open",
+    "Use `{ get; private set; }` for state that changes, and defend it against both `init` and a public setter",
+    "Write the Fisher-Yates shuffle from the idea, in place, and seeded so a test can repeat it",
+    "Decide how a collection reports running out, and defend the choice you made",
+    "Read a `foreach` loop and the LINQ that replaces it, and pick between them on purpose"
+  ],
+
+  "vocab": [
+    { "term": "collection", "def": "an object whose job is holding other objects" },
+    { "term": "`List<T>`", "def": "the workhorse.  Ordered, resizable, and entirely without opinions about what goes in it" },
+    { "term": "`IReadOnlyList<T>`", "def": "a view of a list offering reading and counting.  A statement about what a caller may do with it" },
+    { "term": "encapsulation", "def": "keeping state private and making methods the way it changes.  Lesson 2 did this for construction;  today does it for change" },
+    { "term": "Fisher-Yates", "def": "the shuffle.  Walk from the end, and swap each item with one chosen from the part you have yet to visit" },
+    { "term": "LINQ", "def": "`.Where()`, `.Count()`, `.OrderBy()`.  Loops that come with names" }
+  ],
+
+  "warmup": "Run it before you change anything.  Six scenes, and every one of them is a `List` doing exactly what a `List` does, in a place that needed something with rules.  Then one question, and it has a real answer:  `DiceBag.Add()` checks the capacity and refuses politely.  Scene 2 puts nine dice in a bag of six anyway.  **Who is at fault?**",
+
+  "howItWorks": [
+    {
+      "h": "A List is indifferent, and that is correct of it",
+      "p": [
+        "Ask what `List<Dice>` knows about dice bags.  The answer is the whole point:  it knows how to hold things, and that is the end of the list -- the same type carries shopping lists, pixels, and enemies.",
+        "Generality is the feature.  It is also exactly why the rules have to live somewhere else, and today you write the somewhere else.",
+        "**A rule with a bypass is a suggestion.**  `Add()` did its job.  So did `List`.  The fault is that the rule was written in a place anybody could walk around."
+      ]
+    },
+    {
+      "h": "Lesson 1, at a larger size",
+      "p": [
+        "Scene 4 is the one to slow down on.  `Contents` is `{ get; init; }`, so the slot is sealed.  One `var snapshot = bag.Contents;` later, a caller is holding the bag's insides and can empty it.",
+        "**Making the reference fixed and making the thing it points at fixed are two separate decisions.**  Lesson 1 made the first.  Today makes the second.",
+        "This is why `init` was worth learning, and why today is the other half of it."
+      ],
+      "aside": {
+        "h": "If you're coming from Java",
+        "p": [
+          "You have met this exact hole.  `final List<Card> cards` seals the field and leaves the list wide open, which is the same sentence with different keywords.",
+          "`Collections.unmodifiableList()` is the closest thing to `IReadOnlyList<T>`, and it carries the same caveat:  it wraps a view around a list somebody else may still be holding."
+        ],
+        "bullets": [
+          "The difference worth naming:  C# hands you `IReadOnlyList<T>` as a **return type** you can declare, so the intent shows up in the method signature rather than at the call."
+        ]
+      }
+    },
+    {
+      "h": "Who may change what",
+      "p": [
+        "Three forms for a member, and every one of them is a claim you are making out loud:"
+      ],
+      "bullets": [
+        "`{ get; init; }` -- set once, at construction, and settled.",
+        "`{ get; set; }` -- anybody, any time, for any reason.",
+        "`{ get; private set; }` -- this changes, and **this type decides when**."
+      ]
+    },
+    {
+      "h": "Honest about empty",
+      "p": [
+        "Draw from an empty bag and read the crash out loud:  *Index was out of range.*  Those are `List`'s words, about an index, and the word \"index\" belongs to `List` alone.  Lesson 2, arriving again.",
+        "So how should a bag report that it is out?  **Throw, hand back null, or the Try pattern?**  All three are defensible and Lesson 2 gave you the framework to argue it.",
+        "Pick one.  Be ready to say what would change if your game had fifty decks running at once."
+      ]
+    },
+    {
+      "h": "A loop, and then a name for it",
+      "p": [
+        "Count the d20s in the bag with a `foreach`.  You have written that loop a hundred times in another language, so write it once more here.",
+        "Then meet `.Count(d => d.Sides == 20)` and read it against the loop you just wrote.  **It is the same loop with a name on it.**",
+        "That is the whole introduction.  LINQ is available from here on, and it stays optional -- pick whichever you would rather read in six months."
+      ],
+      "aside": {
+        "h": "If you're coming from Java",
+        "p": [
+          "`.Count(d => ...)` is `stream().filter(...).count()`, with the stream step left implicit.",
+          "LINQ is where extension methods from Lesson 3 get their biggest payoff:  every one of these is a static method on `IEnumerable<T>` that C# lets you call as though the list owned it."
+        ]
+      }
+    }
+  ],
+
+  "steps": [
+    "Read `DiceBag.cs` all the way through.  Two columns:  every rule the type is trying to enforce, and how a caller gets around it.",
+    "Make the list **private** and hand out a read-only view.  `private readonly List<Dice> _contents = [];` and `public IReadOnlyList<Dice> Contents => _contents;`",
+    "Re-run.  **Scene 4 stops compiling, and that is the win** -- CS1061, `IReadOnlyList<Dice>` does not contain a definition for `Clear`.  Scene 2 stops too.  Delete those lines, and say what deleting them proves.",
+    "Fix `Draw`.  It should remove what it hands back, and be honest when the bag is empty.  How it is honest is your call -- and you defend it at the wrap-up.",
+    "Fix `Shuffle`.  The algorithm inside it is already correct.  Find the bug in the **signature** before you touch the body.",
+    "`DrawnCount` is a fact about what happened, so make it `{ get; private set; }` and let the bag be the only thing that writes it down.",
+    "`Standard()` built its bag with a collection initializer, which reached the list directly.  Rebuild it out of `Add()` calls.  **The factory now goes through the same door as everybody else.**",
+    "Count the d20s with a `foreach` loop.  Then write it as `.Count(d => d.Sides == sides)` and decide which one you would rather read in six months."
+  ],
+
+  "code": [
+    {
+      "label": "The bag as it ships - every rule here is a suggestion",
+      "body": "public class DiceBag\n{\n    public int Capacity { get; init; } = 6;\n\n    // TODO (Step 2):  public, and a List.  Between those two facts,\n    // every rule below is a suggestion.\n    public List<Dice> Contents { get; init; } = [];\n\n    // This method is careful.  It checks, and it refuses politely.\n    // Scene 2 walks straight past it.\n    public bool Add(Dice dice)\n    {\n        if (Contents.Count >= Capacity) return false;\n        Contents.Add(dice);\n        return true;\n    }\n}"
+    },
+    {
+      "label": "Where Step 2 lands",
+      "body": "private readonly List<Dice> _contents = [];\n\n/// <summary>The dice in the bag, for looking at.</summary>\npublic IReadOnlyList<Dice> Contents => _contents;\n\n// Now this is a compile error, and that is the whole point:\n//     bag.Contents.Clear();\n//     CS1061:  'IReadOnlyList<Dice>' does not contain a definition for 'Clear'"
+    },
+    {
+      "label": "Fisher-Yates, walking from the end",
+      "body": "public void Shuffle()\n{\n    for (var i = _contents.Count - 1; i > 0; i--)\n    {\n        // The partner comes from the part we have yet to visit.\n        // Picking from the whole list every time looks fine and is biased.\n        var j = _random.Next(i + 1);\n        (_contents[i], _contents[j]) = (_contents[j], _contents[i]);\n    }\n}"
+    }
+  ],
+
+  "makeItYours": [
+    "**`Deck`.**  Fifty-two cards, shuffled, dealt one at a time, and honest about running out.  The same three problems you just fixed, on a type you designed yourself.",
+    "**`Hand`.**  A collection with a limit.  Deal five cards into it and have it refuse the sixth.",
+    "**Then the payoff, and it closes the whole unit:**  deal one five-card hand and score it with **both** rule sets from Lesson 3.  Same cards, two games, two answers -- with each rules file ignorant of the other.",
+    "Four lessons of separate ideas, running together in one line of output.  That is what the milestone is built on."
+  ],
+
+  "challenge": "Deal until the deck runs out, and make it end the way you argued it should in class.  Then hand your `Deck` to the person next to you and ask them to break it.  They will reach for the thing you left public.",
+
+  "flintHint": "Good things to ask:  \"what is the difference between IReadOnlyList and List in C#?\", \"why does my collection initializer stop compiling?\", or \"how does Fisher-Yates pick which item to swap?\" Tell it you are on Lesson 4 and that your list is private on purpose -- otherwise it will suggest you just make it public again.",
+
+  "_flintUrl": "The AI-helper button's href, from the Flint activity for this lesson.  Left empty, the build emits a waiting placeholder on both the Page and the Assignment.",
+  "flintUrl": "",
+
+  "wrapup": "You picked a way for `Draw` to report an empty bag.  Which one, and what would change if your game had fifty decks running at once?",
+
+  "assignmentTask": "Turn a bag that holds dice into a bag that has rules about dice, then do the same thing to a deck of your own cards.",
+
+  "assignmentDo": [
+    "Make `DiceBag`'s list private and hand out `IReadOnlyList<Dice>`, then delete the two scenes that stop compiling.",
+    "Make `Draw` remove what it draws, and be honest when the bag is empty.",
+    "Fix `Shuffle` so the bag itself changes, and make `DrawnCount` `{ get; private set; }`.",
+    "Rebuild `Standard()` out of `Add()` calls, so the factory comes through the same door as everybody else.",
+    "Build a `Deck` of your own cards that shuffles, deals, and runs out honestly -- and a `Hand` that refuses a sixth card.",
+    "Score one five-card hand with **both** Lesson 3 rule sets, and show the two answers side by side."
+  ],
+
+  "submit": [
+    "**Your repository URL**, with `Lesson04_Collections` committed *and pushed*.",
+    "Your `Deck.cs` and `Hand.cs`.",
+    "The output of one five-card hand scored two ways.",
+    "Your two-column list from Step 1 -- every rule the starter tried to enforce, and how a caller got around it.",
+    "Your answer to **Show your thinking** below."
+  ],
+
+  "checklist": [
+    "Show that `bag.Contents.Clear()` fails to compile, and name the error.",
+    "Draw six dice from a bag of six and get six different dice, then draw a seventh and handle it the way I chose.",
+    "Explain why `Standard()` stopped compiling in Step 7, and why that was good news.",
+    "Point at `DrawnCount` and say who is allowed to write to it, and why that is the right answer.",
+    "Deal a hand from my own `Deck` and score it twice, with two rule sets, each one ignorant of the other."
+  ],
+
+  "standard": "Write a type that owns a collection and every rule about it -- what may go in, how many, who may change it, and what happens when it runs out.",
+
+  "stages": [
+    { "name": "Getting Started", "text": "The build is red, or the list is still public.  **Next step:**  make the field `private readonly List<Dice> _contents = [];` and add `public IReadOnlyList<Dice> Contents => _contents;`.  Then re-run and read what stops compiling -- CS1061 in `Program.cs` is the lesson working, and CS1061 inside `Standard()` is Step 7 arriving early." },
+    { "name": "Got It Working", "text": "The list is private, `Draw` removes and handles empty, `Shuffle` changes the bag, `DrawnCount` is `{ get; private set; }`, and `Standard()` builds itself through `Add()`." },
+    { "name": "Made It Mine", "text": "&hellip;and I built a `Deck` and a `Hand` from my own cards, dealt a five-card hand, and scored it with both Lesson 3 rule sets -- and I can name one rule my `Deck` has that my `Hand` would find absurd." },
+    { "name": "Went Beyond", "text": "&hellip;and I went after something the lesson left open -- a shuffle you can swap out for a different strategy, a `Deck` that survives being handed to somebody trying to break it, the cast that defeats `IReadOnlyList` and what to do about it, or a measurement showing that the na&iuml;ve shuffle really is biased." }
+  ],
+
+  "thinking": "In two or three sentences:  name one rule your `Deck` enforces, and say where a caller could have got around it before you closed the door.  Then answer the empty-deck question -- throw, null, or Try -- and say what made you pick that one rather than defending it after the fact.",
+
+  "teacher": {
+    "warmupTime": "~7 min",
+    "directTime": "~13 min",
+    "guidedTime": "~22 min",
+    "wrapupTime": "~5 min",
+
+    "di": [
+      {
+        "h": "Run it first, then ask who is at fault",
+        "p": [
+          "Six scenes of output on the projector, read against `DiceBag.cs`.  Give them a minute with it before you say anything.",
+          "Then:  \"`Add()` checks the capacity and refuses.  Scene 2 puts nine dice in a bag of six.  Who is at fault?\"",
+          "Take real answers.  Somebody will blame `Add`, somebody will blame `List`, and both did their jobs exactly.  The fault is that a rule was written where anybody could walk around it.",
+          "Put this on the board and leave it all lesson:  **a rule with a bypass is a suggestion.**"
+        ]
+      },
+      {
+        "h": "Scene 4 is the beat that matters",
+        "p": [
+          "Draw it as boxes, the way Lesson 1 did.  `init` sealed the slot.  The `List` the slot points at is still wide open.",
+          "The sentence to say out loud:  **making the reference fixed and making the thing it points at fixed are two separate decisions.**  Lesson 1 made the first one, and today makes the second.",
+          "This is also the honest answer to any student who felt Lesson 1 overclaimed.  It did, slightly, and this is where the rest of it arrives."
+        ]
+      },
+      {
+        "h": "Leave the empty-bag question open, and count the room",
+        "p": [
+          "Throw, null, or Try -- take a show of hands and write the counts on the board.",
+          "Revisit those numbers at the milestone, when somebody's deck runs out mid-game and the choice starts having consequences they can feel.",
+          "The answer worth steering toward is a question:  is running out **normal** for this caller, or is it a bug?  That is Lesson 2's distinction, arriving in a new place."
+        ]
+      }
+    ],
+
+    "guided": [
+      {
+        "h": "Step 2 is the one to protect",
+        "p": [
+          "If the period runs short, cut Step 8.  Protect Steps 2 and 3.",
+          "The compile error in Step 3 is where \"a collection is an object with rules\" stops being a slogan and becomes something the compiler enforces for them."
+        ]
+      },
+      {
+        "h": "Let them find Step 7 early",
+        "p": [
+          "After Step 2, `Standard()` fails to compile, because its collection initializer reached the list directly.",
+          "**Let them hit it themselves.**  It is the best moment in the lesson:  the factory they wrote in Lesson 2 is now subject to the rules it enforces on everybody else."
+        ]
+      }
+    ],
+
+    "pitfalls": [
+      "**A shuffle that picks from the whole list** every iteration.  It runs, it looks shuffled, and it is measurably biased.  Mention it;  leave it alone unless somebody wants the histogram from Lesson 3 and an afternoon.",
+      "**`RemoveAt(0)` rather than the end.**  Correct, and O(n) per draw.  Fine at 52 cards.  Say so, and say why you are bothering to say so.",
+      "**Returning `_contents` from some other method** after carefully hiding the field.  The hole reopens quietly.  Ask what the return type is.",
+      "**The cast escape hatch.**  `((List<Dice>)bag.Contents).Clear()` compiles and works, because the read-only view hands back the same object.  Somebody will find it.  It is real, and the fixes are `AsReadOnly()` or returning a copy.  The interesting question is whether the type is protecting against an accident or an attacker -- and it is nearly always an accident.",
+      "**A `Deck` that shuffles by sorting on a random key.**  It works.  Ask what happens when two keys collide, then let it stand."
+    ],
+
+    "wrapupAnswer": "A defence tied to **who is calling**.  A programmer's bug wants a throw.  A game loop that expects to run out wants the Try pattern.  The student who says \"it depends on whether running out is normal\" has all of Lesson 2 in one sentence.",
+
+    "notes": [
+      "**This closes Unit 1.**  The milestone follows:  two meetings to build a playable card game out of all four lessons.  Say that out loud at the end of Meeting B, because it reframes the Cards work as the start of something rather than the end.",
+      "**What Unit 2 needs from this lesson.**  `Deck` and `Hand` are the same shape carrying different rules.  That observation is what Lesson 7 cashes in when `Player` and `Creature` want a base class and get parts instead.  Plant it in the Meeting B wrap-up and leave it there.",
+      "**Three Lesson 1 debts get paid here:**  `{ get; private set; }`, deep immutability, and `IReadOnlyList<T>` were all cut from Lesson 1 for being a second idea.  A bag's contents genuinely change, so mutation through methods is finally needed -- and the need is felt several scenes before the syntax arrives."
+    ]
+  }
+}

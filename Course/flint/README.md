@@ -8,6 +8,7 @@ button on every Canvas Page and Assignment.
 | 1, First Objects | [`lesson-01-first-objects.md`](lesson-01-first-objects.md) |
 | 2, Data Validation and Factory Methods | [`lesson-02-validation-and-factories.md`](lesson-02-validation-and-factories.md) |
 | 3, Extensions and Separating Concerns | [`lesson-03-extensions-and-concerns.md`](lesson-03-extensions-and-concerns.md) |
+| 4, Collections | [`lesson-04-collections.md`](lesson-04-collections.md) |
 
 ## Setting one up
 
@@ -28,9 +29,9 @@ directly works until the next build overwrites it.  A lesson whose `flintUrl`
 is still empty emits `PASTE_FLINT_URL_HERE` on both files, flagged with a
 `<!-- FLINT-LINK -->` comment.
 
-**Set so far:**  all three.
+**Set so far:**  Lessons 1 through 3.  Lesson 4 is waiting on its activity.
 
-## Why the sidebar has no Sparky row
+## Where the Sparky row went
 
 The Course Links sidebar on the front page carried one for a while, and it came
 out.  Flint hands out per-activity URLs, so a sidebar row would have to point at
@@ -60,7 +61,7 @@ Lesson 1 saves `with`, Lesson 2 saves primary constructors, Lesson 3 saves
 the idea the lesson was built around.  Each prompt names what is held, why, and
 what to say when a student finds it anyway.
 
-**Which questions have no answer.**  Several lessons carry a genuinely contested
+**Which questions stay open.**  Several lessons carry a genuinely contested
 design question:  whether face-up belongs to the card or the table, whether
 `1d20-50` is valid dice, where `ChanceOfBeating` goes.  The teacher leaves those
 open on purpose, and Sparky settling one takes the assignment away.
