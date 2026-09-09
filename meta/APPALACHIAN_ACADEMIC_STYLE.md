@@ -15,6 +15,8 @@ Help me sound like myself at my clearest. My Appalachian Academic voice brings s
 - Preserve first person and direct address where they serve the argument. “I,” “we,” and “you” are legitimate rhetorical choices.
 - Distinguish rhetorical hedging from warranted uncertainty. Qualify claims when the evidence requires it, and identify what remains uncertain. Do not soften a well-supported claim merely for decorum.
 - Make the claim early enough that the reader knows what is at stake.
+- Concede before you argue.  Put the unflattering part first, then make the case.  A passage that leads with the pitch and files the weakness at the end reads as sales.  One that leads with the weakness reads as trust, and it earns the turn that follows.  This is structural, and it is the first thing a tidying pass throws away.
+- When a sentence gives an instruction, write it as an instruction.  An instruction dressed as a gentle observation is still an instruction;  the softening hides the command, and the reader hears the hiding.  Where the reader genuinely has a choice, say so plainly and let them make it.
 
 ## Preserve cadence and ordinary language
 
@@ -22,7 +24,7 @@ Help me sound like myself at my clearest. My Appalachian Academic voice brings s
 - Allow a short sentence to land after a longer one. Do not combine every fragment into a formally complete sentence.
 - Preserve natural expressions such as “folks,” “y’all,” and “a good deal” when they belong to the passage.
 - Prefer concrete verbs and familiar words when they express the meaning precisely. Technical terms are welcome when they do useful intellectual work.
-- Read revisions aloud in your head. The prose should remain speakable, with a recognizable human cadence.
+- Read revisions as spoken, and to a particular person.  Keep the lines you would say out loud to the reader you are addressing, and rewrite the rest.  The prose should stay speakable, with a recognizable human cadence.  This test catches most register failures a good while before you can name them:  the ear rules first, and the diagnosis can come later.
 - Do not manufacture an Appalachian voice by adding dialect, rustic imagery, phonetic spellings, or folksy sayings. Work from my actual language and examples.
 
 ## Keep the writer present
@@ -58,14 +60,22 @@ Help me sound like myself at my clearest. My Appalachian Academic voice brings s
 - Use headings and lists when they help the reader navigate. Do not reduce an essay to a sequence of bullets by default.
 - End a passage when its thought has landed. Avoid adding a generic summary that merely repeats it.
 
+## Write the load-bearing sentence plainest
+
+- Ornament arrives where the stakes are highest.  When a sentence carries the weight of a paragraph, that is the one to write plainest.  A line with the most riding on it and the fanciest words in it is showing nerves.
+- The rule runs backwards from intuition, and it is worth stating that way:  the more a sentence has to carry, the flatter it should be.  Decoration on an important claim reads as a writer bracing against it.
+- Look hardest at closings.  Stock phrasing gathers at the end of a section and at a transition, where a writer is reaching for a way to land.  Middles stay honest, because there is content carrying them.
+- An editing pass with limited attention should spend it on last sentences.
+
 ## Editing practice
 
 1. Identify the passage’s claim, audience, and intended effect.
 2. Preserve the author’s rhetorical choices unless they obscure meaning or conflict with the requested purpose.
 3. Correct mechanics, factual mistakes, unclear references, and cumbersome syntax with the smallest effective changes.
-4. Keep purposeful fragments, repetition, personal language, and direct persuasion intact.
-5. Explain substantive changes to meaning, emphasis, certainty, or voice. Offer an alternative when more than one reading is plausible.
-6. For a light edit, return a light edit. Do not replace the passage wholesale with your own composition.
+4. Spend a limited pass on the last sentence of each section and on the sentence carrying each paragraph's weight.  Ornament and stock phrasing collect there, and a targeted pass finds more of both than an even sweep does.
+5. Keep purposeful fragments, repetition, personal language, and direct persuasion intact.
+6. Explain substantive changes to meaning, emphasis, certainty, or voice. Offer an alternative when more than one reading is plausible.
+7. For a light edit, return a light edit. Do not replace the passage wholesale with your own composition.
 
 When a venue imposes a specific format, meet its actual requirements while preserving this voice. Do not assume that academic convention requires impersonality, euphemism, or concealed persuasive intent. If a requirement materially conflicts with this guide, identify the particular conflict.
 
@@ -111,6 +121,30 @@ If the evidence supports influence but not exclusive causation, prefer:
 
 over either an unsupported absolute or a vague retreat into “potential implications.” Make the qualification exact.
 
+### Concession first
+
+Preserve the order:
+
+> I should be plain about my own temperament, since it bears on how I do this work.  I run hot, and I do not apologize for it.  John Lewis taught that there is such a thing as good trouble -- necessary trouble -- and that a person who cares about the right things should never be afraid to make some noise to start it.
+
+Avoid tidying it into:
+
+> Good trouble, in John Lewis's sense, is aimed at what deserves it.  I should acknowledge that I can run hot.
+
+The first version opens with the admission and argues from there, so the case has already paid for itself by the time it arrives.  The second turns the same admission into a disclaimer stapled to the end.  Both carry the concession;  only one is built on it.
+
+### The instruction said outright
+
+Preserve:
+
+> Protect the warm-up.  Five minutes of prediction pays for itself in the next twenty.
+
+Avoid softening it to:
+
+> You might want to consider keeping the warm-up if time allows.
+
+The second version leaves the instruction exactly where it was and lays a coat of apology over it.  The reader still knows what they are being told, and now also knows the writer was uneasy about telling them.
+
 ## Final check
 
 Before returning a draft or edit, ask:
@@ -121,4 +155,9 @@ Before returning a draft or edit, ask:
 - Are qualifications tied to evidence rather than academic decorum?
 - Have I corrected errors without introducing unsupported claims?
 - Have I avoided invented dialect, decorative regionalism, and generic academic phrasing?
+- Is the sentence with the most riding on it also the plainest one in its paragraph?
+- Does the argument concede its weakest point before it makes its case?
+- Is every instruction written as an instruction?
+- Read the last sentence of each section on its own.  Does each one say something, or does it reach for a way to land?
+- Would I say each of these lines out loud, to the person they are addressed to?
 - Does this sound like the author speaking clearly and thinking carefully?
