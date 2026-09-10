@@ -133,6 +133,99 @@ quotation of the text being replaced.
 
 ## Voice
 
+### 22.  Register settled before the first sentence
+
+Numbered 22 so the cross-references in entries 1 through 21 keep pointing where
+they point.  It sits at the head of this section because it runs ahead of every
+other entry in it.
+
+**Answer three questions in one line before drafting a word:**
+
+| Question | What it settles |
+|---|---|
+| Who is the audience? | Vocabulary, how much gets assumed, what needs spelling out |
+| How serious is it? | Whether a joke belongs in the room at all |
+| What is the vibe? | Which of his registers this document is written from |
+
+**Where it came from.**  On 2026-09-09, an email to the Winsor student body about
+the FIRST Tech Challenge season Kickoff.  The first draft arrived in the register
+of `teaching_philosophy.md`, because "email to the student body" sounded
+institutional.  His correction:  *"this one can be less formal.  it is in my
+character as the whimsical, eccentric robotics mentor/teacher.  Think Cliff Stoll
+vibes."*
+
+**The rule.**  [`APPALACHIAN_ACADEMIC_STYLE.md`](APPALACHIAN_ACADEMIC_STYLE.md)
+says what the voice is.  The register inside that voice moves with the role he is
+writing from.  A letter to administrators and an email from the robotics mentor
+are one voice at two settings.  So the question to ask is which hat he is
+wearing, and the document type answers it badly:  "school-wide email" covers a
+fire-drill notice and a Kickoff invitation both.
+
+Ask, and ask early.  A register named in one line gets corrected in one line.  A
+register recovered from a finished draft costs a rewrite, and this one cost two.
+
+**Then hold it, which is the half that hides.**  The Kickoff email was rewritten
+for the whimsical mentor and measured at **zero contractions per thousand
+words** -- the same score as `teaching_philosophy.md`, a formal essay written to
+administrators.  Second person had climbed sevenfold and every verb had stayed in
+Sunday clothes.  A declared register with the old prose underneath it sits one
+edit away from looking finished.
+
+Entry 4 is this same error from the other end.  There a contraction count taken
+from a formal essay became a rule banning contractions everywhere.  Here a
+declared informal register kept the formal count.  Both come from treating one
+document's numbers as the voice.
+
+**What survives a register shift.**  Entries 1 through 3 are mechanical and hold
+at every setting.  Entry 11 holds too, and the interaction is worth naming:  the
+load-bearing sentence stays plainest wherever the dial sits.  In the Kickoff
+email the whimsy runs everywhere except the apology for a date that collided with
+Rosh Hashanah, which is the highest-stakes passage in the document and is written
+flattest on purpose.  A register governs the prose around the important sentence.
+
+**The check.**  Register leaves countable traces, so a declared register is
+testable.  Run this over the draft and over a document already in the register
+you want, then compare the two.
+
+```bash
+register() {
+  for f in "$@"; do
+    w=$(wc -w < "$f")
+    c=$(grep -oiE 'n[^[:alnum:] ]t\b|[^[:alnum:] ](re|ve|ll|m)\b|\b(it|that|there|here|what|who|let|we|you|they)[^[:alnum:] ]s\b' "$f" | wc -l)
+    y=$(grep -oiE '\b(you|your|yours)\b' "$f" | wc -l)
+    m=$(grep -oiE '\b(moreover|furthermore|therefore|thus|hence|accordingly|pursuant|whereby|herein|in order to|at this time|please be advised|kindly)\b' "$f" | wc -l)
+    awk -v f="$f" -v w="$w" -v c="$c" -v y="$y" -v m="$m" \
+      'BEGIN{printf "%-30s %5d words  contr %5.1f  2nd %5.1f  formal %5.1f\n", f, w, c*1000/w, y*1000/w, m*1000/w}'
+  done
+}
+```
+
+Two measured poles, for calibration.  Both figures are per thousand words:
+
+| Document | Contractions | Second person |
+|---|---|---|
+| `teaching_philosophy.md`, formal essay to administrators | 1.6 | 1.0 |
+| The Kickoff email as he sent it, whimsical robotics mentor | 23.4 | 28.1 |
+
+**His own informal markers, taken from the version he actually sent.**  Editing
+the Kickoff draft he rewrote my closing, *"I would like us in the room when it
+does,"* as *"It's gonna be a party~"*.  Two things there.  `gonna` is a register
+the draft had reached for and missed, and the tilde is his:  it turns up in his
+own messages, `Class III~Class VII` and `permission slips to their parents~`.  So
+his informal setting carries a punctuation mark of its own, and a draft that
+arrives at the whimsical setting through vocabulary alone is still a step short.
+
+The position of that edit is entry 12 landing on schedule.  My closing was the
+composed literary one, sitting exactly where entry 12 says a reached-for landing
+collects, and it was the sentence he replaced.
+
+The apostrophe is written as the bracket expression `[^[:alnum:] ]`, which keeps
+the pattern clear of entry 18's quoting trap and matches a straight and a curly
+apostrophe alike.  Verified in both directions:  four hits on `I'm sorry, I
+won't, we'll see, that's it`, zero on that same sentence spelled out, and zero on
+`the author's argument, the students' work`, so possessives leave the count
+alone.
+
 ### 4.  Inferring the voice from samples
 
 An assistant measured contraction counts in `teaching_philosophy.md`, found two
@@ -177,6 +270,53 @@ spent on a small one.
 ```bash
 grep -rniE '\b(sit|sitting|sat) with\b' .
 ```
+
+### 23.  The metaphor that arrives before its setup
+
+Numbered 23 so the cross-references in entries 1 through 22 keep pointing where
+they point.  It belongs here, beside entry 5, because it is the third way a
+borrowed phrase goes wrong.
+
+Entry 5 covers a phrase invented to sound like Jason, and the sub-point above
+covers one of his borrowed at full weight and spent on something small.  This is
+the remaining case:  **his phrase, at its right weight, placed before the thing
+that earns it.**
+
+**Where it came from.**  On 2026-09-10, the Anvil review prompts in
+`Course/flint/`.  Jason flagged *"put a door on it"* as weird language.  The
+phrase is his, four times over -- `lesson_02_validation_and_factories.md` has
+"Today we put a door on that moment", `Dice.cs` has "One door in", and Scene 3
+prints "the same door everything else goes through".  In the lesson plan it
+arrives *after* board item 3, titled "One door", has introduced the constructor
+as the door and the factories as the way in.
+
+The draft used it in board item 1, two items early.  So the metaphor named a
+thing the reader had yet to meet, and it read as invented even though every word
+of it was his.
+
+**Why compression causes it.**  These prompts are written to a hard character
+budget, and a trimming pass cuts setup sentences first -- they explain, so they
+look expendable, where the payoff line is vivid and looks load-bearing.  Cut
+enough setup and the payoff stands alone.  Six trim passes on that
+file removed the sentence that introduced the door and kept the one that used it.
+
+**The fix:**  for each figure of speech, find the sentence that introduces it and
+check it still comes first.  Where the setup is gone, either restore it or say
+the thing plainly:  "One moment is left, and closing it is the whole of today."
+
+**The check** is provenance plus position, and a grep only does the first half.
+
+```bash
+grep -rniF 'put a door' Course/lessons Course/starters   # is the phrase his?
+```
+
+A hit means the phrase is safe to use;  it leaves open whether this document has
+earned it yet.  Read the paragraphs above each use.  The same pass
+catches the related damage:  a trim that clips a phrase to something ungrammatical
+("has met the design working", from his "has met the design working correctly")
+and a trim that paraphrases him where his own words fit ("A metaphor in place of
+the word", from his "Hiding the word behind a metaphor").  **After any length-driven pass,
+diff the trimmed prose against the source it restates.**
 
 ### 6.  The writer goes missing
 
@@ -296,12 +436,111 @@ as trust, and it earns the turn.
 the top looks like a soft opening, and an editor's hand moves it down.  Check
 the order after any revision that tightened a passage.
 
+**The boundary is genre.**  Concede-first governs an argument, where an admission up
+front earns the case a hearing.  A warm letter works the other way.  Revising a first
+letter to a parent, Jason put the pleasure of the thing first and the limitation second:
+*"It's good to get to work with Anika in upper school now after teaching her in lower
+school classes.  I have a decent sense of her at school, but not so much everything
+outside."*  An assistant draft had opened that paragraph on the limitation by itself, and
+he called it "not particularly warm."  Both orders concede.  The question is what the
+passage is for, so ask whether the reader is being persuaded or greeted.
+
 The grep finds the markers, and reading tells you where they sit.  A marker in
 the first third of a section is carrying the argument.  One in the closing
 paragraph has become a disclaimer.
 
 ```bash
 grep -rniE '\b(that said|to be fair|of course|admittedly|granted|it is true that|i am (fully )?aware|i will also say|to their credit)\b' --include='*.md' .
+```
+
+### 20.  The invented concession
+
+Numbered 20 so the cross-references in entries 11 through 19 keep pointing where they
+point.  It belongs here, beside entry 10.
+
+Entry 10 asks for the concession first.  A draft that has absorbed that rule and lacks
+anything to concede will manufacture something, and the invention is harder to catch than a
+misplaced concession, because the shape looks right.
+
+Three of these landed in six parent letters on 2026-09-09.
+
+| Written | The trouble |
+|---|---|
+| `I'll admit it duplicates an email you're already sending` | The ask was a cc.  It duplicates a keystroke. |
+| `I have a welcome survey, which is thin material` | He taught that student in lower school. |
+| `my sense of her is a year old and mostly from a distance` | Invented from an enrollment date.  He was meeting her for the first time. |
+
+The first invents a cost.  The second and third invent a fact, which puts them alongside
+the style guide's ban on inventing experience, and a parent is the reader likeliest to know
+it is wrong.
+
+**Why the shape survives review:**  a fabricated concession reads as humility, so it
+flatters the draft and the drafter both.  It also misdescribes the ask.  "Just cc me"
+states the size of the favor;  the invented version made a keystroke sound like an errand.
+
+**The fix:**  name the actual weakness before writing the sentence.  Where one exists,
+concede it.  Otherwise state the ask at its true size and move on.  Where the concession
+would be a fact about a person, go and get the fact.
+
+**The tell** is a concession about the writer's own knowledge of somebody:  how long he has
+known her, how well, what he has to go on.  Those are facts he holds and an assistant
+lacks, so they arrive by guess.  Ask.
+
+```bash
+grep -rniE "i'?ll admit|i (should|will) be plain|thin material|(all|only) i have|(what|all) i have (of|on) (her|him|them)|mostly from a distance|i (barely|hardly) know" --include='*.md' .
+```
+
+It hits Jason's own genuine concessions as well, `I should be plain about my own
+temperament` in `teaching_philosophy.md` among them, and those are the model rather than
+the error.  So read each hit.  The question a grep cannot answer is whether the weakness is
+real, which is the whole of this entry.
+
+### 21.  The concession that assesses the reader
+
+A concession is about the writer.  Point it at the reader's family and it turns into an
+appraisal of them.
+
+Repairing the fabrication in entry 20, an assistant wrote to a parent:  *"Knowing Anaya
+tells me plenty about your family and fairly little about Isha herself."*  The intent was
+sound, to avoid treating two sisters as one person.  What the sentence delivers is a report
+on what the writer has worked out about a family from watching one of its children.
+Jason's verdict was "creepy," and it is the right verdict.
+
+**The fix:**  keep the knowledge claim on the writer and the student.  *"Isha and I are
+starting fresh, though, and I mean to know her on her own terms."*  Same respect for her
+separateness, and the family stays out of it.
+
+**The test:**  read the sentence back as though the reader had written it about you.  A line
+that would unsettle you coming the other way is doing this.
+
+**Why it comes up here:**  entries 20 and 21 both arrived from one paragraph on 2026-09-09.
+The first repair for a fabricated concession overshot into this, so a correction can hand
+you the next error.  Read the replacement as carefully as the original.
+
+```bash
+grep -rniE "tells me (a lot|plenty|much|something) about (you|your)|(what|how much) i (know|can tell) about (you|your)|i can tell (a lot|that) (about|from) you" --include='*.md' .
+```
+
+**The variant that grants permission.**  One step further out than the entry
+above, and it arrived from the same week's work.  Apologizing in the Kickoff
+email for a date that collided with Rosh Hashanah, an assistant wrote *"If you're
+observing, observe -- that's the right call and it's yours to make."*  Jason cut
+the sentence whole.
+
+The apology had already finished at *"I'm sorry."*  What followed ruled on the
+reader's religious observance and then granted authority the reader held the entire
+time.  Entry 21's original sentence reported on a family;  this one issues a
+permit.  Both raise the writer a step above the reader while sounding generous,
+which is why both survive a read-through.
+
+**The test:**  ask what standing the writer has to say it.  Where the answer is
+that the reader decides, apologize and stop.
+
+The apostrophe in the pattern below is written as `.` so the pattern stays clear
+of entry 18's quoting trap and catches a straight and a curly apostrophe both.
+
+```bash
+grep -rniE 'that.s (the right|your) call|it.s yours to (make|decide)|the call is yours|as (you|is) right for you|whatever you decide is' --include='*.md' .
 ```
 
 ---
@@ -327,13 +566,18 @@ of the group, rewrite it flat and read the paragraph again.  Usually the
 paragraph gets faster and the claim gets louder, which is the tell that the
 decoration was muffling it.
 
-**Where this entry came from, since it differs from the rest.**  Every other
+**Where this entry came from, and what has since confirmed it.**  Every other
 entry here was earned by a correction Jason made to a draft.  This one arrived
 from an assistant reading its own drafting habits, and an audit of
-`teaching_philosophy.md` turned up no instance of the pattern in his prose.  So
-it describes what assistants do to his writing, and it rests on introspection
-until a real correction confirms it.  That is a weaker footing than entry 3 or
-entry 8, and worth knowing when the rule and a sentence disagree.
+`teaching_philosophy.md` found the pattern absent from his prose.  So it began as
+a description of what assistants do to his writing, resting on introspection.
+
+A correction on 2026-09-09 settled it.  In a parent letter Jason changed *"their
+classmates are carrying similar things"* to *"dealing with similar things."*  The
+figure sat in the closing sentence of its paragraph, which is the position this
+entry predicts, and *carrying* is the borrowed weight entry 5 describes being
+spent on something small.  The entry now rests on a real correction, and the
+footing is as firm as entry 3 or entry 8.
 
 The word list below is a seed, and a seed planted by the same introspection.
 Grow it from real corrections, the way every other entry here was grown, and
@@ -522,6 +766,24 @@ Run the audit through the same engine that ran the fix.  A pass applied with
 perl and checked with grep is two regex dialects and two different ideas about
 what counts as one character, and the disagreement shows up as either a
 phantom hit or a silent miss.
+
+**A multi-word phrase wraps, so a line-based search misses it.**  Checking which
+figures of speech in a draft were Jason's, a `grep -F` for each phrase reported
+"no source" for several that are plainly in the lesson plans:  the source wraps
+"a good / afternoon ahead" and "Teach up / to the edge" across a line break, and
+`grep` reads one line at a time.  Acting on that report would have stripped his
+own phrases as inventions.  Flatten both sides before comparing:
+
+```python
+import re
+flat = lambda t: re.sub(r'\s+', ' ', t).lower()
+```
+
+The same run had a second failure worth knowing:  **`grep` on this machine is
+`ugrep`**, which took an unquoted shell variable holding several paths as one
+filename and only warned, so every count came back zero.  Pass
+paths as a shell array, and treat a zero from a multi-path search as suspect
+until one known-present phrase confirms the invocation.
 
 ### 19.  Reading it as spoken
 

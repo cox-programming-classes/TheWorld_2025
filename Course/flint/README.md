@@ -1,14 +1,26 @@
-# Flint prompts - Sparky
+# Flint prompts
 
-One prompt per lesson for **Sparky**, the AI helper students reach from the
-button on every Canvas Page and Assignment.
+Two prompts per lesson, for two helpers doing two different jobs.
 
-| Lesson | Prompt |
+**Sparky** works alongside a student who is mid-task, and students reach it from
+the button on every Canvas Page and Assignment.
+
+| Lesson | Sparky |
 |---|---|
 | 1, First Objects | [`lesson-01-first-objects.md`](lesson-01-first-objects.md) |
 | 2, Data Validation and Factory Methods | [`lesson-02-validation-and-factories.md`](lesson-02-validation-and-factories.md) |
 | 3, Extensions and Separating Concerns | [`lesson-03-extensions-and-concerns.md`](lesson-03-extensions-and-concerns.md) |
 | 4, Collections | [`lesson-04-collections.md`](lesson-04-collections.md) |
+
+**Anvil** is where a student goes afterward to review, and where a student who
+missed the meeting goes first.
+
+| Lesson | Anvil |
+|---|---|
+| 1, First Objects | [`lesson-01-first-objects-review.md`](lesson-01-first-objects-review.md) |
+| 2, Data Validation and Factory Methods | [`lesson-02-validation-and-factories-review.md`](lesson-02-validation-and-factories-review.md) |
+| 3, Extensions and Separating Concerns | [`lesson-03-extensions-and-concerns-review.md`](lesson-03-extensions-and-concerns-review.md) |
+| 4, Collections | [`lesson-04-collections-review.md`](lesson-04-collections-review.md) |
 
 ## Setting one up
 
@@ -30,6 +42,13 @@ is still empty emits `PASTE_FLINT_URL_HERE` on both files, flagged with a
 `<!-- FLINT-LINK -->` comment.
 
 **Set so far:**  Lessons 1 through 3.  Lesson 4 is waiting on its activity.
+
+**The Anvil activities still want a wired-up home.**  `content/NN.json` carries one
+`flintUrl`, and `build_canvas_html.ps1` emits one `FlintBox` per Page and per
+Assignment, so a second URL needs a second JSON key and a second button before
+the review helper appears on Canvas.  Until that lands, the four review prompts
+paste into Flint and get shared by link.  That work touches generated HTML on
+live pages, so it is deliberately a separate decision.
 
 ## Where the Sparky row went
 
@@ -69,6 +88,42 @@ open on purpose, and Sparky settling one takes the assignment away.
 **Where the assessment lives.**  The Cards track is unassisted by design.  Every
 prompt draws the same line:  help freely with syntax, hold back on design.
 
+## What Anvil carries, and the line it draws
+
+Anvil does a different job from Sparky, because Sparky is written for a student
+with the file open and a compiler error on screen.  Two students reach Anvil:
+the one revising after the fact, and **the one who missed the meeting
+entirely.**
+
+That second student is why these exist, and the line runs through every one of
+the four:
+
+> **The instruction is theirs to have.  The decisions stay theirs to make.**
+
+A student who missed Tuesday is owed the class.  So each prompt reconstructs the
+meeting -- the warm-up, the questions asked in order, every item that went on the
+board, and the code each item was attached to.  Sparky summarises the board in a
+paragraph;  Anvil rebuilds it, because for an absent student that paragraph is
+the whole lesson.
+
+The guardrails stay exactly where Sparky has them.  The held-back syntax stays
+held, the contested design questions stay open, and the Cards work stays
+unassisted.  Being absent earns a student the instruction and leaves the
+assessment exactly where it was, and each prompt says so in those terms.
+
+Two more things distinguish these from Sparky:
+
+**A menu, offered first.**  Anvil opens by listing the lesson in pieces and waits
+for the student to pick, with "I missed class" as item 1.  It is told to prefer a
+description over a number, since "I don't get why the table's die changed" is
+better information than "2".
+
+**A cumulative recap.**  Lesson N opens by rebuilding Lessons 1 through N-1 and
+saying how each one made the next possible -- the data is fixed, then it arrives
+valid, then it does very little, then the container owns its rules.  Lesson 1
+opens the course, so that room goes to a **C# syntax from zero** table, for
+students meeting the language cold.
+
 ## The Rider problem, in short
 
 Students work in JetBrains Rider, and **Rider's inspections will offer them the
@@ -87,23 +142,30 @@ to check `dotnet build` before believing the editor.
 
 ## The size limit
 
-**Flint caps activity instructions at roughly 12,000 characters.**  Every prompt
-fits under it.  Lesson 1 has room to spare.  Lessons 2 and 3 sit within a few
-hundred characters of the ceiling, so anything added to those two wants
-something else taken out.  Check before pasting:
+**Flint caps activity instructions at roughly 12,000 characters.**  All eight
+prompts sit against that ceiling.  The Sparky four measure 10,661 to 11,903;  the
+Anvil four measure 11,997 to 12,000.  **Anything added to any of them wants
+something else taken out.**  Re-measure before pasting, since these numbers go
+stale on the next edit:
 
 ```bash
 for f in lesson-0*.md; do
-  printf '%-46s %6d\n' "$f" "$(sed '1,/^---$/d' "$f" | wc -c)"
+  printf '%-52s %6d\n' "$f" "$(sed '1,/^---$/d' "$f" | wc -c)"
 done
 ```
 
 Only the text below the `---` goes into Flint, so the note at the top of each
-file is free.  If the real cap turns out lower than 12,000, cut in this order:
-the Rider inspection lists, then the stuck-point bullets, then the board summary
-in "What happened in class".  The rubric table, the homework, the submission
-flow, and the hold-back list earn their place -- they are what a general
-assistant gets wrong, and they are why Sparky exists.
+file is free.
+
+**The cut order differs between the two, and it inverts.**  For Sparky, cut the
+Rider inspection lists, then the stuck-point bullets, then the board summary;  the
+rubric table, the homework, the submission flow, and the hold-back list earn
+their place, because they are what a general assistant gets wrong.
+
+For Anvil the board summary is the whole product, so it goes last.  The Anvil
+order is:  the quiz items, then the recap of the guided steps, then the homework.  Each Anvil prompt already leaves out the submission flow, the rubric
+stages, and the stuck-point catalogue by design, and says so in its own note --
+Sparky sits one button away on the same Canvas page and carries all three.
 
 ## Keeping these in step with the lessons
 
